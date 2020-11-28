@@ -7,14 +7,17 @@
 
 class PublisherService
 {
+
 private:
     static PublisherService* _publisherService;
     PublisherRepository* _publisherRepository;
     PublisherService();
+
 public:
     static PublisherService* initPublisherService();
     ~PublisherService();
     Listt<Publisher>* findAll();
+
 };
 
 #endif // PUBLISHERSERVICE_H

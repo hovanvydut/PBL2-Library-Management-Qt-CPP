@@ -7,11 +7,13 @@
 template<class T>
 class Repository
 {
+
 public:
     Repository();
     virtual ~Repository();
     virtual T parse(QSqlQuery*) = 0;
     virtual Listt<T>* findAll() = 0;
+
 };
 
 template<class T>

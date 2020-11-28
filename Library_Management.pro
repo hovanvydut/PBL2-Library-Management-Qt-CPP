@@ -29,7 +29,10 @@ SOURCES += main.cpp\
     src/Category/Category.cpp \
     src/Category/CategoryRepository.cpp \
     src/Category/CategoryService.cpp \
-    utils/DotEnv/DotEnv.cpp
+    utils/DotEnv/DotEnv.cpp \
+    src/IssuingCompany/IssuingCompany.cpp \
+    src/IssuingCompany/IssuingCompanyRepository.cpp \
+    src/IssuingCompany/IssuingCompanyService.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -45,7 +48,10 @@ HEADERS  += mainwindow.h \
     src/Category/Category.h \
     src/Category/CategoryRepository.h \
     src/Category/CategoryService.h \
-    utils/DotEnv/DotEnv.h
+    utils/DotEnv/DotEnv.h \
+    src/IssuingCompany/IssuingCompany.h \
+    src/IssuingCompany/IssuingCompanyRepository.h \
+    src/IssuingCompany/IssuingCompanyService.h
 
 FORMS    += mainwindow.ui
 

@@ -1,24 +1,24 @@
-#ifndef CATEGORY_H
-#define CATEGORY_H
+#ifndef ISSUINGCOMPANY_H
+#define ISSUINGCOMPANY_H
 
 #include <QString>
 #include <QDate>
-#include <utils/Comparable/Comparable.h>
+#include "utils/Comparable/Comparable.h"
 
-class Category : public Comparable<Category>
+class IssuingCompany : public Comparable<IssuingCompany>
 {
 
 private:
-    int categories_id;
+    int issuing_company_id;
     QString name;
     QDate created_at;
     QDate updated_at;
     QDate deleted_at;
 
 public:
-    Category();
-    Category(int, QString, QDate, QDate, QDate);
-    ~Category();
+    IssuingCompany();
+    IssuingCompany(int, QString, QDate, QDate, QDate);
+    ~IssuingCompany();
 
     int getId() const;
 
@@ -32,7 +32,8 @@ public:
 
     QDate getDeletedAt() const;
 
-    bool operator == (const Category&) const;
+    bool operator == (const IssuingCompany&) const;
+
 };
 
-#endif // CATEGORY_H
+#endif // ISSUINGCOMPANY_H

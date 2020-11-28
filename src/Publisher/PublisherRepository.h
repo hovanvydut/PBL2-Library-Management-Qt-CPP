@@ -9,17 +9,20 @@
 #include "utils/ListPackage/LinkedListt/LinkedListt.h"
 #include "utils/DatabaseConnection/DatabaseConnection.h"
 
-class PublisherRepository : Repository<Publisher>
+class PublisherRepository : public Repository<Publisher>
 {
+
 private:
     static PublisherRepository* _publisherRepository;
     QSqlQuery* query;
     PublisherRepository();
+
 public:
     static PublisherRepository* initPublisherRepository();
     ~PublisherRepository();
     Publisher parse(QSqlQuery *);
     Listt<Publisher>* findAll();
+
 };
 
 #endif // PUBLISHERREPOSITORY_H
