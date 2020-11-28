@@ -32,7 +32,10 @@ SOURCES += main.cpp\
     utils/DotEnv/DotEnv.cpp \
     src/IssuingCompany/IssuingCompany.cpp \
     src/IssuingCompany/IssuingCompanyRepository.cpp \
-    src/IssuingCompany/IssuingCompanyService.cpp
+    src/IssuingCompany/IssuingCompanyService.cpp \
+    src/Author/Author.cpp \
+    src/Author/AuthorRepository.cpp \
+    src/Author/AuthorService.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -51,7 +54,10 @@ HEADERS  += mainwindow.h \
     utils/DotEnv/DotEnv.h \
     src/IssuingCompany/IssuingCompany.h \
     src/IssuingCompany/IssuingCompanyRepository.h \
-    src/IssuingCompany/IssuingCompanyService.h
+    src/IssuingCompany/IssuingCompanyService.h \
+    src/Author/Author.h \
+    src/Author/AuthorRepository.h \
+    src/Author/AuthorService.h
 
 FORMS    += mainwindow.ui
 

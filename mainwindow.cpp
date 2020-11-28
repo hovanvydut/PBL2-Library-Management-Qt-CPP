@@ -6,6 +6,7 @@
 #include <QDebug>
 #include "src/Category/CategoryService.h"
 #include "src/IssuingCompany/IssuingCompanyService.h"
+#include "src/Author/AuthorService.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -87,6 +88,32 @@ void MainWindow::on_pushButton_3_clicked()
 
         for (int i = 0; i < categoryList->getSize(); i++) {
             IssuingCompany category = categoryList->get(i);
+            QStandardItem *idCol = new QStandardItem(category.getId());
+            QStandardItem *nameCol = new QStandardItem(category.getName());
+
+            model->appendRow( QList<QStandardItem*>() << idCol << nameCol);
+        }
+    } catch(const char* msg) {
+        // show dialog instead console log
+        qDebug() << msg;
+    }
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    try {
+        AuthorService* categoryService = AuthorService::initAuthorService();
+        Listt<Author>* categoryList = categoryService->findAll();
+
+        QStandardItemModel *model = new QStandardItemModel();
+        QStringList horizontalHeader;
+        horizontalHeader.append("ID");
+        horizontalHeader.append(QString::fromUtf8("Category name"));
+        model->setHorizontalHeaderLabels(horizontalHeader);
+        ui->tableView->setModel(model);
+
+        for (int i = 0; i < categoryList->getSize(); i++) {
+            Author category = categoryList->get(i);
             QStandardItem *idCol = new QStandardItem(category.getId());
             QStandardItem *nameCol = new QStandardItem(category.getName());
 

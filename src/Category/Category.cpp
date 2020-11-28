@@ -56,6 +56,6 @@ QDate Category::getDeletedAt() const
 
 bool Category::operator == (const Category& anotherCategory) const
 {
-    return (this->categories_id) == (anotherCategory.getId());
+    return (this->getId()) == (anotherCategory.getId());
 }
 

@@ -56,6 +56,6 @@ QDate Publisher::getDeletedAt() const
 
 bool Publisher::operator == (const Publisher& anotherPublisher) const
 {
-    return (this->publisher_id) == (anotherPublisher.getId());
+    return (this->getId()) == (anotherPublisher.getId());
 }
 
