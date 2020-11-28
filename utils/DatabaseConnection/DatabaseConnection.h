@@ -3,6 +3,8 @@
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include "utils/DotEnv/DotEnv.h"
+#include <QDebug>
 
 class DatabaseConnection
 {

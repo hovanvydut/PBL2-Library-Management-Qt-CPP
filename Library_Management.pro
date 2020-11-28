@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     utils/Comparable/Comparable.cpp \
     src/Category/Category.cpp \
     src/Category/CategoryRepository.cpp \
-    src/Category/CategoryService.cpp
+    src/Category/CategoryService.cpp \
+    utils/DotEnv/DotEnv.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -43,6 +44,11 @@ HEADERS  += mainwindow.h \
     utils/Comparable/Comparable.h \
     src/Category/Category.h \
     src/Category/CategoryRepository.h \
-    src/Category/CategoryService.h
+    src/Category/CategoryService.h \
+    utils/DotEnv/DotEnv.h
 
 FORMS    += mainwindow.ui
+
+DISTFILES += \
+    config.txt
+

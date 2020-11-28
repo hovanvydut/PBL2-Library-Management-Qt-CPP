@@ -13,7 +13,7 @@ class CategoryRepository : public Repository<Category>
 {
 
 private:
-    static CategoryRepository _categoryRepository;
+    static CategoryRepository* _categoryRepository;
     QSqlQuery* query;
     CategoryRepository();
 

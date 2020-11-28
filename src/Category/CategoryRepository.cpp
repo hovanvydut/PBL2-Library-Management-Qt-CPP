@@ -38,10 +38,10 @@ Listt<Category>* CategoryRepository::findAll()
 
     // default query conditions
     int limit = 7;
-    int offsetId = 5;
+    int offsetId = 0;
 
     this->query->prepare("SELECT TOP(:limit) categories_id, name, created_at, updated_at, deleted_at "
-                         "FROM categories WHERE publisher_id > :offsetId");
+                         "FROM categories WHERE categories_id > :offsetId");
     this->query->bindValue(":limit", limit);
     this->query->bindValue(":offsetId", offsetId);
 
