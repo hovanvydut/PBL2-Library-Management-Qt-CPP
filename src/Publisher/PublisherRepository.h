@@ -5,7 +5,6 @@
 #include <QVariant>
 #include "base/Repository/Repository.h"
 #include "src/Publisher/Publisher.h"
-#include "utils/ListPackage/Listt/Listt.h"
 #include "utils/ListPackage/LinkedListt/LinkedListt.h"
 #include "utils/DatabaseConnection/DatabaseConnection.h"
 
