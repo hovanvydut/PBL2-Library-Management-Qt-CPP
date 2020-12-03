@@ -6,86 +6,267 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>767</width>
-    <height>537</height>
+    <width>1176</width>
+    <height>634</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Quản lí thư viện - TuongNH - VyHV</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>101</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Load publisher</string>
-    </property>
-   </widget>
-   <widget class="QTableView" name="tableView">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>30</y>
-      <width>491</width>
-      <height>431</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>80</y>
-      <width>101</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Load category</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>120</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Load Issuing Comapny</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>180</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Load Author</string>
-    </property>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QGroupBox" name="col1">
+      <property name="title">
+       <string/>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,2,2">
+       <item>
+        <widget class="QGroupBox" name="GroupControlBtn">
+         <property name="title">
+          <string>Thao tác</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="btnReturnBook">
+            <property name="text">
+             <string>Trả sách</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnBorrowBook">
+            <property name="text">
+             <string>Mượn sách</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnAllBorrowBook">
+            <property name="text">
+             <string>Sách đã mượn</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupSelectedBooks">
+         <property name="title">
+          <string>Sách đã chọn</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QTableView" name="tableSeletedBooks"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupUsersInfo">
+         <property name="title">
+          <string>Thông tin người dùng</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,3">
+          <item>
+           <widget class="QGroupBox" name="groupSearchUser">
+            <property name="title">
+             <string>Tìm kiếm</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QRadioButton" name="radioUserName">
+               <property name="text">
+                <string>Tên</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioUserPhone">
+               <property name="text">
+                <string>Số điện thoại</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioUserId">
+               <property name="text">
+                <string>Mã số</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="inputUserSearch"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupResultUsers">
+            <property name="title">
+             <string>Kết quả</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QTableView" name="tableUsers"/>
+             </item>
+             <item>
+              <widget class="QTextBrowser" name="textUserInfo">
+               <property name="html">
+                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Họ và tên:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;SDT:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="col2">
+      <property name="title">
+       <string>Tra cứu sách</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,5">
+       <item>
+        <widget class="QGroupBox" name="grooupSearchBook">
+         <property name="title">
+          <string>Tìm kiếm</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QGroupBox" name="groupSearchProperty">
+            <property name="title">
+             <string/>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QGroupBox" name="groupBookSearch">
+               <property name="title">
+                <string/>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <widget class="QRadioButton" name="radioBookName">
+                  <property name="text">
+                   <string>Tên sách</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioBookAuthor">
+                  <property name="text">
+                   <string>Tác giả</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioBookId">
+                  <property name="text">
+                   <string>Mã sách</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBookFilter">
+                  <item>
+                   <property name="text">
+                    <string>Tất cả sách</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Sách có sẵn</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Sách không có sẵn</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="inputBookSearch"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnSearchBook">
+            <property name="text">
+             <string>Tìm kiếm</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupResultBooks">
+         <property name="title">
+          <string>Kết quả</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QTableWidget" name="tableBooks"/>
+          </item>
+         </layout>
+         <zorder>grooupSearchBook</zorder>
+         <zorder>tableBooks</zorder>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>767</width>
+     <width>1176</width>
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuT_i_kho_n">
+    <property name="title">
+     <string>Tài khoản</string>
+    </property>
+    <addaction name="menuLogout"/>
+    <addaction name="menuUserInfo"/>
+   </widget>
+   <widget class="QMenu" name="menuAdmin">
+    <property name="title">
+     <string>Admin</string>
+    </property>
+    <addaction name="menuAdminShowBook"/>
+    <addaction name="menuAdminShowUsers"/>
+   </widget>
+   <widget class="QMenu" name="menuGi_i_thi_u">
+    <property name="title">
+     <string>Giới thiệu</string>
+    </property>
+    <addaction name="menuInfoApp"/>
+    <addaction name="menuInfoDev"/>
+   </widget>
+   <addaction name="menuT_i_kho_n"/>
+   <addaction name="menuAdmin"/>
+   <addaction name="menuGi_i_thi_u"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -96,6 +277,36 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="menuLogout">
+   <property name="text">
+    <string>Đăng xuất</string>
+   </property>
+  </action>
+  <action name="menuUserInfo">
+   <property name="text">
+    <string>Thông tin tài khoản</string>
+   </property>
+  </action>
+  <action name="menuAdminShowBook">
+   <property name="text">
+    <string>Thông tin sách</string>
+   </property>
+  </action>
+  <action name="menuAdminShowUsers">
+   <property name="text">
+    <string>Thông tin nhân viên</string>
+   </property>
+  </action>
+  <action name="menuInfoApp">
+   <property name="text">
+    <string>Ứng dụng</string>
+   </property>
+  </action>
+  <action name="menuInfoDev">
+   <property name="text">
+    <string>Nhà phát triển</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
