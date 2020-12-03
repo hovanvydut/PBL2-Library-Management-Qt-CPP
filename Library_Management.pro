@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     src/IssuingCompany/IssuingCompanyService.cpp \
     src/Author/Author.cpp \
     src/Author/AuthorRepository.cpp \
-    src/Author/AuthorService.cpp
+    src/Author/AuthorService.cpp \
+    src/Book/Book.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -57,7 +58,8 @@ HEADERS  += mainwindow.h \
     src/IssuingCompany/IssuingCompanyService.h \
     src/Author/Author.h \
     src/Author/AuthorRepository.h \
-    src/Author/AuthorService.h
+    src/Author/AuthorService.h \
+    src/Book/Book.h
 
 FORMS    += mainwindow.ui
 

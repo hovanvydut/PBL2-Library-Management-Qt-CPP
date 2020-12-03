@@ -18,26 +18,27 @@ private:
 
 public:
     ArrayListt();
-    ~ArrayListt();
-    virtual int indexOf(const E &);
-    virtual int lastIndexOf(const E &);
-    virtual bool add(const E &);
-    virtual bool add(const int &, const E &);
-    virtual bool removeAt(const int &);
-    virtual bool remove(const E &);
-    virtual const E &get(const int &);
-    virtual int getSize();
-    virtual bool isEmpty();
-    virtual void clear();
-    virtual bool contains(const E &);
-    // bool equals(Listt<E>* o);
-    virtual const E &set(const int &, const E &);
-    virtual void sort(bool (*compare)(const E &, const E &));
-    static bool compareASC(const E &, const E &);
-    static bool compareDESC(const E &, const E &);
-    void show();
-    template <class T> friend std::ostream &operator<<(std::ostream &, ArrayListt<T> &);
-    template <class T> friend std::ostream &operator<<(std::ostream &, ArrayListt<T> *);
+        ~ArrayListt();
+        int indexOf(const E);
+        int lastIndexOf(const E);
+        virtual bool add(const E);
+        bool add(const int &, const E);
+        virtual int getSize();
+        virtual E get(const int &);
+
+        virtual bool removeAt(const int &);
+        virtual bool remove(const E);
+        virtual bool isEmpty();
+        virtual void clear();
+        virtual bool contains(const E);
+        // bool equals(Listt<E>* o);
+        virtual const E set(const int &, const E);
+        virtual void sort(bool (*compare)(const E, const E));
+        static bool compareASC(const E, const E);
+        static bool compareDESC(const E, const E);
+        void show();
+        template <class T> friend std::ostream &operator<<(std::ostream &, ArrayListt<T> &);
+        template <class T> friend std::ostream &operator<<(std::ostream &, ArrayListt<T> *);
 };
 
 template <class E>
@@ -54,7 +55,8 @@ ArrayListt<E>::~ArrayListt()
 }
 
 template <class E>
-int ArrayListt<E>::indexOf(const E &elm)
+// E nen da nang hoa toan tu ==
+int ArrayListt<E>::indexOf(const E elm)
 {
     int idx = -1;
     for (int i = 0; i < this->size; i++)
@@ -69,7 +71,7 @@ int ArrayListt<E>::indexOf(const E &elm)
 }
 
 template <class E>
-int ArrayListt<E>::lastIndexOf(const E &elm)
+int ArrayListt<E>::lastIndexOf(const E elm)
 {
     int idx = -1;
     for (int i = 0; i < this->size; i++)
@@ -83,7 +85,7 @@ int ArrayListt<E>::lastIndexOf(const E &elm)
 }
 
 template <class E>
-bool ArrayListt<E>::add(const E &elm)
+bool ArrayListt<E>::add(const E elm)
 {
     if (this->size == 0)
     {
@@ -92,8 +94,8 @@ bool ArrayListt<E>::add(const E &elm)
         this->size++;
         return true;
     }
-
-    int *tmp = new E[this->size];
+    // E = Room*
+    E *tmp = new E[this->size];
     for (int i = 0; i < this->size; i++)
     {
         *(tmp + i) = *(this->data + i);
@@ -111,7 +113,7 @@ bool ArrayListt<E>::add(const E &elm)
 }
 
 template <class E>
-bool ArrayListt<E>::add(const int &idx, const E &elm)
+bool ArrayListt<E>::add(const int &idx, const E elm)
 {
     // them vao cuoi danh sach
     if (idx == this->size)
@@ -125,13 +127,13 @@ bool ArrayListt<E>::add(const int &idx, const E &elm)
         return false;
     }
 
-    int *tmp1 = new E[idx];
+    E *tmp1 = new E[idx];
     for (int i = 0; i < idx; i++)
     {
         *(tmp1 + i) = *(this->data + i);
     }
 
-    int *tmp2 = new E[this->size - idx];
+    E *tmp2 = new E[this->size - idx];
     for (int i = 0; i < (this->size - idx); i++)
     {
         *(tmp2 + i) = *(this->data + (i + idx));
@@ -157,6 +159,23 @@ bool ArrayListt<E>::add(const int &idx, const E &elm)
 }
 
 template <class E>
+int ArrayListt<E>::getSize()
+{
+  return this->size;
+}
+
+template <class E>
+E ArrayListt<E>::get(const int &idx)
+{
+    if (idx < 0 || idx > this->size - 1)
+    {
+        throw "index is invalid";
+    }
+
+    return *(this->data + idx);
+}
+
+template <class E>
 bool ArrayListt<E>::removeAt(const int &idx)
 {
     if (this->size <= 0)
@@ -168,8 +187,8 @@ bool ArrayListt<E>::removeAt(const int &idx)
         return false;
     }
 
-    int *tmp1 = new E[idx];
-    int *tmp2 = new E[this->size - idx - 1];
+    E *tmp1 = new E[idx];
+    E *tmp2 = new E[this->size - idx - 1];
     for (int i = 0; i < idx; i++)
     {
         *(tmp1 + i) = *(this->data + i);
@@ -199,7 +218,7 @@ bool ArrayListt<E>::removeAt(const int &idx)
 }
 
 template <class E>
-bool ArrayListt<E>::remove(const E &elm)
+bool ArrayListt<E>::remove(const E elm)
 {
     int idx = this->indexOf(elm);
     if (idx == -1)
@@ -207,23 +226,6 @@ bool ArrayListt<E>::remove(const E &elm)
         return false;
     }
     return this->removeAt(idx);
-}
-
-template <class E>
-const E &ArrayListt<E>::get(const int &idx)
-{
-    if (idx < 0 || idx > this->size - 1)
-    {
-        throw "index is invalid";
-    }
-
-    return *(this->data + idx);
-}
-
-template <class E>
-int ArrayListt<E>::getSize()
-{
-    return this->size;
 }
 
 template <class E>
@@ -240,7 +242,7 @@ void ArrayListt<E>::clear()
 }
 
 template <class E>
-bool ArrayListt<E>::contains(const E &elm)
+bool ArrayListt<E>::contains(const E elm)
 {
     const int idx = this->indexOf(elm);
     return idx > -1;
@@ -262,19 +264,19 @@ bool ArrayListt<E>::equals(Listt<E>* o) {
 } */
 
 template <class E>
-const E &ArrayListt<E>::set(const int &idx, const E &elm)
+const E ArrayListt<E>::set(const int &idx, const E elm)
 {
     if (idx < 0 || idx > this->size - 1)
     {
         throw "idx is invalid";
     }
-    const E &before = this->get(idx);
+    const E before = this->get(idx);
     *(this->data + idx) = elm;
     return before;
 }
 
 template <class E>
-void ArrayListt<E>::sort(bool (*compare)(const E &, const E &))
+void ArrayListt<E>::sort(bool (*compare)(const E, const E))
 {
     for (int i = 0; i < this->size - 1; i++)
     {
@@ -291,13 +293,13 @@ void ArrayListt<E>::sort(bool (*compare)(const E &, const E &))
 }
 
 template <class E>
-bool ArrayListt<E>::compareASC(const E &a, const E &b)
+bool ArrayListt<E>::compareASC(const E a, const E b)
 {
     return a > b;
 }
 
 template <class E>
-bool ArrayListt<E>::compareDESC(const E &a, const E &b)
+bool ArrayListt<E>::compareDESC(const E a, const E b)
 {
     return b > a;
 }
