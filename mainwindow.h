@@ -24,6 +24,9 @@ public:
 
 //    void on_pushButton_4_clicked();
 
+private slots:
+    void on_btnSearchBook_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

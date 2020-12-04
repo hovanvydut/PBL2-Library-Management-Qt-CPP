@@ -24,64 +24,69 @@ private:
     QDate publication_date;
     QString size;
     int number_of_pages;
+    int issuing_company_id;
+    int publisher_id;
+    int category_id;
     QDate created_at;
     QDate updated_at;
     QDate deleted_at;
-    Category category;
-    IssuingCompany issuingCompany;
-    Publisher publisher;
-    Listt<Author> *authors;
+    Category* category;
+    IssuingCompany* issuingCompany;
+    Publisher* publisher;
+    Listt<Author*>* authors;
 
 public:
     Book();
+    Book(int, QString, QString, float, int, int, QDate, QString, int, int, int, int, QDate, QDate, QDate);
     ~Book();
 
-//    int getId();
+    int getId() const;
 
-//    QString getTitle();
-//    void setTitle(const QString&);
+    QString getTitle() const;
+    void setTitle(const QString);
 
-//    QString getCoverType();
-//    QString setCoverType(const QString&);
+    QString getCoverType() const;
+    QString setCoverType(const QString);
 
-//    float getPrice();
-//    float setPrice(const float&);
+    float getPrice() const;
+    float setPrice(const float);
 
-//    int getTotal();
-//    int setTotal(const int&);
+    int getTotal() const;
+    int setTotal(const int);
 
-//    int getAvailable();
-//    int setAvailable(const int&);
+    int getAvailable() const;
+    int setAvailable(const int);
 
-//    QDate getPublicationDate();
-//    QDate setPublicationDate(const QDate&);
+    QDate getPublicationDate();
+    QDate setPublicationDate(const QDate);
 
-//    QString getSize();
-//    QString setSize(const QString&);
+    QString getSize() const;
+    QString setSize(const QString);
 
-//    int getNumberOfPages();
-//    int setNumberOfPages(const int&);
+    int getNumberOfPages();
+    int setNumberOfPages(const int);
 
-//    QDate getCreatedAt() const;
+    QDate getCreatedAt() const;
 
-//    QDate getUpdatedAt() const;
-//    void setUpdatedAt(const QDate&);
+    QDate getUpdatedAt() const;
+    void setUpdatedAt(const QDate);
 
-//    QDate getDeletedAt() const;
+    QDate getDeletedAt() const;
 
-//    Category getCategory();
-//    Category setCategory(const Category&);
+    Category* getCategory();
+    Category* setCategory(Category*);
 
-//    IssuingCompany getIssuingCompany();
-//    IssuingCompany setIssuingCompany(const IssuingCompany&);
+    IssuingCompany* getIssuingCompany();
+    IssuingCompany* setIssuingCompany(IssuingCompany*);
 
-//    Publisher getPublisher();
-//    Publisher setPublisher(const Publisher&);
+    Publisher* getPublisher();
+    Publisher* setPublisher(Publisher*);
 
-//    Listt<Author> getAuthors();
-//    bool addAuthor(const Author&);
+    // get author By id, bla bla
+//    Listt<Author*>* getAuthors();
+    bool addAuthor(Author*);
 
-//    bool operator == (const Publisher&) const;
+    bool operator == (const Book&) const;
 };
 
 #endif // BOOK_H

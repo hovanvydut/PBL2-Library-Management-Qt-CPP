@@ -15,7 +15,7 @@ private:
     NodeLinkedListt *next;
 
 public:
-    NodeLinkedListt(const E & = 0);
+    NodeLinkedListt(const E);
     ~NodeLinkedListt();
     bool hasNext();
     bool hasPrevious();
@@ -30,7 +30,7 @@ public:
 };
 
 template <class E>
-NodeLinkedListt<E>::NodeLinkedListt(const E &data)
+NodeLinkedListt<E>::NodeLinkedListt(const E data)
 {
     this->previous = nullptr;
     this->next = nullptr;
