@@ -222,11 +222,9 @@ p, li { white-space: pre-wrap; }
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QTableWidget" name="tableBooks"/>
+           <widget class="QTableView" name="tableBooks"/>
           </item>
          </layout>
-         <zorder>grooupSearchBook</zorder>
-         <zorder>tableBooks</zorder>
         </widget>
        </item>
       </layout>

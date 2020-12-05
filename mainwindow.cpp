@@ -8,6 +8,7 @@
 #include "src/IssuingCompany/IssuingCompanyService.h"
 #include "src/Author/AuthorService.h"
 #include <QDialog>
+#include "src/Book/BookService.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -144,3 +145,30 @@ MainWindow::~MainWindow()
 //        qDebug() << msg;
 //    }
 //}
+
+void MainWindow::on_btnSearchBook_clicked()
+{
+        try {
+            BookService* bookService = BookService::initBookService();
+            Listt<Book>* bookList = bookService->findAll();
+
+            QStandardItemModel *model = new QStandardItemModel();
+            QStringList horizontalHeader;
+            horizontalHeader.append("Id");
+            horizontalHeader.append(QString::fromUtf8("Tên sách"));
+            model->setHorizontalHeaderLabels(horizontalHeader);
+//            ui->tableView->setModel(model);
+            ui->tableBooks->setModel(model);
+
+            for (int i = 0; i < bookList->getSize(); i++) {
+                Book book = bookList->get(i);
+                QStandardItem *idCol = new QStandardItem(QString::number(book.getId()));
+                QStandardItem *nameCol = new QStandardItem(book.getTitle());
+
+                model->appendRow( QList<QStandardItem*>() << idCol << nameCol);
+            }
+        } catch(const char* msg) {
+            // show dialog instead console log
+            qDebug() << msg;
+        }
+}
