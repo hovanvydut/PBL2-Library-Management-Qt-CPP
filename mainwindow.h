@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <logindialog.h>
 
 namespace Ui {
 class MainWindow;
@@ -13,6 +14,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void showAndLogin();
     ~MainWindow();
 
 //private slots:
@@ -26,6 +28,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void login();
 };
 
 #endif // MAINWINDOW_H
