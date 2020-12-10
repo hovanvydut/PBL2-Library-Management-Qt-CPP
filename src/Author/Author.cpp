@@ -2,7 +2,7 @@
 
 Author::Author()
 {
-
+    this->books = new LinkedListt<Book>();
 }
 
 Author::Author(int author_id, QString name, QDate created_at, QDate updated_at, QDate deleted_at)
@@ -12,6 +12,7 @@ Author::Author(int author_id, QString name, QDate created_at, QDate updated_at, 
     this->created_at = created_at;
     this->updated_at = updated_at;
     this->deleted_at = deleted_at;
+    this->books = new LinkedListt<Book>();
 }
 
 Author::~Author()
@@ -59,3 +60,18 @@ bool Author::operator == (const Author& anotherAuthor) const
     return (this->getId()) == (anotherAuthor.getId());
 }
 
+Listt<Book>* Author::getBooks()
+{
+    return this->books;
+}
+
+bool Author::addBook(const Book& book) const
+{
+    try
+    {
+        return this->books->add(book);
+    } catch(const char* msg)
+    {
+        qDebug() << msg;
+    }
+}

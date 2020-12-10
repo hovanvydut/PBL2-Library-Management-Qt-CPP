@@ -7,6 +7,7 @@
 #include "utils/ListPackage/Listt/Listt.h"
 #endif
 #include "utils/ListPackage/NodeLinkedListt/NodeLinkedListt.h"
+#include <QDebug>
 
 template <class E>
 class LinkedListt : public Listt<E>
@@ -93,7 +94,9 @@ int LinkedListt<E>::lastIndexOf(const E elm)
 template <class E>
 bool LinkedListt<E>::add(const E elm)
 {
+    qDebug() << "3.1.1";
   NodeLinkedListt<E> *newNode = new NodeLinkedListt<E>(elm);
+  qDebug() << "3.1.2";
   if (!this->data)
   {
     this->data = newNode;
@@ -102,14 +105,16 @@ bool LinkedListt<E>::add(const E elm)
   }
 
   NodeLinkedListt<E> *it = this->data;
-
+qDebug() << "3.1.3";
   while (it->hasNext())
   {
+      qDebug() << "3.1.4";
     it = it->getNext();
   }
-
+qDebug() << "3.1.5";
   it->setNextNode(newNode);
   newNode->setPreviousNode(it);
+  qDebug() << "3.1.6";
   this->size++;
   return true;
 }

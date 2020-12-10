@@ -1,4 +1,5 @@
 #include "Book.h"
+#include "src/Author/Author.h"
 
 Book::Book()
 {
@@ -195,10 +196,10 @@ Publisher* Book::setPublisher(Publisher* publisher)
     return oldValue;
 }
 
-//Listt<Author*>* Book::getAuthors()
-//{
-//    return this->authors;
-//}
+Listt<Author>* Book::getAuthors()
+{
+    return this->authors;
+}
 
 bool Book::addAuthor(Author author)
 {

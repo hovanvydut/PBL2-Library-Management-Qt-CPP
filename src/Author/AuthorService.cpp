@@ -27,4 +27,10 @@ Listt<Author>* AuthorService::findAll()
     return this->_authorRepository->findAll();
 }
 
+Listt<Author>* AuthorService::findBooksOfAuthorByAuthorName(QString name)
+{
+    qDebug() << "AuthorService";
+    return this->_authorRepository->findBooksOfAuthorByAuthorName(name);
+}
+
 

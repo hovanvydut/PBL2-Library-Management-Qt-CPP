@@ -4,7 +4,6 @@
 #include <QString>
 #include <QDate>
 #include <utils/Comparable/Comparable.h>
-#include "src/Author/Author.h"
 #include "src/Book/Book.h"
 #include "src/Category/Category.h"
 #include "src/IssuingCompany/IssuingCompany.h"
@@ -12,6 +11,7 @@
 #include "utils/ListPackage/ArrayListt/ArrayListt.h"
 #include <QDebug>
 
+class Author;
 class Book : public Comparable<Book>
 {
 
@@ -83,9 +83,7 @@ public:
     Publisher* getPublisher();
     Publisher* setPublisher(Publisher*);
 
-    // get author By id, bla bla
-//    Listt<Author*>* getAuthors();
-//    Listt<Author>* getAuthors();
+    Listt<Author>* getAuthors();
     bool addAuthor(Author);
 
     bool operator == (const Book&) const;

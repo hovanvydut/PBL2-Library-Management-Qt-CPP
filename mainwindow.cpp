@@ -45,7 +45,9 @@ MainWindow::~MainWindow()
 void MainWindow::on_btnSearchBook_clicked()
 {
     BookService* bookService = BookService::initBookService();
-
+    qDebug() << "Here -1";
+    AuthorService* authorService = AuthorService::initAuthorService();
+    qDebug() << "Here 0";
     // Tìm kiếm theo mã sách
     if (ui->radioBookId->isChecked())
     {
@@ -93,6 +95,7 @@ void MainWindow::on_btnSearchBook_clicked()
         QString title = ui->inputBookSearch->text();
 
         Listt<Book>* bookList = bookService->findByBookTitle(title);
+
         QStandardItemModel *model = new QStandardItemModel();
         QStringList horizontalHeader;
         horizontalHeader.append("Id");
@@ -109,6 +112,45 @@ void MainWindow::on_btnSearchBook_clicked()
             QStandardItem *total = new QStandardItem(QString::number(book.getTotal()));
             QStandardItem *available = new QStandardItem(QString::number(book.getAvailable()));
             model->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available);
+        }
+    }
+    // Tìm kiếm theo tên tác giả
+    else if (ui->radioBookAuthor->isChecked())
+    {
+                qDebug() << "Here 0.5";
+        QString authorName = ui->inputBookSearch->text();
+
+
+        qDebug() << "Here 1";
+
+        Listt<Author>* listAuthor = authorService->findBooksOfAuthorByAuthorName(authorName);
+
+                qDebug() << "Here 2";
+
+        QStandardItemModel *model = new QStandardItemModel();
+        QStringList horizontalHeader;
+        horizontalHeader.append("Id");
+        horizontalHeader.append(QString::fromUtf8("Tên sách"));
+        horizontalHeader.append(QString::fromUtf8("Tổng số"));
+        horizontalHeader.append(QString::fromUtf8("Hiện có"));
+        horizontalHeader.append(QString::fromUtf8("Tác giả"));
+        model->setHorizontalHeaderLabels(horizontalHeader);
+        ui->tableBooks->setModel(model);
+
+        for (int i = 0; i < listAuthor->getSize(); i++) {
+            Author author = listAuthor->get(i);
+            Listt<Book>* listBook = author.getBooks();
+
+            for (int j = 0; j <listBook->getSize(); j++)
+            {
+                Book book = listBook->get(j);
+                QStandardItem *idCol = new QStandardItem(QString::number(book.getId()));
+                QStandardItem *nameCol = new QStandardItem(book.getTitle());
+                QStandardItem *total = new QStandardItem(QString::number(book.getTotal()));
+                QStandardItem *available = new QStandardItem(QString::number(book.getAvailable()));
+                QStandardItem *authorName = new QStandardItem(author.getName());
+                model->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available << authorName);
+            }
         }
     }
     else

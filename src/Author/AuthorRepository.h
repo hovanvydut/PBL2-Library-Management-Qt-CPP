@@ -8,6 +8,8 @@
 #include "utils/ListPackage/LinkedListt/LinkedListt.h"
 #include "utils/DatabaseConnection/DatabaseConnection.h"
 #include "src/Author/Author.h"
+#include "src/Book/Book.h"
+#include <QDebug>
 
 class AuthorRepository : public Repository<Author>
 {
@@ -22,6 +24,8 @@ public:
     ~AuthorRepository();
     Author parse(QSqlQuery *);
     Listt<Author>* findAll();
+    Listt<Author>* findBooksOfAuthorByAuthorName(QString name);
+    Book parseBook(QSqlQuery *, int offset);
 };
 
 #endif // AUTHORREPOSITORY_H
