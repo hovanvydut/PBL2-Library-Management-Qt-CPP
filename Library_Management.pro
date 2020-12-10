@@ -37,6 +37,7 @@ SOURCES += main.cpp\
     src/Author/AuthorRepository.cpp \
     src/Author/AuthorService.cpp \
     src/Book/Book.cpp \
+    logindialog.cpp
     src/Book/BookRepository.cpp \
     src/Book/BookService.cpp
 
@@ -62,10 +63,12 @@ HEADERS  += mainwindow.h \
     src/Author/AuthorRepository.h \
     src/Author/AuthorService.h \
     src/Book/Book.h \
+    logindialog.h
     src/Book/BookRepository.h \
     src/Book/BookService.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    logindialog.ui
 
 DISTFILES += \
     config.txt

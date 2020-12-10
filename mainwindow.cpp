@@ -7,6 +7,7 @@
 #include "src/Category/CategoryService.h"
 #include "src/IssuingCompany/IssuingCompanyService.h"
 #include "src/Author/AuthorService.h"
+#include <QDialog>
 #include "src/Book/BookService.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -14,6 +15,25 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+}
+
+
+void MainWindow::showAndLogin(){
+    QMainWindow::show();
+    this->login();
+    //this->loginDialog = new LoginDialog(this);
+    //this->loginDialog->show();
+}
+
+void MainWindow::login(){
+    LoginDialog *login = new LoginDialog();
+    login->show();
+    this->hide();
+    if (login->exec() == QDialog::Accepted) {
+       qDebug() << login->getUserID();
+       delete login;
+       this->show();
+    }
 }
 
 MainWindow::~MainWindow()
