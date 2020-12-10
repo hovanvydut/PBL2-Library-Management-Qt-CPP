@@ -200,7 +200,7 @@ Publisher* Book::setPublisher(Publisher* publisher)
 //    return this->authors;
 //}
 
-bool Book::addAuthor(Author* author)
+bool Book::addAuthor(Author author)
 {
     this->authors->add(author);
 }

@@ -17,6 +17,8 @@ public:
     static BookService* initBookService();
     ~BookService();
     Listt<Book>* findAll();
+    Book findById(int id);
+    Listt<Book>* findByBookTitle(QString title);
 };
 
 #endif // BOOKSERVICE_H

@@ -21,6 +21,8 @@ public:
     ~BookRepository();
     Book parse(QSqlQuery *);
     Listt<Book>* findAll();
+    Book findById(int id);
+    Listt<Book>* findByBookTitle(QString title);
 };
 
 #endif // BOOKREPOSITORY_H

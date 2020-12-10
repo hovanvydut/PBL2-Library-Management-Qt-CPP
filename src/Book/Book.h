@@ -34,7 +34,7 @@ private:
     Category* category;
     IssuingCompany* issuingCompany;
     Publisher* publisher;
-    Listt<Author*>* authors;
+    Listt<Author>* authors;
 
 public:
     Book();
@@ -85,7 +85,8 @@ public:
 
     // get author By id, bla bla
 //    Listt<Author*>* getAuthors();
-    bool addAuthor(Author*);
+//    Listt<Author>* getAuthors();
+    bool addAuthor(Author);
 
     bool operator == (const Book&) const;
 };

@@ -133,7 +133,7 @@ Listt<Book>* BookRepository::findAll()
 
     // default query conditions
     int limit = 7;
-    int offsetId = 5;
+    int offsetId = 0;
 
     this->query->prepare(
                 "SELECT TOP (:limit) book_id, title, cover_type, price, total, available, publication_date, size, number_of_pages, issuing_company_id, publisher_id, category_id, created_at, updated_at, deleted_at "
@@ -151,4 +151,32 @@ Listt<Book>* BookRepository::findAll()
     return list;
 }
 
+Book BookRepository::findById(int id)
+{
+    this->query->prepare(
+                "SELECT book_id, title, cover_type, price, total, available, publication_date, size, number_of_pages, issuing_company_id, publisher_id, category_id, created_at, updated_at, deleted_at "
+                "FROM books WHERE book_id = (:id)"
+                );
+    this->query->bindValue(":id", id);
+    this->query->exec();
+    this->query->next();
+    return this->parse(this->query);
+}
+
+Listt<Book>* BookRepository::findByBookTitle(QString title)
+{
+    Listt<Book>* list = new LinkedListt<Book>();
+
+    QString queryStatement = "SELECT book_id, title, cover_type, price, total, available, publication_date, size, number_of_pages, issuing_company_id, publisher_id, category_id, created_at, updated_at, deleted_at FROM books WHERE UPPER(title) LIKE UPPER('%" + title + "%')";
+    this->query->prepare(queryStatement);
+    this->query->bindValue(":title", title);
+
+    this->query->exec();
+    while(this->query->next())
+    {
+        list->add(this->parse(this->query));
+    }
+
+    return list;
+}
 
