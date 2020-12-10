@@ -21,111 +21,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-//void MainWindow::on_pushButton_clicked()
-//{
-//    try {
-//        PublisherService* publisherService = PublisherService::initPublisherService();
-//        Listt<Publisher>* publisherList = publisherService->findAll();
-
-//        QStandardItemModel *model = new QStandardItemModel();
-//        QStringList horizontalHeader;
-//        horizontalHeader.append("ID");
-//        horizontalHeader.append(QString::fromUtf8("Tên tác giả"));
-//        model->setHorizontalHeaderLabels(horizontalHeader);
-//        ui->tableView->setModel(model);
-
-//        for (int i = 0; i < publisherList->getSize(); i++) {
-//            Publisher publisher = publisherList->get(i);
-//            QStandardItem *idCol = new QStandardItem(publisher.getId());
-//            QStandardItem *nameCol = new QStandardItem(publisher.getName());
-
-//            model->appendRow( QList<QStandardItem*>() << idCol << nameCol);
-//        }
-//    } catch(const char* msg) {
-//        // show dialog instead console log
-//        qDebug() << msg;
-//    }
-//}
-
-//void MainWindow::on_pushButton_2_clicked()
-//{
-//    try {
-//        CategoryService* categoryService = CategoryService::initCategoryService();
-//        Listt<Category>* categoryList = categoryService->findAll();
-
-//        QStandardItemModel *model = new QStandardItemModel();
-//        QStringList horizontalHeader;
-//        horizontalHeader.append("ID");
-//        horizontalHeader.append(QString::fromUtf8("Category name"));
-//        model->setHorizontalHeaderLabels(horizontalHeader);
-//        ui->tableView->setModel(model);
-
-//        for (int i = 0; i < categoryList->getSize(); i++) {
-//            Category category = categoryList->get(i);
-//            QStandardItem *idCol = new QStandardItem(category.getId());
-//            QStandardItem *nameCol = new QStandardItem(category.getName());
-
-//            model->appendRow( QList<QStandardItem*>() << idCol << nameCol);
-//        }
-//    } catch(const char* msg) {
-//        // show dialog instead console log
-//        qDebug() << msg;
-//    }
-//}
-
-//void MainWindow::on_pushButton_3_clicked()
-//{
-//    try {
-//        IssuingCompanyService* categoryService = IssuingCompanyService::initIssuingCompanyService();
-//        Listt<IssuingCompany>* categoryList = categoryService->findAll();
-
-//        QStandardItemModel *model = new QStandardItemModel();
-//        QStringList horizontalHeader;
-//        horizontalHeader.append("ID");
-//        horizontalHeader.append(QString::fromUtf8("Category name"));
-//        model->setHorizontalHeaderLabels(horizontalHeader);
-//        ui->tableView->setModel(model);
-
-//        for (int i = 0; i < categoryList->getSize(); i++) {
-//            IssuingCompany category = categoryList->get(i);
-//            QStandardItem *idCol = new QStandardItem(category.getId());
-//            QStandardItem *nameCol = new QStandardItem(category.getName());
-
-//            model->appendRow( QList<QStandardItem*>() << idCol << nameCol);
-//        }
-//    } catch(const char* msg) {
-//        // show dialog instead console log
-//        qDebug() << msg;
-//    }
-//}
-
-//void MainWindow::on_pushButton_4_clicked()
-//{
-//    try {
-//        AuthorService* categoryService = AuthorService::initAuthorService();
-//        Listt<Author>* categoryList = categoryService->findAll();
-
-//        QStandardItemModel *model = new QStandardItemModel();
-//        QStringList horizontalHeader;
-//        horizontalHeader.append("ID");
-//        horizontalHeader.append(QString::fromUtf8("Category name"));
-//        model->setHorizontalHeaderLabels(horizontalHeader);
-//        ui->tableView->setModel(model);
-
-//        for (int i = 0; i < categoryList->getSize(); i++) {
-//            Author category = categoryList->get(i);
-//            QStandardItem *idCol = new QStandardItem(category.getId());
-//            QStandardItem *nameCol = new QStandardItem(category.getName());
-
-//            model->appendRow( QList<QStandardItem*>() << idCol << nameCol);
-//        }
-//    } catch(const char* msg) {
-//        // show dialog instead console log
-//        qDebug() << msg;
-//    }
-//}
-
 void MainWindow::on_btnSearchBook_clicked()
 {
         try {
@@ -136,6 +31,8 @@ void MainWindow::on_btnSearchBook_clicked()
             QStringList horizontalHeader;
             horizontalHeader.append("Id");
             horizontalHeader.append(QString::fromUtf8("Tên sách"));
+            horizontalHeader.append(QString::fromUtf8("Tổng số"));
+            horizontalHeader.append(QString::fromUtf8("Hiện có"));
             model->setHorizontalHeaderLabels(horizontalHeader);
 //            ui->tableView->setModel(model);
             ui->tableBooks->setModel(model);
@@ -144,8 +41,9 @@ void MainWindow::on_btnSearchBook_clicked()
                 Book book = bookList->get(i);
                 QStandardItem *idCol = new QStandardItem(QString::number(book.getId()));
                 QStandardItem *nameCol = new QStandardItem(book.getTitle());
-
-                model->appendRow( QList<QStandardItem*>() << idCol << nameCol);
+                QStandardItem *total = new QStandardItem(QString::number(book.getTotal()));
+                QStandardItem *available = new QStandardItem(QString::number(book.getAvailable()));
+                model->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available);
             }
         } catch(const char* msg) {
             // show dialog instead console log

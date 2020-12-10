@@ -10,6 +10,7 @@
 #include "src/IssuingCompany/IssuingCompany.h"
 #include "src/Publisher/Publisher.h"
 #include "utils/ListPackage/ArrayListt/ArrayListt.h"
+#include <QDebug>
 
 class Book : public Comparable<Book>
 {
@@ -43,7 +44,7 @@ public:
     int getId() const;
 
     QString getTitle() const;
-    void setTitle(const QString);
+    QString setTitle(const QString);
 
     QString getCoverType() const;
     QString setCoverType(const QString);
@@ -69,7 +70,7 @@ public:
     QDate getCreatedAt() const;
 
     QDate getUpdatedAt() const;
-    void setUpdatedAt(const QDate);
+    QDate setUpdatedAt(const QDate);
 
     QDate getDeletedAt() const;
 

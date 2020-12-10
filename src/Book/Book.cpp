@@ -42,9 +42,11 @@ QString Book::getTitle() const
     return this->title;
 }
 
-void Book::setTitle(const QString title)
+QString Book::setTitle(const QString title)
 {
+    QString oldValue = this->title;
     this->title = title;
+    return oldValue;
 }
 
 QString Book::getCoverType() const
@@ -54,7 +56,9 @@ QString Book::getCoverType() const
 
 QString Book::setCoverType(const QString cover_type)
 {
+    QString oldValue = this->cover_type;
     this->cover_type = cover_type;
+    return oldValue;
 }
 
 float Book::getPrice() const
@@ -64,7 +68,9 @@ float Book::getPrice() const
 
 float Book::setPrice(const float price)
 {
-    return this->price = price;
+    float oldValue = this->price;
+    this->price = price;
+    return oldValue;
 }
 
 int Book::getTotal() const
@@ -74,17 +80,21 @@ int Book::getTotal() const
 
 int Book::setTotal(const int total)
 {
+    int oldValue = this->total;
     this->total = total;
+    return oldValue;
 }
 
 int Book::getAvailable() const
 {
-    this->available;
+    return this->available;
 }
 
 int Book::setAvailable(const int available)
 {
+    int oldValue = this->available;
     this->available = available;
+    return oldValue;
 }
 
 QDate Book::getPublicationDate()
@@ -94,7 +104,9 @@ QDate Book::getPublicationDate()
 
 QDate Book::setPublicationDate(const QDate date)
 {
+    QDate oldValue = this->publication_date;
     this->publication_date = date;
+    return oldValue;
 }
 
 QString Book::getSize() const
@@ -104,7 +116,9 @@ QString Book::getSize() const
 
 QString Book::setSize(const QString size)
 {
+    QString oldValue = this->size;
     this->size = size;
+    return oldValue;
 }
 
 int Book::getNumberOfPages()
@@ -118,7 +132,9 @@ int Book::setNumberOfPages(const int num)
     {
         throw "Vui lòng nhập số nguyên không âm!";
     }
+    int oldValue = this->number_of_pages;
     this->number_of_pages = num;
+    return oldValue;
 }
 
 QDate Book::getCreatedAt() const
@@ -131,9 +147,11 @@ QDate Book::getUpdatedAt() const
     return this->updated_at;
 }
 
-void Book::setUpdatedAt(const QDate date)
+QDate Book::setUpdatedAt(const QDate date)
 {
+    QDate oldValue = this->updated_at;
     this->updated_at = date;
+    return oldValue;
 }
 
 QDate Book::getDeletedAt() const
@@ -148,7 +166,9 @@ Category* Book::getCategory()
 
 Category* Book::setCategory(Category* category)
 {
+    Category* oldValue = this->category;
     this->category = category;
+    return oldValue;
 }
 
 IssuingCompany* Book::getIssuingCompany()
@@ -158,7 +178,9 @@ IssuingCompany* Book::getIssuingCompany()
 
 IssuingCompany* Book::setIssuingCompany(IssuingCompany* issuingCompany)
 {
+    IssuingCompany* oldValue = this->issuingCompany;
     this->issuingCompany = issuingCompany;
+    return oldValue;
 }
 
 Publisher* Book::getPublisher()
@@ -168,7 +190,9 @@ Publisher* Book::getPublisher()
 
 Publisher* Book::setPublisher(Publisher* publisher)
 {
+    Publisher* oldValue = this->publisher;
     this->publisher = publisher;
+    return oldValue;
 }
 
 //Listt<Author*>* Book::getAuthors()
