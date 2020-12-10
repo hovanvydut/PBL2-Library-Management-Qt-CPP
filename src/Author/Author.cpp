@@ -67,11 +67,5 @@ Listt<Book>* Author::getBooks()
 
 bool Author::addBook(const Book& book) const
 {
-    try
-    {
-        return this->books->add(book);
-    } catch(const char* msg)
-    {
-        qDebug() << msg;
-    }
+    return this->books->add(book);
 }

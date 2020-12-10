@@ -14,6 +14,6 @@ B.deleted_at
 FROM dbo.books AS B
 INNER JOIN dbo.author_books ON author_books.book_id = B.book_id
 INNER JOIN dbo.authors AS A ON A.author_id = author_books.author_id
-WHERE A.name = 'Nguyen Huu Hung'
+WHERE UPPER(A.name) LIKE UPPER('%hung%')
 
-SELECT * FROM dbo.authors WHERE UPPER(name) LIKE UPPER('nguyen huu hung')
+SELECT * FROM dbo.authors WHERE UPPER(name) LIKE UPPER('hung')

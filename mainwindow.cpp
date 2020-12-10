@@ -45,9 +45,9 @@ MainWindow::~MainWindow()
 void MainWindow::on_btnSearchBook_clicked()
 {
     BookService* bookService = BookService::initBookService();
-    qDebug() << "Here -1";
+
     AuthorService* authorService = AuthorService::initAuthorService();
-    qDebug() << "Here 0";
+
     // Tìm kiếm theo mã sách
     if (ui->radioBookId->isChecked())
     {
@@ -117,15 +117,9 @@ void MainWindow::on_btnSearchBook_clicked()
     // Tìm kiếm theo tên tác giả
     else if (ui->radioBookAuthor->isChecked())
     {
-                qDebug() << "Here 0.5";
         QString authorName = ui->inputBookSearch->text();
 
-
-        qDebug() << "Here 1";
-
         Listt<Author>* listAuthor = authorService->findBooksOfAuthorByAuthorName(authorName);
-
-                qDebug() << "Here 2";
 
         QStandardItemModel *model = new QStandardItemModel();
         QStringList horizontalHeader;

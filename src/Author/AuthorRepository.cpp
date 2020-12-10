@@ -80,7 +80,6 @@ Book AuthorRepository::parseBook(QSqlQuery *, int offset)
 
 Listt<Author>* AuthorRepository::findBooksOfAuthorByAuthorName(QString name)
 {
-    qDebug() << "AuthorRepository";
     Listt<Author>* listAuthors = new LinkedListt<Author>();
 
     QString queryStatement = "SELECT A.*, B.book_id, title, cover_type, price, total, available, publication_date, size, "
@@ -95,32 +94,19 @@ Listt<Author>* AuthorRepository::findBooksOfAuthorByAuthorName(QString name)
     this->query->exec();
     while(this->query->next())
     {
-        qDebug() << "1";
         Author author = this->parse(this->query);
-        qDebug() << "Author: " << author.getName() << ", " << author.getId();
-        qDebug() << listAuthors->contains(author);
         if (listAuthors->contains(author))
         {
-            qDebug() << "2";
             int idx = listAuthors->indexOf(author);
             if (idx >= 0) {
                 listAuthors->get(idx).addBook(parseBook(this->query, 5));
             }
         } else
         {
-            qDebug() << "3";
             Book book = parseBook(this->query, 5);
-            qDebug() << "3.1";
             author.addBook(book);
-            qDebug() << "3.2";
             listAuthors->add(author);
-            qDebug() << "3.3";
         }
-    }
-
-    for (int i = 0; i < listAuthors->getSize(); i++)
-    {
-        qDebug() << listAuthors->get(i).getName();
     }
 
     return listAuthors;
