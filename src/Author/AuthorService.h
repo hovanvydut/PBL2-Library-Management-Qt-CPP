@@ -17,6 +17,7 @@ public:
     static AuthorService* initAuthorService();
     ~AuthorService();
     Listt<Author>* findAll();
+    Listt<Author>* findBooksOfAuthorByAuthorName(QString name);
 };
 
 #endif // AUTHORSERVICE_H

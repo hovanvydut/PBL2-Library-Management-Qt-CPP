@@ -27,3 +27,13 @@ Listt<Book>* BookService::findAll()
     return this->_bookRepository->findAll();
 }
 
+Book BookService::findById(int id)
+{
+    return this->_bookRepository->findById(id);
+}
+
+Listt<Book>* BookService::findByBookTitle(QString title)
+{
+    return this->_bookRepository->findByBookTitle(title);
+}
+

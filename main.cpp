@@ -10,5 +10,8 @@ int main(int argc, char *argv[])
     //d.show();
     //w.showAndLogin();
     w.show();
+//    w.showAndLogin();
+
+
     return a.exec();
 }

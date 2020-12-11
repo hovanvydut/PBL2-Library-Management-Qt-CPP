@@ -7,6 +7,7 @@
 #include "utils/ListPackage/Listt/Listt.h"
 #endif
 #include "utils/ListPackage/NodeLinkedListt/NodeLinkedListt.h"
+#include <QDebug>
 
 template <class E>
 class LinkedListt : public Listt<E>
@@ -102,12 +103,10 @@ bool LinkedListt<E>::add(const E elm)
   }
 
   NodeLinkedListt<E> *it = this->data;
-
   while (it->hasNext())
   {
     it = it->getNext();
   }
-
   it->setNextNode(newNode);
   newNode->setPreviousNode(it);
   this->size++;

@@ -7,3 +7,13 @@ LEFT OUTER JOIN issuing_company ON issuing_company.issuing_company_id = books.is
 LEFT OUTER JOIN author_books ON author_books.book_id = books.book_id
 LEFT OUTER JOIN authors ON authors.author_id = author_books.author_id
 WHERE books.book_id > 5
+
+SELECT A.*, B.book_id, title, cover_type, price, total, available, publication_date, size, 
+number_of_pages, issuing_company_id, publisher_id, category_id, B.created_at, B.updated_at, 
+B.deleted_at
+FROM dbo.books AS B
+INNER JOIN dbo.author_books ON author_books.book_id = B.book_id
+INNER JOIN dbo.authors AS A ON A.author_id = author_books.author_id
+WHERE UPPER(A.name) LIKE UPPER('%hung%')
+
+SELECT * FROM dbo.authors WHERE UPPER(name) LIKE UPPER('hung')

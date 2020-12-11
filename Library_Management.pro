@@ -78,4 +78,3 @@ FORMS    += mainwindow.ui \
 
 DISTFILES += \
     config.txt
-
