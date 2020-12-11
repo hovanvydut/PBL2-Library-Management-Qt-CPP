@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <logindialog.h>
-
+#include <QModelIndex>
 namespace Ui {
 class MainWindow;
 }
@@ -28,6 +28,10 @@ public:
 
 private slots:
     void on_btnSearchBook_clicked();
+
+    void on_inputUserSearch_returnPressed();
+
+    void on_tableUsers_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;

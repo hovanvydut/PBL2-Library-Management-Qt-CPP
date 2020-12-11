@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     //LoginDialog d;
     //d.show();
-    w.showAndLogin();
-
+    //w.showAndLogin();
+    w.show();
     return a.exec();
 }

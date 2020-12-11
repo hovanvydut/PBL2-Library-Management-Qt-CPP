@@ -9,6 +9,8 @@
 #include "src/Author/AuthorService.h"
 #include <QDialog>
 #include "src/Book/BookService.h"
+#include "src/User/User.h"
+#include "src/User/UserService.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -69,4 +71,44 @@ void MainWindow::on_btnSearchBook_clicked()
             // show dialog instead console log
             qDebug() << msg;
         }
+}
+
+void MainWindow::on_inputUserSearch_returnPressed()
+{
+    try {
+        UserService* userService = UserService::initUserService();
+        Listt<User>* userList = userService->findAll();
+
+        QStandardItemModel *model = new QStandardItemModel();
+        QStringList horizontalHeader;
+        horizontalHeader.append("Id");
+        horizontalHeader.append(QString::fromUtf8("Họ và tên"));
+        horizontalHeader.append(QString::fromUtf8("Giới tính"));
+        horizontalHeader.append(QString::fromUtf8("Email"));
+        horizontalHeader.append(QString::fromUtf8("SĐT"));
+        horizontalHeader.append(QString::fromUtf8("Ngày sinh"));
+        model->setHorizontalHeaderLabels(horizontalHeader);
+//            ui->tableView->setModel(model);
+        ui->tableUsers->setModel(model);
+
+        for (int i = 0; i < userList->getSize(); i++) {
+            User user = userList->get(i);
+            QStandardItem *idCol = new QStandardItem(QString::number(user.getUserId()));
+            QStandardItem *nameCol = new QStandardItem(user.getFullname());
+            QString _gender = user.getGender() == 0 ? "Nam" : (user.getGender() == 1 ? QString::fromUtf8("Nữ") : QString::fromUtf8("Không xác định"));
+            QStandardItem *gender = new QStandardItem(_gender);
+            QStandardItem *email = new QStandardItem(user.getEmail());
+            QStandardItem *phone = new QStandardItem(user.getPhone());
+            model->appendRow( QList<QStandardItem*>() << idCol << nameCol << gender << email << phone);
+        }
+    } catch(const char* msg) {
+        // show dialog instead console log
+        qDebug() << msg;
+    }
+
+}
+
+void MainWindow::on_tableUsers_doubleClicked(const QModelIndex &index)
+{
+    qDebug() << this->ui->tableUsers->model()->index(0, 0);
 }

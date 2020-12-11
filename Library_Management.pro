@@ -39,7 +39,10 @@ SOURCES += main.cpp\
     src/Book/Book.cpp \
     logindialog.cpp \
     src/Book/BookRepository.cpp \
-    src/Book/BookService.cpp
+    src/Book/BookService.cpp \
+    src/User/User.cpp \
+    src/User/UserRepository.cpp \
+    src/User/UserService.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -66,6 +69,9 @@ HEADERS  += mainwindow.h \
     logindialog.h \
     src/Book/BookRepository.h \
     src/Book/BookService.h \
+    src/User/User.h \
+    src/User/UserRepository.h \
+    src/User/UserService.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui
