@@ -29,6 +29,11 @@ User::User(int user_id, QString fullname, QDate birthday, int gender, QString ph
     this->phone = phone;
 }
 
+User::User(int user_id, QString fullname){
+    this->user_id = user_id;
+    this->fullname = fullname;
+}
+
 User::~User()
 {
     // Nothing

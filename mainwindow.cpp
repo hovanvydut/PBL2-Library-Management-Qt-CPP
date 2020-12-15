@@ -216,5 +216,16 @@ void MainWindow::on_inputUserSearch_returnPressed()
 
 void MainWindow::on_tableUsers_doubleClicked(const QModelIndex &index)
 {
-    qDebug() << this->ui->tableUsers->model()->index(0, 0);
+    int id = this->ui->tableUsers->model()->itemData(index.sibling(index.row(), 0)).value(0).toInt();
+    QString fullname = this->ui->tableUsers->model()->itemData(index.sibling(index.row(), 1)).value(0).toString();
+    QString gender = this->ui->tableUsers->model()->itemData(index.sibling(index.row(), 2)).value(0).toString();
+    QString email = this->ui->tableUsers->model()->itemData(index.sibling(index.row(), 3)).value(0).toString();
+    QString phone = this->ui->tableUsers->model()->itemData(index.sibling(index.row(), 4)).value(0).toString();
+    QString info = QString::fromUtf8("Họ và tên: ") + fullname
+            + QString::fromUtf8("\nGiới tính: ") + gender
+            + QString::fromUtf8("\nĐiện thoại: ") + phone
+            + QString::fromUtf8("\nEmal: ") + email;
+    if (this->selectedUser != NULL) delete this->selectedUser;
+    this->selectedUser = new User(id, fullname);
+    this->ui->textUserInfo->setText(info);
 }

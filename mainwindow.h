@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <logindialog.h>
 #include <QModelIndex>
+#include "src/User/User.h"
 namespace Ui {
 class MainWindow;
 }
@@ -36,6 +37,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void login();
+    User *selectedUser;
+
 };
 
 #endif // MAINWINDOW_H

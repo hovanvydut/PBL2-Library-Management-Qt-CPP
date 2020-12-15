@@ -23,6 +23,7 @@ public:
     User();
     User(int, QString, QDate, int, QString, QString, QString, QString, int, QString, QDate, QDate);
     User(int, QString, QDate, int, QString, QString);
+    User(int, QString);
     ~User();
     // getter - setter
     int getUserId();
