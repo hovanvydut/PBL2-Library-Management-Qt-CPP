@@ -182,8 +182,8 @@ void MainWindow::on_btnSearchBook_clicked()
 void MainWindow::on_inputUserSearch_returnPressed()
 {
     try {
+
         UserService* userService = UserService::initUserService();
-        Listt<User>* userList = userService->findAll();
 
         QStandardItemModel *model = new QStandardItemModel();
         QStringList horizontalHeader;
@@ -194,9 +194,29 @@ void MainWindow::on_inputUserSearch_returnPressed()
         horizontalHeader.append(QString::fromUtf8("SĐT"));
         horizontalHeader.append(QString::fromUtf8("Ngày sinh"));
         model->setHorizontalHeaderLabels(horizontalHeader);
-//            ui->tableView->setModel(model);
         ui->tableUsers->setModel(model);
 
+        Listt<User>* userList;
+        if (this->ui->radioUserName->isChecked()){
+             userList = userService->findByFullname(this->ui->inputUserSearch->text());
+        } else if (this->ui->radioUserPhone->isChecked()){
+            userList = userService->findByPhone(this->ui->inputUserSearch->text());
+        } else if (this->ui->radioUserId->isChecked()){
+            bool ok;
+            int ID = this->ui->inputUserSearch->text().toInt(&ok);
+            if (!ok){
+                QMessageBox *msgBox = new QMessageBox(0);
+                msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+                msgBox->setText(QString::fromUtf8("ID không hợp lệ"));
+                msgBox->setInformativeText(QString::fromUtf8("Vui lòng kiểm tra lại thông tin"));
+                msgBox->exec();
+                return;
+            } else {
+                userList = userService->findById(ID);
+            }
+        } else {
+            userList = userService->findByFullname(this->ui->inputUserSearch->text());
+        }
         for (int i = 0; i < userList->getSize(); i++) {
             User user = userList->get(i);
             QStandardItem *idCol = new QStandardItem(QString::number(user.getUserId()));

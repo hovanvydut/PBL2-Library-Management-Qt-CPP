@@ -54,3 +54,43 @@ Listt<User>* UserRepository::findAll()
     return list;
 }
 
+Listt<User>* UserRepository::findContain(QString key, QString value)
+{
+
+    Listt<User>* list = new LinkedListt<User>();
+
+    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email "
+                        "FROM users WHERE lower(" + key + ") LIKE lower(:value)";
+    this->query->prepare(queryText);
+    this->query->bindValue(":value", QString("%%1%").arg(value));
+
+    this->query->exec();
+
+    while(this->query->next())
+    {
+        list->add(this->parse(this->query));
+    }
+
+    return list;
+}
+
+Listt<User>* UserRepository::findExact(QString key, QString value)
+{
+
+    Listt<User>* list = new LinkedListt<User>();
+
+    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email "
+                        "FROM users WHERE " + key + " = :value";
+    this->query->prepare(queryText);
+    this->query->bindValue(":value", value);
+
+    this->query->exec();
+
+    while(this->query->next())
+    {
+        list->add(this->parse(this->query));
+    }
+
+    return list;
+}
+

@@ -21,6 +21,8 @@ public:
     ~UserRepository();
     User parse(QSqlQuery *);
     Listt<User>* findAll();
+    Listt<User>* findContain(QString, QString);
+    Listt<User>* findExact(QString, QString);
 
 };
 

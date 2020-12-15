@@ -17,6 +17,9 @@ public:
     static UserService* initUserService();
     ~UserService();
     Listt<User>* findAll();
+    Listt<User>* findByFullname(QString);
+    Listt<User>* findByPhone(QString);
+    Listt<User>* findById(int);
 
 };
 
