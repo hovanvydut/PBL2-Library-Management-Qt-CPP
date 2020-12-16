@@ -4,6 +4,7 @@
 #include "src/User/UserRepository.h"
 #include "utils/ListPackage/Listt/Listt.h"
 #include "src/User/User.h"
+#include "src/BorrowBook/BorrowBook.h"
 
 class UserService
 {
@@ -20,6 +21,7 @@ public:
     Listt<User>* findByFullname(QString);
     Listt<User>* findByPhone(QString);
     Listt<User>* findById(int);
+    Listt<BorrowBook>* getBorrowBook(int);
 
 };
 

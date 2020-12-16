@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <logindialog.h>
 #include <QModelIndex>
+#include <QStandardItemModel>
 #include "src/User/User.h"
 namespace Ui {
 class MainWindow;
@@ -34,10 +35,19 @@ private slots:
 
     void on_tableUsers_doubleClicked(const QModelIndex &index);
 
+    void on_btnAllBorrowBook_clicked();
+
+    void on_tableBooks_doubleClicked(const QModelIndex &index);
+
+    void on_tableSeletedBooks_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     void login();
     User *selectedUser;
+    QStandardItemModel *userModel;
+    QStandardItemModel *bookModel;
+    QStandardItemModel *selectedBookModel;
 
 };
 

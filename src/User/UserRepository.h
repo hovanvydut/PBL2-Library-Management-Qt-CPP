@@ -7,6 +7,7 @@
 #include "src/User/User.h"
 #include "utils/ListPackage/LinkedListt/LinkedListt.h"
 #include "utils/DatabaseConnection/DatabaseConnection.h"
+#include "src/BorrowBook/BorrowBook.h"
 
 class UserRepository : public Repository<User>
 {
@@ -20,9 +21,12 @@ public:
     static UserRepository* initUserRepository();
     ~UserRepository();
     User parse(QSqlQuery *);
+    BorrowBook parseBorrowBook(QSqlQuery *);
     Listt<User>* findAll();
     Listt<User>* findContain(QString, QString);
     Listt<User>* findExact(QString, QString);
+    Listt<BorrowBook>* getBorrowBook(int);
+
 
 };
 

@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     src/Book/BookService.cpp \
     src/User/User.cpp \
     src/User/UserRepository.cpp \
-    src/User/UserService.cpp
+    src/User/UserService.cpp \
+    src/BorrowBook/BorrowBook.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -71,7 +72,8 @@ HEADERS  += mainwindow.h \
     src/Book/BookService.h \
     src/User/User.h \
     src/User/UserRepository.h \
-    src/User/UserService.h
+    src/User/UserService.h \
+    src/BorrowBook/BorrowBook.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui

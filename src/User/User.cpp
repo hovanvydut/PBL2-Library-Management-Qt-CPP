@@ -112,6 +112,16 @@ QDate User::getUpdatedAt(){
 void User::setUpdatedAt(QDate updated_at){
     this->updated_at = updated_at;
 }
+
+void User::setBorrowBook(Listt<BorrowBook> * list){
+    if (this->borrowList != NULL) delete this->borrowList;
+    //(this->borrowList) = new LinkedListt<BorrowBook>();
+    this->borrowList = list;
+}
+
+Listt<BorrowBook> *User::getBorrowList(){
+    return this->borrowList;
+}
 //
 bool User::operator == (const User& user) const{
     return this->user_id == user.user_id;

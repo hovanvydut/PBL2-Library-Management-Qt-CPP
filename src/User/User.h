@@ -3,7 +3,9 @@
 #include <QDate>
 #include <QString>
 #include "utils/Comparable/Comparable.h"
+#include "src/BorrowBook/BorrowBook.h"
 
+class MainWindow;
 
 class User: public Comparable<User>
 {
@@ -19,7 +21,9 @@ class User: public Comparable<User>
     QString address;
     QDate created_at;
     QDate updated_at;
+    Listt<BorrowBook> *borrowList;
 public:
+
     User();
     User(int, QString, QDate, int, QString, QString, QString, QString, int, QString, QDate, QDate);
     User(int, QString, QDate, int, QString, QString);
@@ -50,8 +54,11 @@ public:
     void setCreatedAt(QDate);
     QDate getUpdatedAt();
     void setUpdatedAt(QDate);
+    Listt<BorrowBook> *getBorrowList();
+    void setBorrowBook(Listt<BorrowBook> *);
     //
     bool operator == (const User&) const;
+    friend class MainWindow;
 
 };
 
