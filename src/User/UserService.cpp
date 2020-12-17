@@ -49,3 +49,7 @@ Listt<BorrowBook>* UserService::getBorrowBook(int id){
 int UserService::returnBook(Listt<int>* listId){
     return this->_userRepository->returnBook(listId);
 }
+
+int UserService::deleteUsers(Listt<User>* listUser){
+    return this->_userRepository->deleteUsers(listUser);
+}

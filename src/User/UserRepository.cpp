@@ -32,7 +32,11 @@ User UserRepository::parse(QSqlQuery * query)
     int gender = query->value(3).toInt();
     QString phone = query->value(4).toString();
     QString email = query->value(5).toString();
-    return User(user_id, fullname, birthday, gender, phone, email);
+    int role_id = query->value(6).toInt();
+    QString username = query->value(7).toString();
+    QString password = query->value(8).toString();
+    QString address = query->value(9).toString();
+    return User(user_id, fullname, birthday, gender, email, phone, username, password, role_id, address);
 }
 
 Listt<User>* UserRepository::findAll()
@@ -41,7 +45,7 @@ Listt<User>* UserRepository::findAll()
     Listt<User>* list = new LinkedListt<User>();
 
 
-    this->query->prepare("SELECT user_id, fullname, birthday, gender, phone, email "
+    this->query->prepare("SELECT user_id, fullname, birthday, gender, phone, email, role_id, username, password, address "
                          "FROM users");
 
 
@@ -60,7 +64,7 @@ Listt<User>* UserRepository::findContain(QString key, QString value)
 
     Listt<User>* list = new LinkedListt<User>();
 
-    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email "
+    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, role_id, username, password, address "
                         "FROM users WHERE lower(" + key + ") LIKE lower(:value)";
     this->query->prepare(queryText);
     this->query->bindValue(":value", QString("%%1%").arg(value));
@@ -80,7 +84,7 @@ Listt<User>* UserRepository::findExact(QString key, QString value)
 
     Listt<User>* list = new LinkedListt<User>();
 
-    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email "
+    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, role_id, username, password, address "
                         "FROM users WHERE " + key + " = :value";
     this->query->prepare(queryText);
     this->query->bindValue(":value", value);
@@ -161,3 +165,27 @@ int UserRepository::returnBook(Listt<int>* listId)
     return -1;
 }
 
+int UserRepository::deleteUsers(Listt<User>* listUser){
+    QString queryText;
+    for (int i = 0;i < listUser->getSize();i++){
+        int id = listUser->get(i).getUserId();
+        queryText = "DELETE FROM users WHERE user_id = :id";
+        try{
+            this->query->prepare("SELECT COUNT(borrow_book_id) AS count_borrow FROM borrow_books WHERE deleted_at IS NULL AND user_id = :id");
+            this->query->bindValue(":id", QString::number(id));
+            this->query->exec();
+            this->query->next();
+            if (this->query->value(0).toInt() != 0){
+                qDebug() << "Tai khoan nay con no sach";
+                return i;
+            }
+            this->query->prepare(queryText);
+            this->query->bindValue(":id", QString::number(id));
+            this->query->exec();
+        } catch (...){
+            qDebug() << "Loi CSDL:" <<  this->query->lastError().text();
+            return i;
+        }
+    }
+    return -1;
+}

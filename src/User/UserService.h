@@ -23,6 +23,7 @@ public:
     Listt<User>* findById(int);
     Listt<BorrowBook>* getBorrowBook(int);
     int returnBook(Listt<int>*);
+    int deleteUsers(Listt<User>*);
 
 };
 

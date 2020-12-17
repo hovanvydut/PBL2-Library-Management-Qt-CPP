@@ -43,7 +43,8 @@ SOURCES += main.cpp\
     src/User/User.cpp \
     src/User/UserRepository.cpp \
     src/User/UserService.cpp \
-    src/BorrowBook/BorrowBook.cpp
+    src/BorrowBook/BorrowBook.cpp \
+    manageuser.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -73,10 +74,12 @@ HEADERS  += mainwindow.h \
     src/User/User.h \
     src/User/UserRepository.h \
     src/User/UserService.h \
-    src/BorrowBook/BorrowBook.h
+    src/BorrowBook/BorrowBook.h \
+    manageuser.h
 
 FORMS    += mainwindow.ui \
-    logindialog.ui
+    logindialog.ui \
+    manageuser.ui
 
 DISTFILES += \
     config.txt

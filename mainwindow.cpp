@@ -12,6 +12,7 @@
 #include "src/User/User.h"
 #include "src/User/UserService.h"
 #include <QString>
+#include "manageuser.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -233,7 +234,8 @@ void MainWindow::on_inputUserSearch_returnPressed()
             QStandardItem *gender = new QStandardItem(_gender);
             QStandardItem *email = new QStandardItem(user.getEmail());
             QStandardItem *phone = new QStandardItem(user.getPhone());
-            this->userModel->appendRow( QList<QStandardItem*>() << idCol << nameCol << gender << email << phone);
+            QStandardItem *birthday = new QStandardItem(user.getBirthday().toString("dd/MM/yyyy"));
+            this->userModel->appendRow( QList<QStandardItem*>() << idCol << nameCol << gender << email << phone << birthday);
         }
     } catch(const char* msg) {
         // show dialog instead console log
@@ -369,6 +371,19 @@ void MainWindow::on_btnReturnBook_clicked()
         msgBox->setInformativeText(QString::fromUtf8("Không thể trả sách với ID = ") + QString::number(listId->get(tmp)));
         msgBox->exec();
         return;
+    }
+
+}
+
+void MainWindow::on_menuAdminShowUsers_triggered()
+{
+    ManageUser *manageUser = new ManageUser();
+    manageUser->show();
+    this->hide();
+    if (manageUser->exec() == QDialog::Rejected) {
+       manageUser->close();
+       delete manageUser;
+       this->show();
     }
 
 }

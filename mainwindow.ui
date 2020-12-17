@@ -254,7 +254,7 @@ p, li { white-space: pre-wrap; }
    </widget>
    <widget class="QMenu" name="menuAdmin">
     <property name="title">
-     <string>Admin</string>
+     <string>Quản lí</string>
     </property>
     <addaction name="menuAdminShowBook"/>
     <addaction name="menuAdminShowUsers"/>
@@ -290,11 +290,17 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="menuAdminShowBook">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Thông tin sách</string>
    </property>
   </action>
   <action name="menuAdminShowUsers">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Thông tin nhân viên</string>
    </property>

@@ -43,6 +43,8 @@ private slots:
 
     void on_btnReturnBook_clicked();
 
+    void on_menuAdminShowUsers_triggered();
+
 private:
     Ui::MainWindow *ui;
     void login();

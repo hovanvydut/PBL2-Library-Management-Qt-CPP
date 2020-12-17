@@ -20,6 +20,19 @@ User::User(int userId, QString fullname, QDate birthday, int gender, QString ema
     this->updated_at = updated_at;
 }
 
+User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, int roleId, QString address){
+    this->user_id = userId;
+    this->fullname = fullname;
+    this->birthday = birthday;
+    this->gender = gender;
+    this->email = email;
+    this->phone = phone;
+    this->username = username;
+    this->password = password;
+    this->role_id = roleId;
+    this->address = address;
+}
+
 User::User(int user_id, QString fullname, QDate birthday, int gender, QString phone, QString email){
     this->user_id = user_id;
     this->fullname = fullname;

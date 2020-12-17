@@ -2,8 +2,8 @@ USE LibraryManagement
 CREATE TABLE borrow_books(
 	borrow_book_id INT IDENTITY(1, 1) PRIMARY KEY,
 
-	user_id INT NOT NULL FOREIGN KEY REFERENCES users(user_id),
-	book_id INT NOT NULL FOREIGN KEY REFERENCES books(book_id),
+	user_id INT NOT NULL FOREIGN KEY REFERENCES users(user_id) ON DELETE CASCADE,
+	book_id INT NOT NULL FOREIGN KEY REFERENCES books(book_id) ON DELETE CASCADE,
 
 	quantity INT NOT NULL check(quantity > 0),
 	borrowed_at DATETIME DEFAULT GETDATE(), 

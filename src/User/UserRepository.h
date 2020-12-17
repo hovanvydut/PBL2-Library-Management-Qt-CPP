@@ -27,6 +27,7 @@ public:
     Listt<User>* findExact(QString, QString);
     Listt<BorrowBook>* getBorrowBook(int);
     int returnBook(Listt<int>*);
+    int deleteUsers(Listt<User>*);
 
 
 };
