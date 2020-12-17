@@ -189,3 +189,25 @@ int UserRepository::deleteUsers(Listt<User>* listUser){
     }
     return -1;
 }
+
+void UserRepository::addUser(const User& user) const{
+    QString queryText = "INSERT INTO users(role_id, fullname, birthday, gender, email, phone, username, password, address) "
+                        "VALUES (:role_id, :fullname, :birthday, :gender, :email, :phone, :username, :password, :address)";
+    try{
+        this->query->prepare(queryText);
+        this->query->bindValue(":role_id", QString::number(user.getRoleId()));
+        this->query->bindValue(":fullname", user.getFullname());
+        this->query->bindValue(":birthday", user.getBirthday().toString("dd/MM/yyyy"));
+        this->query->bindValue(":gender", QString::number(user.getGender()));
+        this->query->bindValue(":email", user.getEmail());
+        this->query->bindValue(":phone", user.getPhone());
+        this->query->bindValue(":username", user.getUsername());
+        this->query->bindValue(":password", user.getPassword());
+        this->query->bindValue(":address", user.getAddress());
+        this->query->exec();
+    } catch(...){
+        qDebug() << this->query->lastError().text();
+        throw this->query->lastError().text();
+    }
+
+}

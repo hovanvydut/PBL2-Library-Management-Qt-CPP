@@ -172,3 +172,36 @@ void ManageUser::on_btnDelete_clicked()
 
 
 }
+
+User ManageUser::loadInfo(){
+    int user_id = this->ui->inputID->text() == "" ? -1 : this->ui->inputID->text().toInt();
+    QString fullname = this->ui->inputFullname->text();
+    QDate birthday = this->ui->inputBirthday->date();
+    int gender = this->ui->comboGender->currentIndex();
+    QString phone = this->ui->inputPhone->text();
+    QString email = this->ui->inputEmail->text();
+    int role_id = this->ui->comboRole->currentIndex() + 1;
+    QString username = this->ui->inputUsername->text();
+    QString password = this->ui->inputPassword->text();
+    QString address = this->ui->inputAddress->toPlainText();
+    return User(user_id, fullname, birthday, gender, email, phone, username, password, role_id, address);
+}
+
+void ManageUser::on_btnAdd_clicked()
+{
+    User newUser = this->loadInfo();
+    qDebug() << "Load info done";
+    UserService* userService = UserService::initUserService();
+    try{
+        userService->addUser(newUser);
+    } catch (...){
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+        msgBox->setText(QString::fromUtf8("Không thể tạo tài khoản"));
+        msgBox->setInformativeText(QString::fromUtf8("Vui lòng kiểm tra lại thông tin"));
+        msgBox->exec();
+        return;
+    }
+    this->clearInput();
+
+}

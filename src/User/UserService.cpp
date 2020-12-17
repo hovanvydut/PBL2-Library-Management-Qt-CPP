@@ -53,3 +53,7 @@ int UserService::returnBook(Listt<int>* listId){
 int UserService::deleteUsers(Listt<User>* listUser){
     return this->_userRepository->deleteUsers(listUser);
 }
+
+void UserService::addUser(const User& user){
+    this->_userRepository->addUser(user);
+}

@@ -31,11 +31,14 @@ private slots:
 
     void on_btnDelete_clicked();
 
+    void on_btnAdd_clicked();
+
 private:
     Ui::ManageUser *ui;
     QStandardItemModel *userModel;
     Listt<User>* userList;
     void clearInput();
+    User loadInfo();
 };
 
 #endif // MANAGEUSER_H

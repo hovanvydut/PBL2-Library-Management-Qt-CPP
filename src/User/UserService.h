@@ -24,6 +24,7 @@ public:
     Listt<BorrowBook>* getBorrowBook(int);
     int returnBook(Listt<int>*);
     int deleteUsers(Listt<User>*);
+    void addUser(const User&);
 
 };
 

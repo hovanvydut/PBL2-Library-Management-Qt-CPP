@@ -53,73 +53,73 @@ User::~User()
 }
 
 // getter - setter
-int User::getUserId(){
+int User::getUserId() const{
     return this->user_id;
 }
 void User::setUserId(int user_id){
     this->user_id = user_id;
 }
-QString User::getFullname(){
+QString User::getFullname() const{
     return this->fullname;
 }
 void User::setFullName(QString fullname){
     this->fullname = fullname;
 }
-QDate User::getBirthday(){
+QDate User::getBirthday() const{
     return this->birthday;
 }
 void User::setBirthday(QDate birthday){
     this->birthday = birthday;
 }
-int User::getGender(){
+int User::getGender() const{
     return this->gender;
 }
 void User::setGender(int gender){
     this->gender = gender;
 }
-QString User::getEmail(){
+QString User::getEmail() const{
     return this->email;
 }
 void User::setEmail(QString email){
     this->email = email;
 }
-QString User::getPhone(){
+QString User::getPhone() const{
     return this->phone;
 }
 void User::setPhone(QString phone){
     this->phone = phone;
 }
-QString User::getUsername(){
+QString User::getUsername() const{
     return this->username;
 }
 void User::setUsername(QString username){
     this->username = username;
 }
-QString User::getPassword(){
+QString User::getPassword() const{
     return this->password;
 }
 void User::setPassword(QString password){
     this->password = password;
 }
-int User::getRoleId(){
+int User::getRoleId() const{
     return this->role_id;
 }
 void User::setRoleId(int role_id){
     this->role_id = role_id;
 }
-QString User::getAddress(){
+QString User::getAddress() const{
     return this->address;
 }
 void User::setAddress(QString address){
     this->address = address;
 }
-QDate User::getCreatedAt(){
+QDate User::getCreatedAt() const{
     return this->created_at;
 }
 void User::setCreatedAt(QDate created_at){
     this->created_at = created_at;
 }
-QDate User::getUpdatedAt(){
+QDate User::getUpdatedAt() const{
     return this->updated_at;
 }
 void User::setUpdatedAt(QDate updated_at){
