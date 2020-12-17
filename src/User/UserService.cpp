@@ -45,3 +45,7 @@ Listt<User>* UserService::findById(int id)
 Listt<BorrowBook>* UserService::getBorrowBook(int id){
     return this->_userRepository->getBorrowBook(id);
 }
+
+int UserService::returnBook(Listt<int>* listId){
+    return this->_userRepository->returnBook(listId);
+}

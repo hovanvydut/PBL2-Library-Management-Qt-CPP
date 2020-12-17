@@ -1,5 +1,6 @@
 #include "UserRepository.h"
 #include <QDebug>
+#include <QSqlError>
 
 UserRepository* UserRepository::_userRepository = nullptr;
 
@@ -125,13 +126,13 @@ BorrowBook UserRepository::parseBorrowBook(QSqlQuery * query){
     return BorrowBook(borrow_id, borrowed_at, quantity, book, num_of_day, deposit_money, updated_at_);
 }
 
-Listt<BorrowBook>* UserRepository::getBorrowBook(int id){
+Listt<BorrowBook>* UserRepository::getBorrowBook(int id)
+{
     Listt<BorrowBook>* list = new LinkedListt<BorrowBook>();
 
     QString queryText = "select books.book_id, title, cover_type, price, total, available, publication_date, size, number_of_pages, issuing_company_id, publisher_id, category_id, books.created_at, books.updated_at, books.deleted_at, borrowed_at, quantity, numberOfDay, deposit_money, borrow_books.updated_at as borrow_updated_at, borrow_book_id from borrow_books left join books on borrow_books.book_id = books.book_id"
             " WHERE user_id = " + QString::number(id) + " and borrow_books.deleted_at is null";
     this->query->prepare(queryText);
-    //this->query->bindValue(":id", id);
     this->query->exec();
 
     while(this->query->next())
@@ -140,5 +141,23 @@ Listt<BorrowBook>* UserRepository::getBorrowBook(int id){
     }
 
     return list;
+}
+
+int UserRepository::returnBook(Listt<int>* listId)
+{
+    QString queryText;
+    for (int i = 0;i < listId->getSize();i++){
+        int id = listId->get(i);
+        queryText = "UPDATE borrow_books SET deleted_at = GETDATE() WHERE borrow_book_id = :id";
+        try{
+            this->query->prepare(queryText);
+            this->query->bindValue(":id", QString::number(id));
+            this->query->exec();
+        } catch (...){
+            qDebug() << this->query->lastError().text();
+            return i;
+        }
+    }
+    return -1;
 }
 

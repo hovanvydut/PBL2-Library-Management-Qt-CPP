@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableUsers->setModel(this->userModel);
     this->ui->tableBooks->setModel(this->bookModel);
     this->ui->tableSeletedBooks->setModel(this->selectedBookModel);
+    this->mode = 0;
 }
 
 
@@ -260,6 +261,7 @@ void MainWindow::on_tableUsers_doubleClicked(const QModelIndex &index)
 
 void MainWindow::on_btnAllBorrowBook_clicked()
 {
+    this->mode = 1;
     UserService* userService = UserService::initUserService();
     if (this->selectedUser == NULL){
         QMessageBox *msgBox = new QMessageBox(0);
@@ -334,4 +336,39 @@ void MainWindow::on_tableSeletedBooks_doubleClicked(const QModelIndex &index)
     }
     this->bookModel->appendRow(row);
     this->selectedBookModel->removeRow(index.row());
+}
+
+void MainWindow::on_btnReturnBook_clicked()
+{
+    if (this->mode != 1 || this->selectedBookModel->rowCount() == 0){
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+        msgBox->setText(QString::fromUtf8("Chưa tải danh sách sách đã mượn"));
+        msgBox->setInformativeText(QString::fromUtf8("Vui lòng chọn tài khoản và chọn sách cần trả"));
+        msgBox->exec();
+        return;
+    }
+    UserService* userService = UserService::initUserService();
+    Listt<int> *listId = new LinkedListt<int>;
+    for (int i = 0;i < this->selectedBookModel->rowCount();i++){
+        int id = this->selectedBookModel->item(i)->text().toInt();
+        listId->add(id);
+    }
+    int result = userService->returnBook(listId);
+    int tmp = result;
+    if (result == -1){
+        this->selectedBookModel->clear();
+    } else {
+        while (result > 0){
+            result--;
+            this->selectedBookModel->removeRow(0);
+        }
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+        msgBox->setText(QString::fromUtf8("Đã xảy ra lỗi"));
+        msgBox->setInformativeText(QString::fromUtf8("Không thể trả sách với ID = ") + QString::number(listId->get(tmp)));
+        msgBox->exec();
+        return;
+    }
+
 }

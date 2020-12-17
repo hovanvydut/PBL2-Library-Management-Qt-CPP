@@ -26,6 +26,7 @@ public:
     Listt<User>* findContain(QString, QString);
     Listt<User>* findExact(QString, QString);
     Listt<BorrowBook>* getBorrowBook(int);
+    int returnBook(Listt<int>*);
 
 
 };

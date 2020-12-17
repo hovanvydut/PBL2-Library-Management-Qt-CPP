@@ -41,6 +41,8 @@ private slots:
 
     void on_tableSeletedBooks_doubleClicked(const QModelIndex &index);
 
+    void on_btnReturnBook_clicked();
+
 private:
     Ui::MainWindow *ui;
     void login();
@@ -48,7 +50,7 @@ private:
     QStandardItemModel *userModel;
     QStandardItemModel *bookModel;
     QStandardItemModel *selectedBookModel;
-
+    int mode; // = 0 if borrow else = 1 if return book
 };
 
 #endif // MAINWINDOW_H

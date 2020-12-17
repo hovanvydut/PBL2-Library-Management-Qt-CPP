@@ -22,6 +22,7 @@ public:
     Listt<User>* findByPhone(QString);
     Listt<User>* findById(int);
     Listt<BorrowBook>* getBorrowBook(int);
+    int returnBook(Listt<int>*);
 
 };
 
