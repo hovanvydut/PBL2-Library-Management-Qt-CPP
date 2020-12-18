@@ -132,7 +132,7 @@ Listt<Book>* BookRepository::findAll()
     Listt<Book>* list = new LinkedListt<Book>();
 
     // default query conditions
-    int limit = 7;
+    int limit = 100;
     int offsetId = 0;
 
     this->query->prepare(
