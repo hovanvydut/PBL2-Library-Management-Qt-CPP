@@ -57,3 +57,7 @@ int UserService::deleteUsers(Listt<User>* listUser){
 void UserService::addUser(const User& user){
     this->_userRepository->addUser(user);
 }
+
+void UserService::updateUser(const User& user){
+    this->_userRepository->updateUser(user);
+}

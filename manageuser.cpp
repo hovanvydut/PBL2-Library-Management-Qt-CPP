@@ -13,6 +13,9 @@ ManageUser::ManageUser(QWidget *parent) :
     this->ui->tableUser->setModel(this->userModel);
     this->ui->tableUser->setEditTriggers(QAbstractItemView::NoEditTriggers);
     this->ui->btnAdd->setAutoDefault(false);
+    this->ui->btnUpdate->setAutoDefault(false);
+    this->ui->btnDelete->setAutoDefault(false);
+    this->ui->btnReset->setAutoDefault(false);
 }
 
 ManageUser::~ManageUser()
@@ -217,6 +220,44 @@ void ManageUser::on_btnAdd_clicked()
     }
     this->clearInput();
     this->ui->inputSearch->setText(newUser.getFullname());
+    this->ui->radioFullanme->setChecked(true);
+    this->on_btnSearch_clicked();
+
+}
+
+void ManageUser::on_btnUpdate_clicked()
+{
+    if (this->ui->inputID->text() == ""){
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+        msgBox->setText(QString::fromUtf8("Bạn chưa chọn tài khoản cần cập nhật"));
+        msgBox->setInformativeText(QString::fromUtf8("Vui lòng chọn tài khoản cần cập nhật"));
+        msgBox->exec();
+        return;
+    }
+
+    User user = this->loadInfo();
+    UserService* userService = UserService::initUserService();
+    try{
+        userService->updateUser(user);
+    } catch (QString &error){
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+        msgBox->setText(QString::fromUtf8("Đã xảy ra lỗi"));
+        msgBox->setInformativeText(error);
+        msgBox->exec();
+        return;
+    } catch (...){
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+        msgBox->setText(QString::fromUtf8("Đã xảy ra lỗi"));
+        msgBox->setInformativeText("Lỗi không xác định");
+        msgBox->exec();
+        return;
+    }
+
+    this->clearInput();
+    this->ui->inputSearch->setText(user.getFullname());
     this->ui->radioFullanme->setChecked(true);
     this->on_btnSearch_clicked();
 

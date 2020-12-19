@@ -33,6 +33,8 @@ private slots:
 
     void on_btnAdd_clicked();
 
+    void on_btnUpdate_clicked();
+
 private:
     Ui::ManageUser *ui;
     QStandardItemModel *userModel;

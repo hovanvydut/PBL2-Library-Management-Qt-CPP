@@ -28,7 +28,9 @@ public:
     int returnBook(Listt<int>*);
     int deleteUsers(Listt<User>*);
     void addUser(const User&);
-    void validateBeforeIsert(const User&);
+    void validateBeforeInsert(const User&);
+    void updateUser(const User&);
+    void validateBeforeUpdate(const User&);
 
 
 };

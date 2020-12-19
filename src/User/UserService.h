@@ -25,6 +25,7 @@ public:
     int returnBook(Listt<int>*);
     int deleteUsers(Listt<User>*);
     void addUser(const User&);
+    void updateUser(const User&);
 
 };
 

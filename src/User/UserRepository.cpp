@@ -193,7 +193,7 @@ int UserRepository::deleteUsers(Listt<User>* listUser){
 
 void UserRepository::addUser(const User& user){
 
-    this->validateBeforeIsert(user);
+    this->validateBeforeInsert(user);
 
     QString queryText = "INSERT INTO users(role_id, fullname, birthday, gender, email, phone, username, password, address) "
                         "VALUES (:role_id, :fullname, :birthday, :gender, :email, :phone, :username, :password, :address)";
@@ -218,7 +218,7 @@ void UserRepository::addUser(const User& user){
 
 }
 
-void UserRepository::validateBeforeIsert(const User& user){
+void UserRepository::validateBeforeInsert(const User& user){
     QRegExp specialChar("[!@#$%^&()_+]");
     QRegExp number("[0-9]");
     QRegExp email("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}");
@@ -272,5 +272,91 @@ void UserRepository::validateBeforeIsert(const User& user){
         this->query->exec();
         while (this->query->next()) count++;
         if (count != 0) throw QString::fromUtf8("Tên tài khoản đã được sử dụng");
+    }
+}
+
+void UserRepository::validateBeforeUpdate(const User& user){
+    QRegExp specialChar("[!@#$%^&()_+]");
+    QRegExp number("[0-9]");
+    QRegExp email("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}");
+    QRegExp alpha("[a-zA-z]+");
+
+    // fullname
+    if (user.getFullname() == "") throw QString::fromUtf8("Vui lòng nhập họ và tên");
+    if (user.getFullname().count(number) != 0 || user.getFullname().count(specialChar)) throw QString::fromUtf8("Họ và tên chỉ được phép chứa chữ cái");
+    // phone
+    if (user.getPhone() == "") throw QString::fromUtf8("Vui lòng nhập số điện thoại");
+    if (!(user.getPhone().length() >= 6 && user.getPhone().length() <= 11)) throw QString::fromUtf8("Số điện thoại không hợp lệ");
+    if (user.getPhone().count(number) != user.getPhone().length()) throw QString::fromUtf8("Số điện thoại chỉ chứa chữ số");
+    // gender - role
+    if (!(user.getGender() >= 0 && user.getGender() <= 2)) throw QString::fromUtf8("Giới tính không hợp lệ");
+    if (!(user.getRoleId() >= 1 && user.getGender() <= 4)) throw QString::fromUtf8("Quyền không hợp lệ");
+    // email
+    if (user.getEmail() != ""){
+        if (!email.exactMatch(user.getEmail())) throw QString::fromUtf8("Email không hợp lệ");
+    }
+    // usr + pwd
+    if (user.getRoleId() != 4){
+        if (user.getUsername().length() < 5) throw QString::fromUtf8("Tên đăng nhập phải từ 5 kí tự");
+        if (user.getPassword().length() < 10) throw QString::fromUtf8("Mật khẩu phải từ 10 kí tự");
+    }
+    // validate in database
+    QString queryText;
+    // check if phone exist
+    queryText = "SELECT * FROM users WHERE phone = :phone AND user_id != :user_id";
+    this->query->prepare(queryText);
+    this->query->bindValue(":phone", user.getPhone());
+    this->query->bindValue(":user_id", QString::number(user.getUserId()));
+    this->query->exec();
+    int count = 0;
+    while (this->query->next()) count++;
+    if (count != 0) throw QString::fromUtf8("Số điện thoại đã được sử dụng");
+    // check if email exist
+    if (user.getEmail() != ""){
+        count = 0;
+        queryText = "SELECT * FROM users WHERE email = :email AND user_id != :user_id";
+        this->query->prepare(queryText);
+        this->query->bindValue(":email", user.getEmail());
+        this->query->bindValue(":user_id", QString::number(user.getUserId()));
+        this->query->exec();
+        while (this->query->next()) count++;
+        if (count != 0) throw QString::fromUtf8("Email đã được sử dụng");
+    }
+    // check if username exist
+    if (user.getRoleId() != 4){
+        count = 0;
+        queryText = "SELECT * FROM users WHERE username = :username AND user_id != :user_id";
+        this->query->prepare(queryText);
+        this->query->bindValue(":username", user.getUsername());
+        this->query->bindValue(":user_id", QString::number(user.getUserId()));
+        this->query->exec();
+        while (this->query->next()) count++;
+        if (count != 0) throw QString::fromUtf8("Tên tài khoản đã được sử dụng");
+    }
+}
+
+void UserRepository::updateUser(const User& user){
+    this->validateBeforeUpdate(user);
+
+    QString queryText = "UPDATE users "
+                        "SET role_id = :role_id, fullname = :fullname, birthday = :birthday, gender = :gender, email = :email, phone = :phone, username = :username, password = :password, address = :address "
+                        "WHERE user_id = :user_id";
+    try{
+        this->query->prepare(queryText);
+        this->query->bindValue(":role_id", QString::number(user.getRoleId()));
+        this->query->bindValue(":fullname", user.getFullname());
+        this->query->bindValue(":birthday", user.getBirthday().toString("dd/MM/yyyy"));
+        this->query->bindValue(":gender", QString::number(user.getGender()));
+        this->query->bindValue(":email", user.getEmail());
+        this->query->bindValue(":phone", user.getPhone());
+        this->query->bindValue(":username", user.getUsername());
+        this->query->bindValue(":password", user.getPassword());
+        this->query->bindValue(":address", user.getAddress());
+        this->query->bindValue(":user_id", user.getUserId());
+        this->query->exec();
+        if (this->query->lastError().isValid()) throw QString::fromUtf8("Lỗi cơ sở dữ liệu");
+    } catch(...){
+        qDebug() << this->query->lastError().text();
+        throw this->query->lastError().text();
     }
 }
