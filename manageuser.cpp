@@ -12,6 +12,7 @@ ManageUser::ManageUser(QWidget *parent) :
     this->userModel = new QStandardItemModel();
     this->ui->tableUser->setModel(this->userModel);
     this->ui->tableUser->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->ui->btnAdd->setAutoDefault(false);
 }
 
 ManageUser::~ManageUser()
@@ -184,16 +185,28 @@ User ManageUser::loadInfo(){
     QString username = this->ui->inputUsername->text();
     QString password = this->ui->inputPassword->text();
     QString address = this->ui->inputAddress->toPlainText();
-    return User(user_id, fullname, birthday, gender, email, phone, username, password, role_id, address);
+
+    User user(user_id, fullname, birthday, gender, email, phone, username, password, role_id, address);
+    if (user.getRoleId() == 4){
+        user.setUsername(user.getPhone());
+        user.setPassword("defaultPassword");
+    }
+    return user;
 }
 
 void ManageUser::on_btnAdd_clicked()
 {
     User newUser = this->loadInfo();
-    qDebug() << "Load info done";
     UserService* userService = UserService::initUserService();
     try{
         userService->addUser(newUser);
+    } catch (QString &error){
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+        msgBox->setText(QString::fromUtf8("Không thể tạo tài khoản"));
+        msgBox->setInformativeText(error);
+        msgBox->exec();
+        return;
     } catch (...){
         QMessageBox *msgBox = new QMessageBox(0);
         msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
@@ -203,5 +216,8 @@ void ManageUser::on_btnAdd_clicked()
         return;
     }
     this->clearInput();
+    this->ui->inputSearch->setText(newUser.getFullname());
+    this->ui->radioFullanme->setChecked(true);
+    this->on_btnSearch_clicked();
 
 }

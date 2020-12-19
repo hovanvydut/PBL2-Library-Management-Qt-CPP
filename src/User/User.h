@@ -2,6 +2,7 @@
 #define USER_H
 #include <QDate>
 #include <QString>
+#pragma once
 #include "utils/Comparable/Comparable.h"
 #include "src/BorrowBook/BorrowBook.h"
 

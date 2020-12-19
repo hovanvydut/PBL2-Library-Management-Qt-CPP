@@ -4,6 +4,7 @@
 #include <QDate>
 #include <QString>
 #include "src/Book/Book.h"
+#pragma once
 #include "utils/Comparable/Comparable.h"
 
 class BorrowBook: public Comparable<BorrowBook>
