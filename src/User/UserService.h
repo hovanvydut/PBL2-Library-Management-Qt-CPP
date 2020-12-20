@@ -19,6 +19,7 @@ public:
     ~UserService();
     Listt<User>* findAll();
     Listt<User>* findByFullname(QString);
+    Listt<User>* findByUsername(QString);
     Listt<User>* findByPhone(QString);
     Listt<User>* findById(int);
     Listt<BorrowBook>* getBorrowBook(int);

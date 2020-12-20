@@ -4,7 +4,8 @@
 #include <QMessageBox>
 #include <QAbstractItemView>
 
-ManageUser::ManageUser(QWidget *parent) :
+
+ManageUser::ManageUser(QWidget *parent, User *sessionUser) :
     QDialog(parent),
     ui(new Ui::ManageUser)
 {
@@ -16,6 +17,8 @@ ManageUser::ManageUser(QWidget *parent) :
     this->ui->btnUpdate->setAutoDefault(false);
     this->ui->btnDelete->setAutoDefault(false);
     this->ui->btnReset->setAutoDefault(false);
+    this->sessionUser = sessionUser;
+
 }
 
 ManageUser::~ManageUser()
@@ -92,7 +95,6 @@ void ManageUser::on_tableUser_doubleClicked(const QModelIndex &index)
     this->ui->inputEmail->setText(user.getEmail());
     this->ui->inputAddress->setText(user.getAddress());
     this->ui->inputID->setText(QString::number(user.getUserId()));
-    this->ui->inputPassword->setText(user.getPassword());
     this->ui->inputPhone->setText(user.getPhone());
     this->ui->inputUsername->setText(user.getUsername());
     this->ui->comboGender->setCurrentIndex(user.getGender());
@@ -190,9 +192,15 @@ User ManageUser::loadInfo(){
     QString address = this->ui->inputAddress->toPlainText();
 
     User user(user_id, fullname, birthday, gender, email, phone, username, password, role_id, address);
+    // if guest -> set username and password to default
     if (user.getRoleId() == 4){
         user.setUsername(user.getPhone());
         user.setPassword("defaultPassword");
+    } else {
+    // if update -> check if update password
+        if (user.getUserId() != -1 && password == ""){
+            user.setPassword("defaultPassword");
+        }
     }
     return user;
 }
@@ -200,6 +208,16 @@ User ManageUser::loadInfo(){
 void ManageUser::on_btnAdd_clicked()
 {
     User newUser = this->loadInfo();
+
+    if (newUser.getRoleId() <= this->sessionUser->getRoleId()){
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+        msgBox->setText(QString::fromUtf8("Truy cập bị từ chối"));
+        msgBox->setInformativeText(QString::fromUtf8("Bạn không có quyền thêm tài khoản cấp cao hơn"));
+        msgBox->exec();
+        return;
+    }
+
     UserService* userService = UserService::initUserService();
     try{
         userService->addUser(newUser);
@@ -237,6 +255,16 @@ void ManageUser::on_btnUpdate_clicked()
     }
 
     User user = this->loadInfo();
+
+    if (user.getRoleId() <= this->sessionUser->getRoleId()){
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+        msgBox->setText(QString::fromUtf8("Truy cập bị từ chối"));
+        msgBox->setInformativeText(QString::fromUtf8("Bạn không có quyền cập nhật tài khoản cấp cao hơn"));
+        msgBox->exec();
+        return;
+    }
+
     UserService* userService = UserService::initUserService();
     try{
         userService->updateUser(user);

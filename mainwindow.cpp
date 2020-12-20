@@ -32,18 +32,21 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::showAndLogin(){
     QMainWindow::show();
     this->login();
-    //this->loginDialog = new LoginDialog(this);
-    //this->loginDialog->show();
 }
 
 void MainWindow::login(){
     LoginDialog *login = new LoginDialog();
     login->show();
     this->hide();
-    if (login->exec() == QDialog::Accepted) {
-       qDebug() << login->getUserID();
+    int result = login->exec();
+    if (result == QDialog::Accepted) {
+       this->sessionUser = new User(login->getUser());
+       this->setWindowTitle(QString::fromUtf8("Quán lí thư viện - ") + this->sessionUser->getFullname());
        delete login;
        this->show();
+    } else {
+        delete login;
+        this->close();
     }
 }
 
@@ -377,7 +380,7 @@ void MainWindow::on_btnReturnBook_clicked()
 
 void MainWindow::on_menuAdminShowUsers_triggered()
 {
-    ManageUser *manageUser = new ManageUser();
+    ManageUser *manageUser = new ManageUser(NULL, this->sessionUser);
     manageUser->show();
     this->hide();
     if (manageUser->exec() == QDialog::Rejected) {
@@ -386,4 +389,10 @@ void MainWindow::on_menuAdminShowUsers_triggered()
        this->show();
     }
 
+}
+
+void MainWindow::on_menuLogout_triggered()
+{
+    this->sessionUser = NULL;
+    this->login();
 }

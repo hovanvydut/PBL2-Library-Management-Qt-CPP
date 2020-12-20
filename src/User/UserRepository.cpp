@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QRegExp>
+#include "utils/Auth/Password.h"
 
 UserRepository* UserRepository::_userRepository = nullptr;
 
@@ -198,6 +199,10 @@ void UserRepository::addUser(const User& user){
     QString queryText = "INSERT INTO users(role_id, fullname, birthday, gender, email, phone, username, password, address) "
                         "VALUES (:role_id, :fullname, :birthday, :gender, :email, :phone, :username, :password, :address)";
     try{
+
+        //Hash password
+        Password pwd(user.getPassword());
+        //Query
         this->query->prepare(queryText);
         this->query->bindValue(":role_id", QString::number(user.getRoleId()));
         this->query->bindValue(":fullname", user.getFullname());
@@ -206,7 +211,7 @@ void UserRepository::addUser(const User& user){
         this->query->bindValue(":email", user.getEmail());
         this->query->bindValue(":phone", user.getPhone());
         this->query->bindValue(":username", user.getUsername());
-        this->query->bindValue(":password", user.getPassword());
+        this->query->bindValue(":password", pwd.hashMd5());
         this->query->bindValue(":address", user.getAddress());
         this->query->exec();
         if (this->query->lastError().isValid()) throw QString::fromUtf8("Lỗi cơ sở dữ liệu");
@@ -214,7 +219,6 @@ void UserRepository::addUser(const User& user){
         qDebug() << this->query->lastError().text();
         throw this->query->lastError().text();
     }
-    qDebug() << "Tao tai khoan xong";
 
 }
 
@@ -339,8 +343,13 @@ void UserRepository::updateUser(const User& user){
     this->validateBeforeUpdate(user);
 
     QString queryText = "UPDATE users "
-                        "SET role_id = :role_id, fullname = :fullname, birthday = :birthday, gender = :gender, email = :email, phone = :phone, username = :username, password = :password, address = :address "
-                        "WHERE user_id = :user_id";
+                        "SET role_id = :role_id, fullname = :fullname, birthday = :birthday, gender = :gender, email = :email, phone = :phone, username = :username, address = :address";
+
+    // check if have new password
+    if (user.getPassword() != "defaultPassword"){
+        queryText += ", password = :password";
+    }
+    queryText += " WHERE user_id = :user_id";
     try{
         this->query->prepare(queryText);
         this->query->bindValue(":role_id", QString::number(user.getRoleId()));
@@ -350,7 +359,10 @@ void UserRepository::updateUser(const User& user){
         this->query->bindValue(":email", user.getEmail());
         this->query->bindValue(":phone", user.getPhone());
         this->query->bindValue(":username", user.getUsername());
-        this->query->bindValue(":password", user.getPassword());
+        if (user.getPassword() != "defaultPassword"){
+            Password pwd(user.getPassword());
+            this->query->bindValue(":password", pwd.hashMd5());
+        }
         this->query->bindValue(":address", user.getAddress());
         this->query->bindValue(":user_id", user.getUserId());
         this->query->exec();

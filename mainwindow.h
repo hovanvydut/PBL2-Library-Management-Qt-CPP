@@ -45,9 +45,12 @@ private slots:
 
     void on_menuAdminShowUsers_triggered();
 
+    void on_menuLogout_triggered();
+
 private:
     Ui::MainWindow *ui;
     void login();
+    User *sessionUser;
     User *selectedUser;
     QStandardItemModel *userModel;
     QStandardItemModel *bookModel;

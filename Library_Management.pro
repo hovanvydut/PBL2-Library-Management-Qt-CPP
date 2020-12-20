@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     src/User/UserService.cpp \
     src/BorrowBook/BorrowBook.cpp \
     manageuser.cpp \
-    managebook.cpp
+    managebook.cpp \
+    utils/Auth/Password.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -77,7 +78,8 @@ HEADERS  += mainwindow.h \
     src/User/UserService.h \
     src/BorrowBook/BorrowBook.h \
     manageuser.h \
-    managebook.h
+    managebook.h \
+    utils/Auth/Password.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \

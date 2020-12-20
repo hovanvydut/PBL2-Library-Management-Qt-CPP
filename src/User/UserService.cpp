@@ -42,6 +42,11 @@ Listt<User>* UserService::findById(int id)
     return this->_userRepository->findExact("user_id", QString::number(id));
 }
 
+Listt<User>* UserService::findByUsername(QString username)
+{
+    return this->_userRepository->findExact("username", username);
+}
+
 Listt<BorrowBook>* UserService::getBorrowBook(int id){
     return this->_userRepository->getBorrowBook(id);
 }

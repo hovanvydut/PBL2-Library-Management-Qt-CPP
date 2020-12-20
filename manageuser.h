@@ -15,7 +15,7 @@ class ManageUser : public QDialog
     Q_OBJECT
 
 public:
-    explicit ManageUser(QWidget *parent = 0);
+    explicit ManageUser(QWidget *parent = 0, User *sessionUser = 0);
     ~ManageUser();
 
 private slots:
@@ -41,6 +41,7 @@ private:
     Listt<User>* userList;
     void clearInput();
     User loadInfo();
+    User *sessionUser;
 };
 
 #endif // MANAGEUSER_H

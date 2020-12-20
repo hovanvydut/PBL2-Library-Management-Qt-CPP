@@ -18,7 +18,7 @@ CREATE TABLE users (
 	email VARCHAR(100),
 	phone VARCHAR(11),
 	username VARCHAR(20) check(LEN(username) > 5),
-	password VARCHAR(20) check(LEN(password) > 10),
+	password VARCHAR(32) check(LEN(password) > 10),
 	address NVARCHAR(200),
 	created_at DATETIME DEFAULT GETDATE(),
 	updated_at DATETIME ,
