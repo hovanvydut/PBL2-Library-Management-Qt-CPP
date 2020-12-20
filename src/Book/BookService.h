@@ -19,6 +19,7 @@ public:
     Listt<Book>* findAll();
     Book findById(int id);
     Listt<Book>* findByBookTitle(QString title);
+    Listt<Book>* findByBookTitle2(QString title);
 };
 
 #endif // BOOKSERVICE_H

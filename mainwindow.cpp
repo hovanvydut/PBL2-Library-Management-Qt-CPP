@@ -13,6 +13,7 @@
 #include "src/User/UserService.h"
 #include <QString>
 #include "manageuser.h"
+#include "managebook.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -386,4 +387,17 @@ void MainWindow::on_menuAdminShowUsers_triggered()
        this->show();
     }
 
+}
+
+// Show dialog Chức năng quản lý sách
+void MainWindow::on_menuAdminShowBook_triggered()
+{
+    managebook *manageBook = new managebook();
+    manageBook->show();
+    this->hide();
+    if (manageBook->exec() == QDialog::Rejected) {
+       manageBook->close();
+       delete manageBook;
+       this->show();
+    }
 }

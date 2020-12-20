@@ -45,6 +45,8 @@ private slots:
 
     void on_menuAdminShowUsers_triggered();
 
+    void on_menuAdminShowBook_triggered();
+
 private:
     Ui::MainWindow *ui;
     void login();

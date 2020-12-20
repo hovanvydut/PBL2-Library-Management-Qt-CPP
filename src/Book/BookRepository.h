@@ -19,10 +19,12 @@ private:
 public:
     static BookRepository* initBookRepository();
     ~BookRepository();
-    Book parse(QSqlQuery *);
     Listt<Book>* findAll();
     Book findById(int id);
     Listt<Book>* findByBookTitle(QString title);
+    Listt<Book>* findByBookTitle2(QString title);
+    Book parse(QSqlQuery *);
+    Book parse2(QSqlQuery *);
 };
 
 #endif // BOOKREPOSITORY_H

@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     src/User/UserService.cpp \
     src/BorrowBook/BorrowBook.cpp \
     manageuser.cpp \
-    managebook.cpp
+    managebook.cpp \
+    ui_component/edit_book/ChangeBookPublisher.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -77,12 +78,14 @@ HEADERS  += mainwindow.h \
     src/User/UserService.h \
     src/BorrowBook/BorrowBook.h \
     manageuser.h \
-    managebook.h
+    managebook.h \
+    ui_component/edit_book/ChangeBookPublisher.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \
     manageuser.ui \
-    managebook.ui
+    managebook.ui \
+    ui_component/edit_book/changebookpublisher.ui
 
 DISTFILES += \
     config.txt
