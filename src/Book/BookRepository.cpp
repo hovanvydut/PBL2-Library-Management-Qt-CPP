@@ -50,7 +50,7 @@ Book BookRepository::findById(int id)
 {
     this->query->prepare(
                 "SELECT book_id, title, cover_type, price, total, available, publication_date, size, number_of_pages, issuing_company_id, publisher_id, category_id, created_at, updated_at, deleted_at "
-                "FROM books WHERE book_id = (:id)"
+                "FROM books WHERE book_id = (:id) and deleted_at IS NULL"
                 );
     this->query->bindValue(":id", id);
     this->query->exec();
@@ -62,7 +62,7 @@ Listt<Book>* BookRepository::findByBookTitle(QString title)
 {
     Listt<Book>* list = new LinkedListt<Book>();
 
-    QString queryStatement = "SELECT book_id, title, cover_type, price, total, available, publication_date, size, number_of_pages, issuing_company_id, publisher_id, category_id, created_at, updated_at, deleted_at FROM books WHERE UPPER(title) LIKE UPPER('%" + title + "%')";
+    QString queryStatement = "SELECT book_id, title, cover_type, price, total, available, publication_date, size, number_of_pages, issuing_company_id, publisher_id, category_id, created_at, updated_at, deleted_at FROM books WHERE UPPER(title) LIKE UPPER('%" + title + "%') and deleted_at IS NULL";
     this->query->prepare(queryStatement);
     this->query->bindValue(":title", title);
 
@@ -87,7 +87,7 @@ Listt<Book>* BookRepository::findByBookTitle2(QString title)
         "LEFT OUTER JOIN publishers AS P ON P.publisher_id = B.publisher_id "
         "LEFT OUTER JOIN issuing_company AS I ON I.issuing_company_id = B.issuing_company_id "
         "LEFT OUTER JOIN categories AS C ON C.categories_id = B.category_id "
-        "WHERE UPPER(B.title) LIKE UPPER('%" + title + "%')"
+        "WHERE UPPER(B.title) LIKE UPPER('%" + title + "%') and B.deleted_at IS NULL"
                          );
     this->query->bindValue(":title", title);
 
@@ -98,6 +98,53 @@ Listt<Book>* BookRepository::findByBookTitle2(QString title)
     }
 
     return list;
+}
+
+bool BookRepository::updateBook(Book book)
+{
+    if (book.getId() >= 0) {
+        QString title = book.getTitle();
+        QString coverType = book.getCoverType();
+        QString price = QString::number(book.getPrice());
+        QString total = QString::number(book.getTotal());
+        QString available = QString::number(book.getAvailable());
+        QString publicationDate = book.getPublicationDate().toString(Qt::ISODate);
+        QString size = book.getSize();
+        QString number_of_pages = QString::number(book.getNumberOfPages());
+        QString issuing_company_id = QString::number(book.getIssuingCompanyId());
+        QString publisher_id = QString::number(book.getPublisherId());
+        QString category_id = QString::number(book.getCategoryId());
+        QString created_at = book.getCreatedAt().toString(Qt::ISODate);
+        QString updated_at = book.getUpdatedAt().toString(Qt::ISODate);
+
+        QString deleted_at = "NULL";
+        if (!book.getDeletedAt().isNull()) {
+            deleted_at = "'" + book.getDeletedAt().toString(Qt::ISODate) + "'";
+        }
+        QString id = QString::number(book.getId());
+
+        qDebug() << title;
+
+        this->query->prepare("UPDATE books"
+                             " SET title = '" + title +
+                             "', cover_type = '" + coverType +
+                             "', price = " + price +
+                             " , total = '" + total +
+                             "', available = '" + available +
+                             "', publication_date = '" + publicationDate +
+                             "', size = '" + size +
+                             "', number_of_pages = " + number_of_pages +
+                             " , issuing_company_id = " + issuing_company_id +
+                             " , publisher_id = " + publisher_id +
+                             " , category_id = " + category_id +
+                             " , created_at = '" + created_at +
+                             "', updated_at = '" + updated_at +
+                             "', deleted_at = " + deleted_at +
+                             " WHERE book_id = " + id);
+        this->query->exec();
+        return true;
+    }
+    return false;
 }
 
 Book BookRepository::parse(QSqlQuery *query)

@@ -74,6 +74,15 @@ public:
 
     QDate getDeletedAt() const;
 
+    int getIssuingCompanyId();
+    int setIssuingCompanyId(int id);
+
+    int getPublisherId();
+    int setPublisherId(int id);
+
+    int getCategoryId();
+    int setCategoryId(int id);
+
     Category* getCategory();
     Category* setCategory(Category*);
 

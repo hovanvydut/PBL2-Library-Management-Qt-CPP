@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     src/BorrowBook/BorrowBook.cpp \
     manageuser.cpp \
     managebook.cpp \
-    ui_component/edit_book/ChangeBookPublisher.cpp
+    ui_component/edit_book/ChangeBookPublisher.cpp \
+    ui_component/edit_book/BridgeManageBookUpdateProp.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -79,7 +80,8 @@ HEADERS  += mainwindow.h \
     src/BorrowBook/BorrowBook.h \
     manageuser.h \
     managebook.h \
-    ui_component/edit_book/ChangeBookPublisher.h
+    ui_component/edit_book/ChangeBookPublisher.h \
+    ui_component/edit_book/BridgeManageBookUpdateProp.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \

@@ -22,6 +22,7 @@ public:
         virtual void show() = 0;
         virtual const E set(const int &, const E) = 0;
         virtual void sort(bool (*compare)(const E, const E)) = 0;
+
     // virtual static bool compareASC(const E &, const E &) = 0;
     // virtual static bool compareDESC(const E &, const E &) = 0;
     // virtual bool equals(Listt<E>* o) = 0;

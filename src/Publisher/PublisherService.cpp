@@ -27,3 +27,7 @@ Listt<Publisher>* PublisherService::findAll()
     return this->_publisherRepository->findAll();
 }
 
+Listt<Publisher>* PublisherService::findByName(QString name)
+{
+    return this->_publisherRepository->findByName(name);
+}

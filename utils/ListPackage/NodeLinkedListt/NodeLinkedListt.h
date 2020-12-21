@@ -25,6 +25,13 @@ public:
     bool setPreviousNode(NodeLinkedListt *);
     const E getData();
     const E setData(const E);
+
+    template<typename T>
+    struct is_pointer { static const bool value = false; };
+
+    template<typename T>
+    struct is_pointer<T*> { static const bool value = true; };
+
     //    template <class T> friend std::ostream &operator<<(std::ostream &, const NodeLinkedListt<T> &);
     //    template <class T> friend std::ostream &operator<<(std::ostream &, const NodeLinkedListt<T> *);
 };
@@ -40,6 +47,10 @@ NodeLinkedListt<E>::NodeLinkedListt(const E data)
 template <class E>
 NodeLinkedListt<E>::~NodeLinkedListt()
 {
+    if (is_pointer<E>::value)
+    {
+//        delete this->data;
+    }
 }
 
 template <class E>

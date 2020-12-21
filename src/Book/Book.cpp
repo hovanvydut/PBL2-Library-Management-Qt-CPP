@@ -3,7 +3,7 @@
 
 Book::Book()
 {
-
+    this->book_id = -1;
 }
 
 Book::Book(int book_id, QString title, QString cover_type, float price,
@@ -169,6 +169,7 @@ Category* Book::setCategory(Category* category)
 {
     Category* oldValue = this->category;
     this->category = category;
+    this->category_id = category->getId();
     return oldValue;
 }
 
@@ -181,6 +182,7 @@ IssuingCompany* Book::setIssuingCompany(IssuingCompany* issuingCompany)
 {
     IssuingCompany* oldValue = this->issuingCompany;
     this->issuingCompany = issuingCompany;
+    this->issuing_company_id = issuingCompany->getId();
     return oldValue;
 }
 
@@ -193,6 +195,7 @@ Publisher* Book::setPublisher(Publisher* publisher)
 {
     Publisher* oldValue = this->publisher;
     this->publisher = publisher;
+    this->publisher_id = publisher->getId();
     return oldValue;
 }
 
@@ -209,4 +212,40 @@ bool Book::addAuthor(Author author)
 bool Book::operator == (const Book& book) const
 {
     return (this->getId() == book.getId());
+}
+
+int Book::getIssuingCompanyId()
+{
+    return this->issuing_company_id;
+}
+
+int Book::setIssuingCompanyId(int id)
+{
+    int oldValue = this->issuing_company_id;
+    this->issuing_company_id = id;
+    return oldValue;
+}
+
+int Book::getPublisherId()
+{
+    return this->publisher_id;
+}
+
+int Book::setPublisherId(int id)
+{
+    int oldValue = this->publisher_id;
+    this->publisher_id = id;
+    return oldValue;
+}
+
+int Book::getCategoryId()
+{
+    return this->category_id;
+}
+
+int Book::setCategoryId(int id)
+{
+    int oldValue = this->category_id;
+    this->category_id = id;
+    return oldValue;
 }

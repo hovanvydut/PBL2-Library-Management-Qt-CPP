@@ -20,6 +20,7 @@ public:
     Book findById(int id);
     Listt<Book>* findByBookTitle(QString title);
     Listt<Book>* findByBookTitle2(QString title);
+    bool updateBook(Book book);
 };
 
 #endif // BOOKSERVICE_H

@@ -37,14 +37,30 @@ Listt<Publisher>* PublisherRepository::findAll()
     Listt<Publisher>* list = new LinkedListt<Publisher>();
 
     // default query conditions
-    int limit = 7;
-    int offsetId = 5;
+    int limit = 100;
+    int offsetId = 0;
 
     this->query->prepare("SELECT TOP(:limit) publisher_id, name, created_at, updated_at, deleted_at "
                          "FROM publishers WHERE publisher_id > :offsetId");
     this->query->bindValue(":limit", limit);
     this->query->bindValue(":offsetId", offsetId);
 
+    this->query->exec();
+    while(this->query->next())
+    {
+        list->add(this->parse(this->query));
+    }
+
+    return list;
+}
+
+Listt<Publisher>* PublisherRepository::findByName(QString byName)
+{
+    Listt<Publisher>* list = new LinkedListt<Publisher>();
+    this->query->prepare("SELECT publisher_id, name, created_at, updated_at, deleted_at "
+                         "FROM dbo.publishers "
+                         "WHERE deleted_at IS NULL AND UPPER(name) LIKE UPPER('%" + byName + "%')"
+                         );
     this->query->exec();
     while(this->query->next())
     {

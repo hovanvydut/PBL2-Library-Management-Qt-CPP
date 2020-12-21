@@ -2,7 +2,7 @@
 
 Publisher::Publisher()
 {
-
+    this->publisher_id = -1;
 }
 
 Publisher::Publisher(int publisher_id, QString name, QDate created_at, QDate updated_at, QDate deleted_at)
@@ -12,6 +12,15 @@ Publisher::Publisher(int publisher_id, QString name, QDate created_at, QDate upd
     this->created_at = created_at;
     this->updated_at = updated_at;
     this->deleted_at = deleted_at;
+}
+
+Publisher::Publisher(const Publisher& publisher)
+{
+    this->publisher_id = publisher.getId();
+    this->name = publisher.getName();
+    this->created_at = publisher.getCreatedAt();
+    this->updated_at = publisher.getUpdatedAt();
+    this->deleted_at = publisher.getDeletedAt();
 }
 
 Publisher::~Publisher()

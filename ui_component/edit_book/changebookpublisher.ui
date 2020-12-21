@@ -39,10 +39,10 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QLineEdit" name="lineEdit_2"/>
+           <widget class="QLineEdit" name="input_search_publisher"/>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="btn_search">
             <property name="text">
              <string>Tìm kiếm</string>
             </property>
@@ -56,18 +56,25 @@
          <property name="title">
           <string/>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
              <string>NXB</string>
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QLineEdit" name="lineEdit">
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="current_publisher">
             <property name="readOnly">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QPushButton" name="btn_update">
+            <property name="text">
+             <string>Cập nhật</string>
             </property>
            </widget>
           </item>
@@ -84,7 +91,7 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QListView" name="listView"/>
+        <widget class="QTableView" name="table_publisher"/>
        </item>
       </layout>
      </widget>

@@ -42,3 +42,8 @@ Listt<Book>* BookService::findByBookTitle2(QString title)
     return this->_bookRepository->findByBookTitle2(title);
 }
 
+bool BookService::updateBook(Book book)
+{
+    return this->_bookRepository->updateBook(book);
+}
+

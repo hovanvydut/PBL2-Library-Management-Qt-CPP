@@ -21,7 +21,7 @@ public:
     ~PublisherRepository();
     Publisher parse(QSqlQuery *);
     Listt<Publisher>* findAll();
-
+    Listt<Publisher>* findByName(QString byName);
 };
 
 #endif // PUBLISHERREPOSITORY_H

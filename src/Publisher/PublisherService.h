@@ -17,6 +17,7 @@ public:
     static PublisherService* initPublisherService();
     ~PublisherService();
     Listt<Publisher>* findAll();
+    Listt<Publisher>* findByName(QString name);
 
 };
 
