@@ -1,4 +1,4 @@
-USE LibraryManagement
+﻿USE LibraryManagement
 
 -- Create Table
 CREATE TABLE roles (
@@ -25,12 +25,10 @@ CREATE TABLE users (
 )
 
 -- Seeding data
-INSERT INTO roles(code, description) VALUES('superuser', 'Quan li tat ca')
-INSERT INTO roles(code, description) VALUES('admin', 'Quan li nhan vien')
-INSERT INTO roles(code, description) VALUES('employee', 'Quan li khach hang')
-INSERT INTO roles(code, description) VALUES('guest', 'Khach hang')
+INSERT INTO roles(code, description, priorty) VALUES('superuser', 'Quản lí chung', 0)
+INSERT INTO roles(code, description, priorty) VALUES('admin', 'Quản lí nhân viên và khách hàng', 1)
+INSERT INTO roles(code, description, priorty) VALUES('employee', 'Quản lí khách hàng', 2)
+INSERT INTO roles(code, description, priorty) VALUES('guest', 'Khách hàng', 3)
 
-INSERT INTO users(role_id, fullname) VALUES(1, 'Nguyen Huy Tupng super')
-INSERT INTO users(role_id, fullname) VALUES(2, 'Nguyen Huy Tupng admin')
-INSERT INTO users(role_id, fullname) VALUES(3, 'Nguyen Huy Tupng employee')
-INSERT INTO users(role_id, fullname) VALUES(4, 'Nguyen Huy Tupng guest')
+INSERT INTO users(fullname, phone, gender, birthday, role_id, username, password) VALUES('Quản lí', '0123456789', 0, '01/01/2001', 0, 'superuser', 'd94354ac9cf3024f57409bd74eec6b4c')
+

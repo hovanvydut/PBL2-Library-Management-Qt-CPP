@@ -5,7 +5,7 @@ User::User()
     // Nothing
 }
 
-User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, int roleId, QString address, QDate created_at, QDate updated_at){
+User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, Role role, QString address, QDate created_at, QDate updated_at){
     this->user_id = userId;
     this->fullname = fullname;
     this->birthday = birthday;
@@ -14,13 +14,13 @@ User::User(int userId, QString fullname, QDate birthday, int gender, QString ema
     this->phone = phone;
     this->username = username;
     this->password = password;
-    this->role_id = roleId;
+    this->role = role;
     this->address = address;
     this->created_at = created_at;
     this->updated_at = updated_at;
 }
 
-User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, int roleId, QString address){
+User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, Role role, QString address){
     this->user_id = userId;
     this->fullname = fullname;
     this->birthday = birthday;
@@ -29,7 +29,7 @@ User::User(int userId, QString fullname, QDate birthday, int gender, QString ema
     this->phone = phone;
     this->username = username;
     this->password = password;
-    this->role_id = roleId;
+    this->role = role;
     this->address = address;
 }
 
@@ -101,11 +101,11 @@ QString User::getPassword() const{
 void User::setPassword(QString password){
     this->password = password;
 }
-int User::getRoleId() const{
-    return this->role_id;
+Role User::getRole() const{
+    return this->role;
 }
-void User::setRoleId(int role_id){
-    this->role_id = role_id;
+void User::setRole(Role role){
+    this->role = role;
 }
 QString User::getAddress() const{
     return this->address;

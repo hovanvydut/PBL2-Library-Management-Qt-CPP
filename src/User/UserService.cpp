@@ -66,3 +66,4 @@ void UserService::addUser(const User& user){
 void UserService::updateUser(const User& user){
     this->_userRepository->updateUser(user);
 }
+

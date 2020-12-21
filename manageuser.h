@@ -5,6 +5,8 @@
 #include <QStandardItemModel>
 #include "src/User/User.h"
 #include "utils/ListPackage/Listt/Listt.h"
+#include <QMap>
+#include <QMessageBox>
 
 namespace Ui {
 class ManageUser;
@@ -41,7 +43,13 @@ private:
     Listt<User>* userList;
     void clearInput();
     User loadInfo();
+    void loadRole();
     User *sessionUser;
+    Listt<Role> *listRole;
+    QMap<int, int> roleId2Index;
+    QMessageBox *msgBox;
+    int showMessageBox(QString = "", QString = "", QString = "");
+
 };
 
 #endif // MANAGEUSER_H

@@ -38,7 +38,10 @@ User UserRepository::parse(QSqlQuery * query)
     QString username = query->value(7).toString();
     QString password = query->value(8).toString();
     QString address = query->value(9).toString();
-    return User(user_id, fullname, birthday, gender, email, phone, username, password, role_id, address);
+    QString code = query->value(10).toString();
+    int priorty = query->value(11).toInt();
+    QString description = query->value(12).toString();
+    return User(user_id, fullname, birthday, gender, email, phone, username, password, Role(role_id, priorty, code, description), address);
 }
 
 Listt<User>* UserRepository::findAll()
@@ -47,8 +50,8 @@ Listt<User>* UserRepository::findAll()
     Listt<User>* list = new LinkedListt<User>();
 
 
-    this->query->prepare("SELECT user_id, fullname, birthday, gender, phone, email, role_id, username, password, address "
-                         "FROM users");
+    this->query->prepare("SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description "
+                         "FROM users INNER JOIN roles ON users.role_id = roles.role_id");
 
 
     this->query->exec();
@@ -66,8 +69,9 @@ Listt<User>* UserRepository::findContain(QString key, QString value)
 
     Listt<User>* list = new LinkedListt<User>();
 
-    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, role_id, username, password, address "
-                        "FROM users WHERE lower(" + key + ") LIKE lower(:value)";
+    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description "
+                        "FROM users INNER JOIN roles ON users.role_id = roles.role_id "
+                        "WHERE lower(" + key + ") LIKE lower(:value)";
     this->query->prepare(queryText);
     this->query->bindValue(":value", QString("%%1%").arg(value));
 
@@ -86,8 +90,9 @@ Listt<User>* UserRepository::findExact(QString key, QString value)
 
     Listt<User>* list = new LinkedListt<User>();
 
-    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, role_id, username, password, address "
-                        "FROM users WHERE " + key + " = :value";
+    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description "
+                        "FROM users INNER JOIN roles ON users.role_id = roles.role_id "
+                        "WHERE " + key + " = :value";
     this->query->prepare(queryText);
     this->query->bindValue(":value", value);
 
@@ -204,7 +209,7 @@ void UserRepository::addUser(const User& user){
         Password pwd(user.getPassword());
         //Query
         this->query->prepare(queryText);
-        this->query->bindValue(":role_id", QString::number(user.getRoleId()));
+        this->query->bindValue(":role_id", QString::number(user.getRole().getRoleId()));
         this->query->bindValue(":fullname", user.getFullname());
         this->query->bindValue(":birthday", user.getBirthday().toString("dd/MM/yyyy"));
         this->query->bindValue(":gender", QString::number(user.getGender()));
@@ -237,13 +242,13 @@ void UserRepository::validateBeforeInsert(const User& user){
     if (user.getPhone().count(number) != user.getPhone().length()) throw QString::fromUtf8("Số điện thoại chỉ chứa chữ số");
     // gender - role
     if (!(user.getGender() >= 0 && user.getGender() <= 2)) throw QString::fromUtf8("Giới tính không hợp lệ");
-    if (!(user.getRoleId() >= 1 && user.getGender() <= 4)) throw QString::fromUtf8("Quyền không hợp lệ");
+
     // email
     if (user.getEmail() != ""){
         if (!email.exactMatch(user.getEmail())) throw QString::fromUtf8("Email không hợp lệ");
     }
     // usr + pwd
-    if (user.getRoleId() != 4){
+    if (user.getRole().getCode() != "guest"){
         if (user.getUsername().length() < 5) throw QString::fromUtf8("Tên đăng nhập phải từ 5 kí tự");
         if (user.getPassword().length() < 10) throw QString::fromUtf8("Mật khẩu phải từ 10 kí tự");
     }
@@ -268,7 +273,7 @@ void UserRepository::validateBeforeInsert(const User& user){
         if (count != 0) throw QString::fromUtf8("Email đã được sử dụng");
     }
     // check if username exist
-    if (user.getRoleId() != 4){
+    if (user.getRole().getCode() != "guest"){
         count = 0;
         queryText = "SELECT * FROM users WHERE username = :username";
         this->query->prepare(queryText);
@@ -294,13 +299,13 @@ void UserRepository::validateBeforeUpdate(const User& user){
     if (user.getPhone().count(number) != user.getPhone().length()) throw QString::fromUtf8("Số điện thoại chỉ chứa chữ số");
     // gender - role
     if (!(user.getGender() >= 0 && user.getGender() <= 2)) throw QString::fromUtf8("Giới tính không hợp lệ");
-    if (!(user.getRoleId() >= 1 && user.getGender() <= 4)) throw QString::fromUtf8("Quyền không hợp lệ");
+
     // email
     if (user.getEmail() != ""){
         if (!email.exactMatch(user.getEmail())) throw QString::fromUtf8("Email không hợp lệ");
     }
     // usr + pwd
-    if (user.getRoleId() != 4){
+    if (user.getRole().getCode() != "guest"){
         if (user.getUsername().length() < 5) throw QString::fromUtf8("Tên đăng nhập phải từ 5 kí tự");
         if (user.getPassword().length() < 10) throw QString::fromUtf8("Mật khẩu phải từ 10 kí tự");
     }
@@ -327,7 +332,7 @@ void UserRepository::validateBeforeUpdate(const User& user){
         if (count != 0) throw QString::fromUtf8("Email đã được sử dụng");
     }
     // check if username exist
-    if (user.getRoleId() != 4){
+    if (user.getRole().getCode() != "guest"){
         count = 0;
         queryText = "SELECT * FROM users WHERE username = :username AND user_id != :user_id";
         this->query->prepare(queryText);
@@ -352,7 +357,7 @@ void UserRepository::updateUser(const User& user){
     queryText += " WHERE user_id = :user_id";
     try{
         this->query->prepare(queryText);
-        this->query->bindValue(":role_id", QString::number(user.getRoleId()));
+        this->query->bindValue(":role_id", QString::number(user.getRole().getRoleId()));
         this->query->bindValue(":fullname", user.getFullname());
         this->query->bindValue(":birthday", user.getBirthday().toString("dd/MM/yyyy"));
         this->query->bindValue(":gender", QString::number(user.getGender()));

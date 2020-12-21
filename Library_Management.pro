@@ -46,7 +46,11 @@ SOURCES += main.cpp\
     src/BorrowBook/BorrowBook.cpp \
     manageuser.cpp \
     managebook.cpp \
-    utils/Auth/Password.cpp
+    utils/Auth/Password.cpp \
+    src/Role/Role.cpp \
+    src/Role/RoleRepository.cpp \
+    src/Role/RoleService.cpp \
+    managerole.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -79,12 +83,17 @@ HEADERS  += mainwindow.h \
     src/BorrowBook/BorrowBook.h \
     manageuser.h \
     managebook.h \
-    utils/Auth/Password.h
+    utils/Auth/Password.h \
+    src/Role/Role.h \
+    src/Role/RoleRepository.h \
+    src/Role/RoleService.h \
+    managerole.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \
     manageuser.ui \
-    managebook.ui
+    managebook.ui \
+    managerole.ui
 
 DISTFILES += \
     config.txt

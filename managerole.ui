@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ManageRole</class>
+ <widget class="QDialog" name="ManageRole">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>219</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Chỉnh sửa quyền</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupDelete">
+     <property name="title">
+      <string>Xóa quyền</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,2">
+      <item>
+       <widget class="QComboBox" name="comboBoxRole"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnDelete">
+        <property name="text">
+         <string>Xóa</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupAdd">
+     <property name="title">
+      <string>Thêm quyền</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lbDescription">
+        <property name="text">
+         <string>Mô tả</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="inputDescription"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lbRoleCode">
+        <property name="text">
+         <string>Mã quyền</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="inputCode"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lnPriorty">
+        <property name="text">
+         <string>Độ ưu tiên</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="inputPriorty"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="btnAdd">
+        <property name="text">
+         <string>Thêm</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -13,6 +13,7 @@
 #include "src/User/UserService.h"
 #include <QString>
 #include "manageuser.h"
+#include "managerole.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableBooks->setModel(this->bookModel);
     this->ui->tableSeletedBooks->setModel(this->selectedBookModel);
     this->mode = 0;
+    this->msgBox = new QMessageBox(0);
 }
 
 
@@ -216,11 +218,7 @@ void MainWindow::on_inputUserSearch_returnPressed()
             bool ok;
             int ID = this->ui->inputUserSearch->text().toInt(&ok);
             if (!ok){
-                QMessageBox *msgBox = new QMessageBox(0);
-                msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
-                msgBox->setText(QString::fromUtf8("ID không hợp lệ"));
-                msgBox->setInformativeText(QString::fromUtf8("Vui lòng kiểm tra lại thông tin"));
-                msgBox->exec();
+                this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("ID không hợp lệ"), QString::fromUtf8("Vui lòng kiểm tra lại thông tin"));
                 return;
             } else {
                 userList = userService->findById(ID);
@@ -269,21 +267,13 @@ void MainWindow::on_btnAllBorrowBook_clicked()
     this->mode = 1;
     UserService* userService = UserService::initUserService();
     if (this->selectedUser == NULL){
-        QMessageBox *msgBox = new QMessageBox(0);
-        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
-        msgBox->setText(QString::fromUtf8("Chưa lựa chọn tài khoản"));
-        msgBox->setInformativeText(QString::fromUtf8("Vui lòng tìm kiếm và chọn tài khoản"));
-        msgBox->exec();
+        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Chưa lựa chọn tài khoản"), QString::fromUtf8("Vui lòng tìm kiếm và chọn tài khoản"));
         return;
     }
     Listt<BorrowBook>* borrowList = userService->getBorrowBook(this->selectedUser->getUserId());
 
     if (borrowList->getSize() == 0){
-        QMessageBox *msgBox = new QMessageBox(0);
-        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
-        msgBox->setText(QString::fromUtf8("Người này chưa từng mượn sách"));
-        msgBox->setInformativeText(QString::fromUtf8("Tài khoản này chưa từng mượn sách"));
-        msgBox->exec();
+        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Người này chưa từng mượn sách"), QString::fromUtf8("Tài khoản này chưa từng mượn sách"));
         delete borrowList;
         return;
     } else {
@@ -346,11 +336,7 @@ void MainWindow::on_tableSeletedBooks_doubleClicked(const QModelIndex &index)
 void MainWindow::on_btnReturnBook_clicked()
 {
     if (this->mode != 1 || this->selectedBookModel->rowCount() == 0){
-        QMessageBox *msgBox = new QMessageBox(0);
-        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
-        msgBox->setText(QString::fromUtf8("Chưa tải danh sách sách đã mượn"));
-        msgBox->setInformativeText(QString::fromUtf8("Vui lòng chọn tài khoản và chọn sách cần trả"));
-        msgBox->exec();
+        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Chưa tải danh sách sách đã mượn"), QString::fromUtf8("Vui lòng chọn tài khoản và chọn sách cần trả"));
         return;
     }
     UserService* userService = UserService::initUserService();
@@ -368,11 +354,7 @@ void MainWindow::on_btnReturnBook_clicked()
             result--;
             this->selectedBookModel->removeRow(0);
         }
-        QMessageBox *msgBox = new QMessageBox(0);
-        msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
-        msgBox->setText(QString::fromUtf8("Đã xảy ra lỗi"));
-        msgBox->setInformativeText(QString::fromUtf8("Không thể trả sách với ID = ") + QString::number(listId->get(tmp)));
-        msgBox->exec();
+        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Đã xảy ra lỗi"), QString::fromUtf8("Không thể trả sách với ID = ") + QString::number(listId->get(tmp)));
         return;
     }
 
@@ -395,4 +377,43 @@ void MainWindow::on_menuLogout_triggered()
 {
     this->sessionUser = NULL;
     this->login();
+}
+
+int MainWindow::showMessageBox(QString title, QString text, QString info){
+    this->msgBox->setWindowTitle(title);
+    this->msgBox->setText(text);
+    this->msgBox->setInformativeText(info);
+    return this->msgBox->exec();
+}
+
+void MainWindow::on_menuUserInfo_triggered()
+{
+    QString info = "";
+    info += QString::fromUtf8("Họ và tên: ") + this->sessionUser->getFullname() + "\n"
+            + QString::fromUtf8("Ngày sinh: ") + this->sessionUser->getBirthday().toString("dd/MM/yyyy") + "\n"
+            + QString::fromUtf8("Giới tính: ") + (this->sessionUser->getGender() == 0 ? "Nam" : (this->sessionUser->getGender() == 1 ? "Nữ" : "Không xác định")) + "\n"
+            + QString::fromUtf8("Địa chỉ: ") + this->sessionUser->getAddress() + "\n"
+            + QString::fromUtf8("Quyền: ") + this->sessionUser->getRole().getDescription() + "\n"
+            + QString::fromUtf8("Điện thoại: ") + this->sessionUser->getPhone() + "\n"
+            + QString::fromUtf8("Email: ") + this->sessionUser->getEmail() + "\n"
+            + QString::fromUtf8("Tài khoản: ") + this->sessionUser->getUsername();
+    this->showMessageBox(QString::fromUtf8("Thông tin"), QString::fromUtf8("Thông tin tài khoản:"), info);
+}
+
+void MainWindow::on_actionTh_ng_tin_quy_n_triggered()
+{
+
+    if (this->sessionUser->getRole().getPriorty() != 0){
+        this->showMessageBox(QString::fromUtf8("Thống báo"), QString::fromUtf8("Lỗi quyền truy cập"), QString::fromUtf8("Tính năng này chỉ dành cho quyền cao nhất"));
+        return;
+    }
+
+    ManageRole *manageRole = new ManageRole();
+    manageRole->show();
+    this->hide();
+    if (manageRole->exec() == QDialog::Rejected) {
+       manageRole->close();
+       delete manageRole;
+       this->show();
+    }
 }
