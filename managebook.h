@@ -25,6 +25,10 @@ class managebook : public QDialog
     BridgeManageBookUpdateProp *bridgeProps;
     Book currentBook;
 
+    Publisher insertedPublisher;
+    IssuingCompany insertedIssuingCompany;
+    Category insertedCategory;
+
 public:
     explicit managebook(QWidget *parent = 0);
     ~managebook();
@@ -51,6 +55,8 @@ private slots:
     void on_btn_change_book_issuing_compan_clicked();
 
     void on_btn_change_book_authors_clicked();
+
+    void on_btn_add_book_clicked();
 
 private:
     Ui::managebook *ui;

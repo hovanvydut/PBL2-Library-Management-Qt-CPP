@@ -77,5 +77,5 @@ void ChangeBookPublisher::on_table_publisher_doubleClicked(const QModelIndex &in
 
 void ChangeBookPublisher::on_btn_update_clicked()
 {
-    this->close();
+    this->accept();
 }

@@ -77,5 +77,5 @@ void ChangeBookCategory::on_table_category_doubleClicked(const QModelIndex &inde
 
 void ChangeBookCategory::on_btn_update_clicked()
 {
-    this->close();
+    this->accept();
 }

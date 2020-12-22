@@ -111,3 +111,8 @@ void ChangeBookAuthors::on_table_current_author_doubleClicked(const QModelIndex 
     }
 
 }
+
+void ChangeBookAuthors::on_btn_update_clicked()
+{
+    this->accept();
+}

@@ -32,6 +32,8 @@ private slots:
 
     void on_table_current_author_doubleClicked(const QModelIndex &index);
 
+    void on_btn_update_clicked();
+
 private:
     Ui::ChangeBookAuthors *ui;
     QStandardItemModel* currentAuthorModelUi;

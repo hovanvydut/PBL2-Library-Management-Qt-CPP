@@ -77,5 +77,5 @@ void ChangeBookIssuingCompany::on_table_issuing_company_doubleClicked(const QMod
 
 void ChangeBookIssuingCompany::on_btn_update_clicked()
 {
-    this->close();
+    this->accept();
 }
