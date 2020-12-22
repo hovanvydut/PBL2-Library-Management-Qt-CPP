@@ -34,7 +34,7 @@ Role RoleRepository::parse(QSqlQuery *query){
 }
 
 Listt<Role>* RoleRepository::findAll(){
-    QString queryText = "SELECT role_id, code, priorty, description FROM roles";
+    QString queryText = "SELECT role_id, code, priorty, description FROM roles ORDER BY priorty";
     this->query->prepare(queryText);
     this->query->exec();
     Listt<Role> *list = new LinkedListt<Role>();

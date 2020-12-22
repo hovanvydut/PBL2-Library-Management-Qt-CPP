@@ -1,4 +1,5 @@
 #include "User.h"
+#include "utils/ListPackage/LinkedListt/LinkedListt.h"
 
 User::User()
 {
@@ -18,6 +19,7 @@ User::User(int userId, QString fullname, QDate birthday, int gender, QString ema
     this->address = address;
     this->created_at = created_at;
     this->updated_at = updated_at;
+    this->borrowList = nullptr;
 }
 
 User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, Role role, QString address){
@@ -31,6 +33,7 @@ User::User(int userId, QString fullname, QDate birthday, int gender, QString ema
     this->password = password;
     this->role = role;
     this->address = address;
+    this->borrowList = nullptr;
 }
 
 User::User(int user_id, QString fullname, QDate birthday, int gender, QString phone, QString email){
@@ -40,11 +43,13 @@ User::User(int user_id, QString fullname, QDate birthday, int gender, QString ph
     this->gender = gender;
     this->email = email;
     this->phone = phone;
+    this->borrowList = nullptr;
 }
 
 User::User(int user_id, QString fullname){
     this->user_id = user_id;
     this->fullname = fullname;
+    this->borrowList = nullptr;
 }
 
 User::~User()
@@ -143,6 +148,28 @@ bool User::operator == (const User& user) const{
 bool User::operator < (const User& user) const{
     return this->user_id < user.user_id;
 }
+User& User::operator=(const User& user){
+    this->user_id = user.user_id;
+    this->fullname = user.fullname;
+    this->birthday = user.birthday;
+    this->gender = user.gender;
+    this->email = user.email;
+    this->phone = user.phone;
+    this->username = user.username;
+    this->password = user.password;
+    this->role = user.role;
+    this->address = user.address;
+    this->created_at = user.created_at;
+    this->updated_at = user.updated_at;
+    if (user.borrowList == nullptr) this->borrowList = nullptr;
+    else {
+        this->borrowList = new LinkedListt<BorrowBook>();
+        for (int i = 0;i < user.borrowList->getSize();i++){
+            this->borrowList->add(user.borrowList->get(i));
+        }
+    }
+    return *this;
+}
 
 bool User::compareName(User a, User b){
     return a.getFullname() < b.getFullname();
@@ -153,3 +180,4 @@ bool User::compareRole(User a, User b){
 bool User::compareCreateDate(User a, User b){
     return a.getCreatedAt() < b.getCreatedAt();
 }
+

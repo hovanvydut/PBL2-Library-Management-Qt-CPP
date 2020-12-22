@@ -81,6 +81,14 @@ void ManageUser::on_tableUser_doubleClicked(const QModelIndex &index)
     this->ui->inputUsername->setText(user.getUsername());
     this->ui->comboGender->setCurrentIndex(user.getGender());
     this->ui->comboRole->setCurrentIndex(this->roleId2Index[user.getRole().getRoleId()]);
+    // check role
+    if (user.getRole().getPriorty() <= this->sessionUser->getRole().getPriorty()){
+        this->ui->btnUpdate->setEnabled(false);
+        this->ui->btnDelete->setEnabled(false);
+    } else {
+        this->ui->btnUpdate->setEnabled(true);
+        this->ui->btnDelete->setEnabled(true);
+    }
 }
 
 void ManageUser::clearInput(){
@@ -94,6 +102,8 @@ void ManageUser::clearInput(){
     this->ui->inputUsername->clear();
     this->ui->comboGender->setCurrentIndex(0);
     this->ui->comboRole->setCurrentIndex(0);
+    this->ui->btnUpdate->setEnabled(true);
+    this->ui->btnDelete->setEnabled(true);
 }
 
 void ManageUser::on_inputSearch_returnPressed()
@@ -103,7 +113,9 @@ void ManageUser::on_inputSearch_returnPressed()
 
 void ManageUser::on_comboRole_currentIndexChanged(int index)
 {
-    if (index == 3){
+    if (this->listRole == nullptr) return;
+    if (index >= this->listRole->getSize()) return;
+    if (this->listRole->get(index).getCode() == "guest"){
         this->ui->inputUsername->setEnabled(false);
         this->ui->inputPassword->setEnabled(false);
     } else {

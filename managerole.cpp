@@ -34,9 +34,13 @@ void ManageRole::on_btnDelete_clicked()
 {
     RoleService* roleService = RoleService::initRoleService();
     Role role = this->listRole->get(this->ui->comboBoxRole->currentIndex());
+    if (role.getPriorty() == 0 || role.getPriorty() == 100){
+        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Lỗi trong lúc xóa"), QString::fromUtf8("Bạn không thể xóa quyền này"));
+        return;
+    }
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, QString::fromUtf8("Xác nhận xóa"),
-                                  QString::fromUtf8("Những tài khoản thuộc quyền này củng sẽ bị xóa. Bạn có chắc muốn xóa quyền ") + role.getDescription(),
+                                  QString::fromUtf8("Những tài khoản thuộc quyền này sẽ có quyền thấp nhất. Bạn có chắc muốn xóa quyền ") + role.getDescription(),
                                   QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::No) {
         return;

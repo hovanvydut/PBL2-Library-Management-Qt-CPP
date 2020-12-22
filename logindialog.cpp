@@ -23,7 +23,7 @@ void LoginDialog::on_btnLogin_clicked()
     Listt<User> *result = userService->findByUsername(this->ui->username->text());
     if (result->getSize() != 0){
         Password pwd(this->ui->password->text());
-        if (pwd.compare(result->get(0).getPassword())){
+        if (pwd.compare(result->get(0).getPassword()) && result->get(0).getRole().getCode() != "guest"){
             this->user = result->get(0);
             this->accept();
             return;

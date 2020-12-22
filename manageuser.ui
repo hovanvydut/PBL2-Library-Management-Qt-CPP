@@ -74,28 +74,7 @@
           <widget class="QLineEdit" name="inputUsername"/>
          </item>
          <item row="7" column="2">
-          <widget class="QComboBox" name="comboRole">
-           <item>
-            <property name="text">
-             <string>Quản lí cao cấp</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Quản lí nhân viên</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Quản lí khách hàng</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Khách hàng</string>
-            </property>
-           </item>
-          </widget>
+          <widget class="QComboBox" name="comboRole"/>
          </item>
          <item row="8" column="0">
           <widget class="QLabel" name="lbUserName">

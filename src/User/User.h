@@ -63,6 +63,7 @@ public:
     //
     bool operator == (const User&) const;
     bool operator < (const User&) const;
+    User &operator=(const User&);
     friend class MainWindow;
     //
     static bool compareName(User, User);
