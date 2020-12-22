@@ -38,6 +38,7 @@ private:
 
 public:
     Book();
+    Book(QString, QString, float, int, int, QDate, QString, int, int, int, int, QDate);
     Book(int, QString, QString, float, int, int, QDate, QString, int, int, int, int, QDate, QDate, QDate);
     ~Book();
 

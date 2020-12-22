@@ -13,6 +13,7 @@ managebook::managebook(QWidget *parent) :
     this->bookList = new LinkedListt<Book>();
     ui->table_book->setEditTriggers(QAbstractItemView::NoEditTriggers);
     this->bridgeProps = BridgeManageBookUpdateProp::getInstance();
+    this->insertedAuthorList = new LinkedListt<Author>();
 }
 
 managebook::~managebook()
@@ -117,8 +118,9 @@ void managebook::on_btn_change__book_publisher_clicked()
 {
     int idx = this->getIndexRow();
 
+    // Nếu người dùng có double click vào bảng bên phải(danh sách các sách)
     if (idx >= 0) {
-//        Book book = this->bookList->get(idx);
+        Book book = this->bookList->get(idx);
 
         ChangeBookPublisher *changeBookPublisherUi = new ChangeBookPublisher();
         changeBookPublisherUi->show();
@@ -142,6 +144,25 @@ void managebook::on_btn_change__book_publisher_clicked()
                      ui->input_book_publisher->setText(publisher.getName());
                  }
             }
+            delete changeBookPublisherUi;
+        }
+    } else
+    {
+        ChangeBookPublisher *changeBookPublisherUi = new ChangeBookPublisher();
+        changeBookPublisherUi->show();
+
+        int x = changeBookPublisherUi->exec();
+        if (x == QDialog::Rejected)
+        {
+            changeBookPublisherUi->close();
+            delete changeBookPublisherUi;
+        }
+        else if(x == QDialog::Accepted)
+        {
+            changeBookPublisherUi->close();
+            this->insertedPublisher = changeBookPublisherUi->getPublisher();
+            ui->input_book_publisher->setText(this->insertedPublisher.getName());
+
             delete changeBookPublisherUi;
         }
     }
@@ -175,15 +196,12 @@ void managebook::on_btn_reset_book_clicked()
 // Cap nhat sach
 void managebook::on_btn_update_book_clicked()
 {
-    qDebug() << "test";
     QMessageBox *msgBox = new QMessageBox(0);
     msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
     msgBox->setText(QString::fromUtf8("Bạn có muốn cập nhật?"));
     msgBox->setInformativeText(QString::fromUtf8("Vui lòng kiểm tra lại chính xác thông tin trước khi cập nhật!"));
     if (msgBox->exec() == QMessageBox::Ok) {
-        qDebug() << "abc";
         if (this->currentBook.getId() >= 0) {
-            qDebug() << "hehre";
             BookService *bookService = BookService::initBookService();
 
             int id = this->currentBook.getId();
@@ -222,7 +240,7 @@ void managebook::on_btn_change_book_category_clicked()
 
         ChangeBookCategory *changeBookCategoryUi = new ChangeBookCategory();
         changeBookCategoryUi->show();
-//        this->hide();
+
         int x = changeBookCategoryUi->exec();
         if (x == QDialog::Rejected) {
             changeBookCategoryUi->close();
@@ -245,6 +263,24 @@ void managebook::on_btn_change_book_category_clicked()
             delete changeBookCategoryUi;
         }
     }
+    else
+    {
+        ChangeBookCategory *changeBookCategoryUi = new ChangeBookCategory();
+        changeBookCategoryUi->show();
+
+        int x = changeBookCategoryUi->exec();
+        if (x == QDialog::Rejected) {
+            changeBookCategoryUi->close();
+            delete changeBookCategoryUi;
+        }
+        else if (x == QDialog::Accepted)
+        {
+            changeBookCategoryUi->close();
+            this->insertedCategory = changeBookCategoryUi->getCategory();
+            ui->input_book_category->setText(this->insertedCategory.getName());
+            delete changeBookCategoryUi;
+        }
+    }
 }
 
 // show dialog cap nhat issuing company cua book
@@ -257,6 +293,7 @@ void managebook::on_btn_change_book_issuing_compan_clicked()
 
         ChangeBookIssuingCompany *changeBookIssuingCompany = new ChangeBookIssuingCompany();
         changeBookIssuingCompany->show();
+
         int x = changeBookIssuingCompany->exec();
         if (x == QDialog::Rejected) {
             changeBookIssuingCompany->close();
@@ -276,6 +313,24 @@ void managebook::on_btn_change_book_issuing_compan_clicked()
                  }
             }
 
+            delete changeBookIssuingCompany;
+        }
+    }
+    else
+    {
+        ChangeBookIssuingCompany *changeBookIssuingCompany = new ChangeBookIssuingCompany();
+        changeBookIssuingCompany->show();
+
+        int x = changeBookIssuingCompany->exec();
+        if (x == QDialog::Rejected) {
+            changeBookIssuingCompany->close();
+            delete changeBookIssuingCompany;
+        }
+        else if (x == QDialog::Accepted)
+        {
+            changeBookIssuingCompany->close();
+            this->insertedIssuingCompany = changeBookIssuingCompany->getIssuingCompany();
+            ui->input_book_issuing_company_2->setText(this->insertedIssuingCompany.getName());
             delete changeBookIssuingCompany;
         }
     }
@@ -324,30 +379,75 @@ void managebook::on_btn_change_book_authors_clicked()
             delete changeBookAuthorsUi;
         }
     }
+    else
+    {
+        ChangeBookAuthors *changeBookAuthorsUi = new ChangeBookAuthors();
+        changeBookAuthorsUi->show();
+
+        int x = changeBookAuthorsUi->exec();
+        if (x == QDialog::Rejected) {
+           changeBookAuthorsUi->close();
+           delete changeBookAuthorsUi;
+        }
+        else if (x == QDialog::Accepted)
+        {
+            changeBookAuthorsUi->close();
+            Listt<Author>* authorList = changeBookAuthorsUi->getCurrentAuthorList();
+            this->insertedAuthorList->clear();
+            for (int i = 0; i < authorList->getSize(); i++) {
+                this->insertedAuthorList->add(authorList->get(i));
+            }
+
+            QStandardItemModel *model = new QStandardItemModel();
+            QStringList horizontalHeader;
+            horizontalHeader.append("Id");
+            horizontalHeader.append(QString::fromUtf8("Tên"));
+            ui->list_book_author->setModel(model);
+
+            for (int i = 0; i < this->insertedAuthorList->getSize(); i++) {
+                Author author = this->insertedAuthorList->get(i);
+                QStandardItem *idCol = new QStandardItem(QString::number(author.getId()));
+                QStandardItem *nameCol = new QStandardItem(author.getName());
+                model->appendRow( QList<QStandardItem*>() << idCol << nameCol);
+            }
+
+            delete changeBookAuthorsUi;
+        }
+    }
 }
 
 // Insert Book
 void managebook::on_btn_add_book_clicked()
 {
-    QString title = ui->input_book_title->text();
-    QString coverType = ui->input_book_cover->text();
-    float price = ui->input_book_price->text().toFloat();
-    int total = ui->input_book_total->text().toInt();
-    int available = ui->input_book_available->text().toInt();
-    QDate publication_date = ui->input_book_publication->date();
 
-    /*
-    QString size = this->currentBook.getSize();
-    int number_of_pages = this->currentBook.getNumberOfPages();
-    int issuing_company_id = this->currentBook.getIssuingCompanyId();
-    int publisher_id = this->currentBook.getPublisherId();
-    int category_id = this->currentBook.getCategoryId();
-    QDate created_at = this->currentBook.getCreatedAt();
-    QDate updated_at = this->currentBook.getUpdatedAt();
-    QDate deleted_at = this->currentBook.getDeletedAt();
+    QMessageBox *msgBox = new QMessageBox(0);
+    msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+    msgBox->setText(QString::fromUtf8("Bạn có muốn thêm?"));
+    msgBox->setInformativeText(QString::fromUtf8("Vui lòng kiểm tra lại chính xác thông tin trước khi cập nhật!"));
+    if (msgBox->exec() == QMessageBox::Ok)
+    {
+        QString title = ui->input_book_title->text();
+        QString coverType = ui->input_book_cover->text();
+        float price = ui->input_book_price->text().toFloat();
+        int total = ui->input_book_total->text().toInt();
+        int available = ui->input_book_available->text().toInt();
+        QDate publication_date = ui->input_book_publication->date();
 
-    Book updatedBook(title, coverType, price, total, available, publication_date,
-                     size, number_of_pages, issuing_company_id, publisher_id,
-                     category_id, created_at, updated_at, deleted_at);
-                     */
+
+        QString size = "Unknown";
+        int number_of_pages = 123;
+        int issuing_company_id = this->insertedIssuingCompany.getId();
+        int publisher_id = this->insertedPublisher.getId();
+        int category_id = this->insertedCategory.getId();
+        QDate created_at = QDate::currentDate();
+
+        Book insertedBook(title, coverType, price, total, available, publication_date,
+                         size, number_of_pages, issuing_company_id, publisher_id,
+                         category_id, created_at);
+
+        insertedBook.setAnotherAuthorList(this->insertedAuthorList);
+
+        BookService *bookService = BookService::initBookService();
+        bookService->insertBook(insertedBook);
+    }
 }

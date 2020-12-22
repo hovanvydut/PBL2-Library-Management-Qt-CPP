@@ -181,6 +181,69 @@ bool BookRepository::updateBook(Book book)
     return false;
 }
 
+bool BookRepository::insertBook(Book book)
+{
+    if (book.getId() == -1)
+    {
+        QString title = book.getTitle();
+        QString coverType = book.getCoverType();
+        QString price = QString::number(book.getPrice());
+        QString total = QString::number(book.getTotal());
+        QString available = QString::number(book.getAvailable());
+        QString publicationDate = book.getPublicationDate().toString(Qt::ISODate);
+        QString size = book.getSize();
+        QString number_of_pages = QString::number(book.getNumberOfPages());
+        QString issuing_company_id = QString::number(book.getIssuingCompanyId());
+        QString publisher_id = QString::number(book.getPublisherId());
+        QString category_id = QString::number(book.getCategoryId());
+        QString created_at = book.getCreatedAt().toString(Qt::ISODate);
+        QString updated_at = "NULL";
+
+        QString deleted_at = "NULL";
+        if (!book.getDeletedAt().isNull()) {
+            deleted_at = "'" + book.getDeletedAt().toString(Qt::ISODate) + "'";
+        }
+
+        QString queryTxt = "INSERT INTO books (title, cover_type, price, total, available, "
+                        " publication_date, size, number_of_pages, issuing_company_id, publisher_id, category_id, created_at, updated_at, deleted_at)"
+                        " OUTPUT inserted.book_id VALUES ("
+                        "'" + title +
+                        "', '" + coverType +
+                        "', " + price +
+                        " , " + total +
+                        " , " + available +
+                        " , '" + publicationDate +
+                        "', '" + size +
+                        "', " + number_of_pages +
+                        " , " + issuing_company_id +
+                        " , " + publisher_id +
+                        " , " + category_id +
+                        " , '" + created_at +
+                        "', " + updated_at +
+                        " , " + deleted_at + ")";
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        this->query->exec();
+        this->query->next();
+        int lastInsertId = this->query->value(0).toInt();
+        qDebug() << "id --> " << lastInsertId;
+        Listt<Author>* authorList = book.getAuthors();
+        QString txt = "";
+        for (int i = 0; i < authorList->getSize(); i++) {
+            txt += "(" + QString::number(authorList->get(i).getId()) + ", "
+                    + QString::number(lastInsertId) + "),";
+        }
+        if (txt.size() > 0) {
+            txt.remove(txt.size()-1, 1);
+        }
+        this->query->prepare("INSERT INTO author_books(author_id, book_id) "
+                             " VALUES " + txt);
+        this->query->exec();
+        return true;
+    }
+    return false;
+}
+
 Book BookRepository::parse(QSqlQuery *query)
 {
     int book_id = query->value(0).toInt();

@@ -25,9 +25,11 @@ class managebook : public QDialog
     BridgeManageBookUpdateProp *bridgeProps;
     Book currentBook;
 
+    Book insertedBook;
     Publisher insertedPublisher;
     IssuingCompany insertedIssuingCompany;
     Category insertedCategory;
+    Listt<Author>* insertedAuthorList;
 
 public:
     explicit managebook(QWidget *parent = 0);

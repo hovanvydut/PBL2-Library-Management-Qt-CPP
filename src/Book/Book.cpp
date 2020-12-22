@@ -7,6 +7,27 @@ Book::Book()
     this->authors = new LinkedListt<Author>();
 }
 
+Book::Book(QString title, QString cover_type, float price,
+           int total, int available, QDate publication_date, QString size,
+           int number_of_pages, int issuing_company_id, int publisher_id,
+           int category_id, QDate created_at)
+{
+    this->book_id = -1;
+    this->title = title;
+    this->cover_type = cover_type;
+    this->price = price;
+    this->total = total;
+    this->available = available;
+    this->publication_date = publication_date;
+    this->size = size;
+    this->number_of_pages = number_of_pages;
+    this->issuing_company_id = issuing_company_id;
+    this->publisher_id = publisher_id;
+    this->category_id = category_id;
+    this->created_at = created_at;
+    this->authors = new LinkedListt<Author>();
+}
+
 Book::Book(int book_id, QString title, QString cover_type, float price,
            int total, int available, QDate publication_date, QString size,
            int number_of_pages, int issuing_company_id, int publisher_id,

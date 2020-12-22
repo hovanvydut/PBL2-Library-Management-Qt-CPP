@@ -47,3 +47,8 @@ bool BookService::updateBook(Book book)
     return this->_bookRepository->updateBook(book);
 }
 
+bool BookService::insertBook(Book book)
+{
+    return this->_bookRepository->insertBook(book);
+}
+
