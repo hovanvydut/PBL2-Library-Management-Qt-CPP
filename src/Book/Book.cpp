@@ -278,3 +278,10 @@ int Book::setCategoryId(int id)
     this->category_id = id;
     return oldValue;
 }
+
+QString Book::toString()
+{
+    QString tmp = "";
+    tmp += QString::number(this->getId()) + ", name: " + this->getTitle() + ", publisherid: " + QString::number(this->getPublisherId()) + ", issuingCompanyId: " + QString::number(this->getIssuingCompanyId()) + ", categoryId: " +QString::number(this->getCategoryId()) + "\n";
+    return tmp;
+}

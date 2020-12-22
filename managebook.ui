@@ -66,9 +66,9 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="btn_edit_book">
+             <widget class="QPushButton" name="btn_delete_book">
               <property name="text">
-               <string>Sửa</string>
+               <string>Xóa</string>
               </property>
              </widget>
             </item>

@@ -52,3 +52,7 @@ bool BookService::insertBook(Book book)
     return this->_bookRepository->insertBook(book);
 }
 
+bool BookService::deleteBookById(int id)
+{
+    return this->_bookRepository->deleteBookById(id);
+}

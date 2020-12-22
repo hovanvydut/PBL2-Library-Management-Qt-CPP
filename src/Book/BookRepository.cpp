@@ -204,6 +204,8 @@ bool BookRepository::insertBook(Book book)
             deleted_at = "'" + book.getDeletedAt().toString(Qt::ISODate) + "'";
         }
 
+        qDebug() << book.toString();
+
         QString queryTxt = "INSERT INTO books (title, cover_type, price, total, available, "
                         " publication_date, size, number_of_pages, issuing_company_id, publisher_id, category_id, created_at, updated_at, deleted_at)"
                         " OUTPUT inserted.book_id VALUES ("
@@ -236,8 +238,10 @@ bool BookRepository::insertBook(Book book)
         if (txt.size() > 0) {
             txt.remove(txt.size()-1, 1);
         }
-        this->query->prepare("INSERT INTO author_books(author_id, book_id) "
-                             " VALUES " + txt);
+        QString queryTxt2 = "INSERT INTO author_books(author_id, book_id) "
+                           " VALUES " + txt;
+        qDebug() << queryTxt2;
+        this->query->prepare(queryTxt2);
         this->query->exec();
         return true;
     }
@@ -301,4 +305,16 @@ Book BookRepository::parse2(QSqlQuery *) {
     }
 
     return book;
+}
+
+bool BookRepository::deleteBookById(int id)
+{
+    if (id >= 0)
+    {
+        QString queryTxt = "DELETE FROM books WHERE book_id = " + QString::number(id);
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        return this->query->exec();
+    }
+    return false;
 }

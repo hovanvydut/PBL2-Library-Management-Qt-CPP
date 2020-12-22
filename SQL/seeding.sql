@@ -68,8 +68,11 @@ CREATE TABLE author_books(
 ALTER TABLE dbo.author_books ALTER COLUMN author_id INT NOT NULL
 ALTER TABLE dbo.author_books ALTER COLUMN book_id INT NOT NULL 
 ALTER TABLE dbo.author_books ADD CONSTRAINT PK_author_books PRIMARY KEY (author_id, book_id)
-ALTER TABLE dbo.author_books ADD CONSTRAINT FK_author_books_authors FOREIGN KEY(author_id) REFERENCES dbo.authors(author_id)
-ALTER TABLE dbo.author_books ADD CONSTRAINT FK_author_books_books FOREIGN KEY (book_id) REFERENCES dbo.books(book_id)
+-- ALTER TABLE dbo.author_books DROP CONSTRAINT FK_author_books_authors
+-- ALTER TABLE dbo.author_books DROP CONSTRAINT FK_author_books_books
+
+ALTER TABLE dbo.author_books ADD CONSTRAINT FK_author_books_authors FOREIGN KEY(author_id) REFERENCES dbo.authors(author_id)  ON DELETE CASCADE
+ALTER TABLE dbo.author_books ADD CONSTRAINT FK_author_books_books FOREIGN KEY (book_id) REFERENCES dbo.books(book_id) ON DELETE CASCADE
 
 INSERT INTO dbo.categories
         ( name ,

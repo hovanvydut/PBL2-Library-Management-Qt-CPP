@@ -60,6 +60,8 @@ private slots:
 
     void on_btn_add_book_clicked();
 
+    void on_btn_delete_book_clicked();
+
 private:
     Ui::managebook *ui;
 };

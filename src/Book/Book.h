@@ -96,6 +96,7 @@ public:
     Listt<Author>* getAuthors();
     bool addAuthor(Author);
     void setAnotherAuthorList(Listt<Author>* list);
+    QString toString();
 
     bool operator == (const Book&) const;
 };

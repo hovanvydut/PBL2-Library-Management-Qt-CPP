@@ -27,6 +27,7 @@ public:
 
     bool updateBook(Book book);
     bool insertBook(Book book);
+    bool deleteBookById(int id);
 
     Book parse(QSqlQuery *);
     Book parse2(QSqlQuery *);

@@ -22,6 +22,7 @@ public:
     Listt<Book>* findByBookTitle2(QString title);
     bool updateBook(Book book);
     bool insertBook(Book book);
+    bool deleteBookById(int id);
 };
 
 #endif // BOOKSERVICE_H
