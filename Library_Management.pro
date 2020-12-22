@@ -50,7 +50,8 @@ SOURCES += main.cpp\
     src/Role/Role.cpp \
     src/Role/RoleRepository.cpp \
     src/Role/RoleService.cpp \
-    managerole.cpp
+    managerole.cpp \
+    utils/Sort/Sort.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -87,7 +88,8 @@ HEADERS  += mainwindow.h \
     src/Role/Role.h \
     src/Role/RoleRepository.h \
     src/Role/RoleService.h \
-    managerole.h
+    managerole.h \
+    utils/Sort/Sort.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \

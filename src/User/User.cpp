@@ -139,3 +139,17 @@ Listt<BorrowBook> *User::getBorrowList(){
 bool User::operator == (const User& user) const{
     return this->user_id == user.user_id;
 }
+
+bool User::operator < (const User& user) const{
+    return this->user_id < user.user_id;
+}
+
+bool User::compareName(User a, User b){
+    return a.getFullname() < b.getFullname();
+}
+bool User::compareRole(User a, User b){
+    return a.getRole().getPriorty() < b.getRole().getPriorty();
+}
+bool User::compareCreateDate(User a, User b){
+    return a.getCreatedAt() < b.getCreatedAt();
+}

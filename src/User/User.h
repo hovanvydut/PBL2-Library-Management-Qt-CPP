@@ -62,7 +62,12 @@ public:
     void setBorrowBook(Listt<BorrowBook> *);
     //
     bool operator == (const User&) const;
+    bool operator < (const User&) const;
     friend class MainWindow;
+    //
+    static bool compareName(User, User);
+    static bool compareRole(User, User);
+    static bool compareCreateDate(User, User);
 
 };
 

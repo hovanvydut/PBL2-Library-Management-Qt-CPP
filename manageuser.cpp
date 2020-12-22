@@ -6,7 +6,7 @@
 #include <QStringList>
 #include "src/Role/RoleService.h"
 #include "managerole.h"
-
+#include "utils/Sort/Sort.cpp"
 
 ManageUser::ManageUser(QWidget *parent, User *sessionUser) :
     QDialog(parent),
@@ -39,17 +39,6 @@ void ManageUser::on_btnSearch_clicked()
         this->userModel->clear();
         this->clearInput();
 
-        QStringList horizontalHeader;
-        horizontalHeader.append("Id");
-        horizontalHeader.append(QString::fromUtf8("Họ và tên"));
-        horizontalHeader.append(QString::fromUtf8("Giới tính"));
-        horizontalHeader.append(QString::fromUtf8("Email"));
-        horizontalHeader.append(QString::fromUtf8("SĐT"));
-        horizontalHeader.append(QString::fromUtf8("Ngày sinh"));
-        horizontalHeader.append(QString::fromUtf8("Quyền"));
-        this->userModel->setHorizontalHeaderLabels(horizontalHeader);
-        this->ui->tableUser->setColumnWidth(0, this->ui->tableUser->width()/10);
-
         if (this->ui->inputSearch->text() == QString("")){
             this->userList = userService->findAll();
         } else if (this->ui->radioFullanme->isChecked()){
@@ -70,18 +59,7 @@ void ManageUser::on_btnSearch_clicked()
             this->userList = userService->findByFullname(this->ui->inputSearch->text());
         }
 
-        for (int i = 0; i < userList->getSize(); i++) {
-            User user = this->userList->get(i);
-            QStandardItem *idCol = new QStandardItem(QString::number(user.getUserId()));
-            QStandardItem *nameCol = new QStandardItem(user.getFullname());
-            QString _gender = user.getGender() == 0 ? "Nam" : (user.getGender() == 1 ? QString::fromUtf8("Nữ") : QString::fromUtf8("Không xác định"));
-            QStandardItem *gender = new QStandardItem(_gender);
-            QStandardItem *email = new QStandardItem(user.getEmail());
-            QStandardItem *phone = new QStandardItem(user.getPhone());
-            QStandardItem *birthday = new QStandardItem(user.getBirthday().toString("dd/MM/yyyy"));
-            QStandardItem *role = new QStandardItem(user.getRole().getDescription());
-            this->userModel->appendRow( QList<QStandardItem*>() << idCol << nameCol << gender << email << phone << birthday << role);
-        }
+       this->listToModel();
     } catch(const char* msg) {
         // show dialog instead console log
         qDebug() << msg;
@@ -91,6 +69,7 @@ void ManageUser::on_btnSearch_clicked()
 
 void ManageUser::on_tableUser_doubleClicked(const QModelIndex &index)
 {
+
     this->ui->tableUser->selectRow(index.row());
     User user = this->userList->get(index.row());
     this->ui->inputFullname->setText(user.getFullname());
@@ -283,3 +262,61 @@ int ManageUser::showMessageBox(QString title, QString text, QString info){
 
 }
 
+
+void ManageUser::on_btnSort_clicked()
+{
+    switch (this->ui->comboSort->currentIndex()) {
+    case 0:
+        Sort<User>::quickSort(this->userList, 0, this->userList->getSize()-1);
+//        Sort<User>::quickSort(this->userList, 0, this->userList->getSize()-1);
+        break;
+    case 1:
+        //this->userList->sort(User::compareName);
+        Sort<User>::quickSort(this->userList, 0, this->userList->getSize()-1, User::compareName);
+        break;
+    case 2:
+        //this->userList->sort(User::compareRole);
+        Sort<User>::quickSort(this->userList, 0, this->userList->getSize()-1, User::compareRole);
+        break;
+    case 3:
+        //this->userList->sort(User::compareCreateDate);
+        Sort<User>::quickSort(this->userList, 0, this->userList->getSize()-1, User::compareCreateDate);
+        break;
+    default:
+        break;
+    }
+
+    this->listToModel();
+}
+
+void ManageUser::listToModel(){
+    this->userModel->clear();
+
+    QStringList horizontalHeader;
+    horizontalHeader.append("Id");
+    horizontalHeader.append(QString::fromUtf8("Họ và tên"));
+    horizontalHeader.append(QString::fromUtf8("Giới tính"));
+    horizontalHeader.append(QString::fromUtf8("Email"));
+    horizontalHeader.append(QString::fromUtf8("SĐT"));
+    horizontalHeader.append(QString::fromUtf8("Ngày sinh"));
+    horizontalHeader.append(QString::fromUtf8("Quyền"));
+    horizontalHeader.append(QString::fromUtf8("Ngày tạo"));
+    horizontalHeader.append(QString::fromUtf8("Ngày cập nhật"));
+    this->userModel->setHorizontalHeaderLabels(horizontalHeader);
+    this->ui->tableUser->setColumnWidth(0, this->ui->tableUser->width()/10);
+
+    for (int i = 0; i < this->userList->getSize(); i++) {
+      User user = this->userList->get(i);
+      QStandardItem *idCol = new QStandardItem(QString::number(user.getUserId()));
+      QStandardItem *nameCol = new QStandardItem(user.getFullname());
+      QString _gender = user.getGender() == 0 ? "Nam" : (user.getGender() == 1 ? QString::fromUtf8("Nữ") : QString::fromUtf8("Không xác định"));
+      QStandardItem *gender = new QStandardItem(_gender);
+      QStandardItem *email = new QStandardItem(user.getEmail());
+      QStandardItem *phone = new QStandardItem(user.getPhone());
+      QStandardItem *birthday = new QStandardItem(user.getBirthday().toString("dd/MM/yyyy"));
+      QStandardItem *role = new QStandardItem(user.getRole().getDescription());
+      QStandardItem *created_at = new QStandardItem(user.getCreatedAt().toString("dd/MM/yyyy"));
+      QStandardItem *updated_at = new QStandardItem(user.getUpdatedAt().toString("dd/MM/yyyy"));
+      this->userModel->appendRow( QList<QStandardItem*>() << idCol << nameCol << gender << email << phone << birthday << role << created_at << updated_at);
+    }
+}

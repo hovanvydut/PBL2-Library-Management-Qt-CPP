@@ -41,7 +41,10 @@ User UserRepository::parse(QSqlQuery * query)
     QString code = query->value(10).toString();
     int priorty = query->value(11).toInt();
     QString description = query->value(12).toString();
-    return User(user_id, fullname, birthday, gender, email, phone, username, password, Role(role_id, priorty, code, description), address);
+    QDate created_at = query->value(13).toDate();
+    QDate updated_at = query->value(14).toDate();
+    return User(user_id, fullname, birthday, gender, email, phone, username, password, Role(role_id, priorty, code, description), address, created_at, updated_at);
+
 }
 
 Listt<User>* UserRepository::findAll()
@@ -50,7 +53,7 @@ Listt<User>* UserRepository::findAll()
     Listt<User>* list = new LinkedListt<User>();
 
 
-    this->query->prepare("SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description "
+    this->query->prepare("SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description, users.created_at, users.updated_at "
                          "FROM users INNER JOIN roles ON users.role_id = roles.role_id");
 
 
@@ -69,7 +72,7 @@ Listt<User>* UserRepository::findContain(QString key, QString value)
 
     Listt<User>* list = new LinkedListt<User>();
 
-    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description "
+    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description, users.created_at, users.updated_at "
                         "FROM users INNER JOIN roles ON users.role_id = roles.role_id "
                         "WHERE lower(" + key + ") LIKE lower(:value)";
     this->query->prepare(queryText);
@@ -90,7 +93,7 @@ Listt<User>* UserRepository::findExact(QString key, QString value)
 
     Listt<User>* list = new LinkedListt<User>();
 
-    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description "
+    QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description, users.created_at, users.updated_at "
                         "FROM users INNER JOIN roles ON users.role_id = roles.role_id "
                         "WHERE " + key + " = :value";
     this->query->prepare(queryText);

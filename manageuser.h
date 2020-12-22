@@ -37,6 +37,8 @@ private slots:
 
     void on_btnUpdate_clicked();
 
+    void on_btnSort_clicked();
+
 private:
     Ui::ManageUser *ui;
     QStandardItemModel *userModel;
@@ -48,6 +50,7 @@ private:
     Listt<Role> *listRole;
     QMap<int, int> roleId2Index;
     QMessageBox *msgBox;
+    void listToModel();
     int showMessageBox(QString = "", QString = "", QString = "");
 
 };
