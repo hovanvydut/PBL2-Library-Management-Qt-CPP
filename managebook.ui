@@ -266,10 +266,14 @@
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
-                <widget class="QListView" name="listView"/>
+                <widget class="QTableView" name="list_book_author"/>
                </item>
                <item>
-                <widget class="QListView" name="listView_2"/>
+                <widget class="QPushButton" name="btn_change_book_authors">
+                 <property name="text">
+                  <string>Chỉnh sửa</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>

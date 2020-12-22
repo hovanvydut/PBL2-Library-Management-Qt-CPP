@@ -16,6 +16,7 @@ public:
     static CategoryService* initCategoryService();
     ~CategoryService();
     Listt<Category>* findAll();
+    Listt<Category>* findByName(QString byName);
 };
 
 #endif // CATEGORYSERVICE_H

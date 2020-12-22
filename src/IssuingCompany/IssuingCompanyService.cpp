@@ -26,3 +26,8 @@ Listt<IssuingCompany>* IssuingCompanyService::findAll()
 {
     return this->_issuingCompanyRepository->findAll();
 }
+
+Listt<IssuingCompany>* IssuingCompanyService::findByName(QString byName)
+{
+    return this->_issuingCompanyRepository->findByName(byName);
+}

@@ -21,6 +21,7 @@ public:
     ~CategoryRepository();
     Category parse(QSqlQuery *);
     Listt<Category>* findAll();
+    Listt<Category>* findByName(QString byName);
 };
 
 #endif // CATEGORYREPOSITORY_H

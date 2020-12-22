@@ -9,7 +9,7 @@ class Category : public Comparable<Category>
 {
 
 private:
-    int categories_id;
+    int categories_id = -1;
     QString name;
     QDate created_at;
     QDate updated_at;
@@ -18,6 +18,7 @@ private:
 public:
     Category();
     Category(int, QString, QDate, QDate, QDate);
+    Category(const Category& category);
     ~Category();
 
     int getId() const;

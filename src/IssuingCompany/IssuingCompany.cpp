@@ -19,6 +19,15 @@ IssuingCompany::IssuingCompany(int issuing_company_id, QString name, QDate creat
     this->deleted_at = deleted_at;
 }
 
+IssuingCompany::IssuingCompany(const IssuingCompany& issuingCompany)
+{
+    this->issuing_company_id = issuingCompany.getId();
+    this->name = issuingCompany.getName();
+    this->created_at = issuingCompany.getCreatedAt();
+    this->updated_at = issuingCompany.getUpdatedAt();
+    this->deleted_at = issuingCompany.getDeletedAt();
+}
+
 int IssuingCompany::getId() const
 {
     return this->issuing_company_id;

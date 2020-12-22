@@ -6,6 +6,7 @@ ChangeBookPublisher::ChangeBookPublisher(QWidget *parent) :
     ui(new Ui::ChangeBookPublisher)
 {
     ui->setupUi(this);
+    ui->table_publisher->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 ChangeBookPublisher::~ChangeBookPublisher()

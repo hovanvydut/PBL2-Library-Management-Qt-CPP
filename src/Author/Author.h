@@ -11,7 +11,7 @@ class Author : public Comparable<Author>
 {
 
 private:
-    int author_id;
+    int author_id = -1;
     QString name;
     QDate created_at;
     QDate updated_at;

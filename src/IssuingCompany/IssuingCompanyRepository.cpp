@@ -54,3 +54,19 @@ Listt<IssuingCompany>* IssuingCompanyRepository::findAll()
     return list;
 }
 
+Listt<IssuingCompany>* IssuingCompanyRepository::findByName(QString byName)
+{
+    Listt<IssuingCompany>* list = new LinkedListt<IssuingCompany>();
+    this->query->prepare("SELECT issuing_company_id, name, created_at, updated_at, deleted_at "
+                         "FROM dbo.issuing_company "
+                         "WHERE deleted_at IS NULL AND UPPER(name) LIKE UPPER('%" + byName + "%')"
+                         );
+    this->query->exec();
+    while(this->query->next())
+    {
+        list->add(this->parse(this->query));
+    }
+
+    return list;
+}
+

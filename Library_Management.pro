@@ -47,7 +47,10 @@ SOURCES += main.cpp\
     manageuser.cpp \
     managebook.cpp \
     ui_component/edit_book/ChangeBookPublisher.cpp \
-    ui_component/edit_book/BridgeManageBookUpdateProp.cpp
+    ui_component/edit_book/BridgeManageBookUpdateProp.cpp \
+    ui_component/edit_book/ChangeBookCategory.cpp \
+    ui_component/edit_book/ChangeBookIssuingCompany.cpp \
+    ui_component/edit_book/ChangeBookAuthors.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -81,13 +84,19 @@ HEADERS  += mainwindow.h \
     manageuser.h \
     managebook.h \
     ui_component/edit_book/ChangeBookPublisher.h \
-    ui_component/edit_book/BridgeManageBookUpdateProp.h
+    ui_component/edit_book/BridgeManageBookUpdateProp.h \
+    ui_component/edit_book/ChangeBookCategory.h \
+    ui_component/edit_book/ChangeBookIssuingCompany.h \
+    ui_component/edit_book/ChangeBookAuthors.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \
     manageuser.ui \
     managebook.ui \
-    ui_component/edit_book/changebookpublisher.ui
+    ui_component/edit_book/changebookpublisher.ui \
+    ui_component/edit_book/ChangeBookCategory.ui \
+    ui_component/edit_book/ChangeBookIssuingCompany.ui \
+    ui_component/edit_book/ChangeBookAuthors.ui
 
 DISTFILES += \
     config.txt

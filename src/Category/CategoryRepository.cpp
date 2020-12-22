@@ -54,3 +54,19 @@ Listt<Category>* CategoryRepository::findAll()
     return list;
 }
 
+Listt<Category>* CategoryRepository::findByName(QString byName)
+{
+    Listt<Category>* list = new LinkedListt<Category>();
+    this->query->prepare("SELECT categories_id, name, created_at, updated_at, deleted_at "
+                         "FROM dbo.categories "
+                         "WHERE deleted_at IS NULL AND UPPER(name) LIKE UPPER('%" + byName + "%')"
+                         );
+    this->query->exec();
+    while(this->query->next())
+    {
+        list->add(this->parse(this->query));
+    }
+
+    return list;
+}
+

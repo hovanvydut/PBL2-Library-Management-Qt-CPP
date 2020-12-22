@@ -260,6 +260,7 @@ void LinkedListt<E>::clear()
   }
 
   this->data = nullptr;
+  this->size = 0;
 }
 
 template <class E>

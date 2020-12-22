@@ -25,6 +25,7 @@ public:
     Author parse(QSqlQuery *);
     Listt<Author>* findAll();
     Listt<Author>* findBooksOfAuthorByAuthorName(QString name);
+    Listt<Author>* findAuthorByName(QString byName);
     Book parseBook(QSqlQuery *, int offset);
 };
 

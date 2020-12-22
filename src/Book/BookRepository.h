@@ -7,6 +7,7 @@
 #include "src/Book/Book.h"
 #include "utils/ListPackage/LinkedListt/LinkedListt.h"
 #include "utils/DatabaseConnection/DatabaseConnection.h"
+#include "src/Author/AuthorRepository.h"
 
 class BookRepository : public Repository<Book>
 {

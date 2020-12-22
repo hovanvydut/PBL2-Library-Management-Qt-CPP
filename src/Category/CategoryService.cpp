@@ -27,3 +27,8 @@ Listt<Category>* CategoryService::findAll()
     return this->_categoryRepository->findAll();
 }
 
+Listt<Category>* CategoryService::findByName(QString byName)
+{
+    return this->_categoryRepository->findByName(byName);
+}
+

@@ -32,4 +32,9 @@ Listt<Author>* AuthorService::findBooksOfAuthorByAuthorName(QString name)
     return this->_authorRepository->findBooksOfAuthorByAuthorName(name);
 }
 
+Listt<Author>* AuthorService::findAuthorByName(QString byName)
+{
+    return this->_authorRepository->findAuthorByName(byName);
+}
+
 

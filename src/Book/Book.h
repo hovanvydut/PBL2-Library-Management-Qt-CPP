@@ -94,6 +94,7 @@ public:
 
     Listt<Author>* getAuthors();
     bool addAuthor(Author);
+    void setAnotherAuthorList(Listt<Author>* list);
 
     bool operator == (const Book&) const;
 };

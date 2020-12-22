@@ -16,7 +16,7 @@ public:
     static IssuingCompanyService* initIssuingCompanyService();
     ~IssuingCompanyService();
     Listt<IssuingCompany>* findAll();
-
+    Listt<IssuingCompany>* findByName(QString byName);
 };
 
 #endif // ISSUINGCOMPANYSERVICE_H

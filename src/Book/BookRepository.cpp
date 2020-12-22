@@ -97,6 +97,23 @@ Listt<Book>* BookRepository::findByBookTitle2(QString title)
         list->add(this->parse2(this->query));
     }
 
+    // Query authors of book
+
+    AuthorRepository *authorRepo = AuthorRepository::initAuthorRepository();
+
+    for (int i = 0; i < list->getSize(); i++) {    
+        this->query->prepare("SELECT A.author_id, A.name, A.created_at, A.updated_at, A.deleted_at"
+                             " FROM dbo.author_books AS AB"
+                             " LEFT OUTER JOIN dbo.authors AS A ON A.author_id = AB.author_id"
+                             " WHERE AB.book_id = " + QString::number(list->get(i).getId())
+        );
+        this->query->exec();
+        while (this->query->next()) {
+            Author author = authorRepo->parse(this->query);
+            list->get(i).addAuthor(author);
+        }
+    }
+
     return list;
 }
 
@@ -142,6 +159,23 @@ bool BookRepository::updateBook(Book book)
                              "', deleted_at = " + deleted_at +
                              " WHERE book_id = " + id);
         this->query->exec();
+
+        this->query->prepare("DELETE FROM author_books WHERE book_id = " + QString::number(book.getId()));
+        this->query->exec();
+
+        Listt<Author>* authorList = book.getAuthors();
+        QString txt = "";
+        for (int i = 0; i < authorList->getSize(); i++) {
+            txt += "(" + QString::number(authorList->get(i).getId()) + ", "
+                    + QString::number(book.getId()) + "),";
+        }
+        if (txt.size() > 0) {
+            txt.remove(txt.size()-1, 1);
+        }
+        this->query->prepare("INSERT INTO author_books(author_id, book_id) "
+                             " VALUES " + txt);
+        this->query->exec();
+
         return true;
     }
     return false;

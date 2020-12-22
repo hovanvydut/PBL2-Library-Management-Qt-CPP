@@ -8,6 +8,9 @@
 #include <QAbstractItemView>
 #include "ui_component/edit_book/BridgeManageBookUpdateProp.h"
 #include <QMessageBox>
+#include "ui_component/edit_book/ChangeBookCategory.h"
+#include "ui_component/edit_book/ChangeBookIssuingCompany.h"
+#include "ui_component/edit_book/ChangeBookAuthors.h"
 
 
 namespace Ui {
@@ -42,6 +45,12 @@ private slots:
     void on_btn_reset_book_clicked();
 
     void on_btn_update_book_clicked();
+
+    void on_btn_change_book_category_clicked();
+
+    void on_btn_change_book_issuing_compan_clicked();
+
+    void on_btn_change_book_authors_clicked();
 
 private:
     Ui::managebook *ui;

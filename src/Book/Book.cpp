@@ -4,6 +4,7 @@
 Book::Book()
 {
     this->book_id = -1;
+    this->authors = new LinkedListt<Author>();
 }
 
 Book::Book(int book_id, QString title, QString cover_type, float price,
@@ -26,6 +27,7 @@ Book::Book(int book_id, QString title, QString cover_type, float price,
     this->created_at = created_at;
     this->updated_at = updated_at;
     this->deleted_at = deleted_at;
+    this->authors = new LinkedListt<Author>();
 }
 
 Book::~Book()
@@ -207,6 +209,12 @@ Listt<Author>* Book::getAuthors()
 bool Book::addAuthor(Author author)
 {
     this->authors->add(author);
+}
+
+void Book::setAnotherAuthorList(Listt<Author>* list)
+{
+    this->authors->clear();
+    this->authors = list;
 }
 
 bool Book::operator == (const Book& book) const

@@ -20,6 +20,7 @@ public:
     ~IssuingCompanyRepository();
     IssuingCompany parse(QSqlQuery *);
     Listt<IssuingCompany>* findAll();
+    Listt<IssuingCompany>* findByName(QString byName);
 };
 
 #endif // ISSUINGCOMPANYREPOSITORY_H

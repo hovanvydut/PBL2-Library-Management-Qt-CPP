@@ -22,7 +22,7 @@ AuthorRepository* AuthorRepository::initAuthorRepository()
     return _authorRepository;
 }
 
-Author AuthorRepository::parse(QSqlQuery *)
+Author AuthorRepository::parse(QSqlQuery * query)
 {
     int id = query->value(0).toInt();
     QString name = query->value(1).toString();
@@ -110,5 +110,21 @@ Listt<Author>* AuthorRepository::findBooksOfAuthorByAuthorName(QString name)
     }
 
     return listAuthors;
+}
+
+Listt<Author>* AuthorRepository::findAuthorByName(QString byName)
+{
+    Listt<Author>* list = new LinkedListt<Author>();
+    this->query->prepare("SELECT author_id, name, created_at, updated_at, deleted_at "
+                         "FROM dbo.authors "
+                         "WHERE deleted_at IS NULL AND UPPER(name) LIKE UPPER('%" + byName + "%')"
+                         );
+    this->query->exec();
+    while(this->query->next())
+    {
+        list->add(this->parse(this->query));
+    }
+
+    return list;
 }
 
