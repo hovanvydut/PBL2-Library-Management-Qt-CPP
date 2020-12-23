@@ -258,6 +258,9 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="menuAdminShowBook"/>
     <addaction name="menuAdminShowUsers"/>
+    <addaction name="menu_publisher"/>
+    <addaction name="menu_category"/>
+    <addaction name="menu_issuing_company"/>
    </widget>
    <widget class="QMenu" name="menuGi_i_thi_u">
     <property name="title">
@@ -313,6 +316,21 @@ p, li { white-space: pre-wrap; }
   <action name="menuInfoDev">
    <property name="text">
     <string>Nhà phát triển</string>
+   </property>
+  </action>
+  <action name="menu_publisher">
+   <property name="text">
+    <string>Nhà xuất bản</string>
+   </property>
+  </action>
+  <action name="menu_category">
+   <property name="text">
+    <string>Chuyên mục</string>
+   </property>
+  </action>
+  <action name="menu_issuing_company">
+   <property name="text">
+    <string>Công ty phát hành</string>
    </property>
   </action>
  </widget>

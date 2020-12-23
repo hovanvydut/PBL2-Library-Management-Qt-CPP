@@ -31,3 +31,13 @@ Listt<Publisher>* PublisherService::findByName(QString name)
 {
     return this->_publisherRepository->findByName(name);
 }
+
+bool PublisherService::savePublisher(Publisher publisher)
+{
+    return this->_publisherRepository->savePublisher(publisher);
+}
+
+bool PublisherService::deletePublisherById(int id)
+{
+    return this->_publisherRepository->deletePublisherById(id);
+}

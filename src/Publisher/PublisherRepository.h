@@ -22,6 +22,8 @@ public:
     Publisher parse(QSqlQuery *);
     Listt<Publisher>* findAll();
     Listt<Publisher>* findByName(QString byName);
+    bool savePublisher(Publisher publisher);
+    bool deletePublisherById(int id);
 };
 
 #endif // PUBLISHERREPOSITORY_H

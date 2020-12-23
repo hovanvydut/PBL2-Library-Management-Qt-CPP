@@ -9,7 +9,7 @@ class Publisher : public Comparable<Publisher>
 {
 
 private:
-    int publisher_id;
+    int publisher_id = -1;
     QString name;
     QDate created_at;
     QDate updated_at;
@@ -18,6 +18,7 @@ private:
 public:
     Publisher();
     Publisher(int, QString, QDate, QDate, QDate);
+    Publisher(QString, QDate, QDate);
     Publisher(const Publisher& publisher);
 
     ~Publisher();

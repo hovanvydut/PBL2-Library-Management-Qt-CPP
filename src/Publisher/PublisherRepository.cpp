@@ -70,3 +70,34 @@ Listt<Publisher>* PublisherRepository::findByName(QString byName)
     return list;
 }
 
+bool PublisherRepository::savePublisher(Publisher publisher)
+{
+    if (publisher.getId() == -1)
+    {
+        QString name = publisher.getName();
+        QString createdAt = publisher.getCreatedAt().toString(Qt::ISODate);
+        QString updatedAt = publisher.getUpdatedAt().toString(Qt::ISODate);
+        QString deletedAt = "NULL";
+
+        QString queryTxt = "INSERT INTO publishers (name, created_at, updated_at, deleted_at) "
+                "VALUES ('"
+                + name + "', '" + createdAt + "', '" + updatedAt
+                + "', " + deletedAt + ")";
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        return this->query->exec();
+    }
+    return false;
+}
+
+bool PublisherRepository::deletePublisherById(int id)
+{
+    if (id < 0)
+        return false;
+
+    QString queryTxt = "DELETE FROM publishers WHERE publisher_id = " + QString::number(id);
+    qDebug() << queryTxt;
+    this->query->prepare(queryTxt);
+    return this->query->exec();
+}
+

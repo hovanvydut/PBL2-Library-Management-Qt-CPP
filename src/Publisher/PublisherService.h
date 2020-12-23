@@ -18,7 +18,8 @@ public:
     ~PublisherService();
     Listt<Publisher>* findAll();
     Listt<Publisher>* findByName(QString name);
-
+    bool savePublisher(Publisher publisher);
+    bool deletePublisherById(int id);
 };
 
 #endif // PUBLISHERSERVICE_H

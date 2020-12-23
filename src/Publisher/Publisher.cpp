@@ -14,6 +14,15 @@ Publisher::Publisher(int publisher_id, QString name, QDate created_at, QDate upd
     this->deleted_at = deleted_at;
 }
 
+Publisher::Publisher(QString name, QDate created_at, QDate updated_at)
+{
+    this->publisher_id = -1;
+    this->name = name;
+    this->created_at = created_at;
+    this->updated_at = updated_at;
+    this->deleted_at = QDate::currentDate();
+}
+
 Publisher::Publisher(const Publisher& publisher)
 {
     this->publisher_id = publisher.getId();

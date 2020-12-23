@@ -401,3 +401,16 @@ void MainWindow::on_menuAdminShowBook_triggered()
        this->show();
     }
 }
+
+// Show dialog CRUD Publisher
+void MainWindow::on_menu_publisher_triggered()
+{
+    ManagePublisher* mangePublisher = new ManagePublisher();
+    mangePublisher->show();
+    this->hide();
+    if (mangePublisher->exec() == QDialog::Rejected) {
+       mangePublisher->close();
+       delete mangePublisher;
+       this->show();
+    }
+}
