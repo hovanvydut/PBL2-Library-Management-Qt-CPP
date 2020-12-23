@@ -117,6 +117,7 @@ Listt<Book>* BookRepository::findByBookTitle2(QString title)
     return list;
 }
 
+// Cập nhật sách
 bool BookRepository::updateBook(Book book)
 {
     if (book.getId() >= 0) {
@@ -140,8 +141,6 @@ bool BookRepository::updateBook(Book book)
         }
         QString id = QString::number(book.getId());
 
-        qDebug() << title;
-
         this->query->prepare("UPDATE books"
                              " SET title = '" + title +
                              "', cover_type = '" + coverType +
@@ -158,29 +157,33 @@ bool BookRepository::updateBook(Book book)
                              "', updated_at = '" + updated_at +
                              "', deleted_at = " + deleted_at +
                              " WHERE book_id = " + id);
-        this->query->exec();
+        bool result1 = this->query->exec();
 
         this->query->prepare("DELETE FROM author_books WHERE book_id = " + QString::number(book.getId()));
         this->query->exec();
 
         Listt<Author>* authorList = book.getAuthors();
-        QString txt = "";
-        for (int i = 0; i < authorList->getSize(); i++) {
-            txt += "(" + QString::number(authorList->get(i).getId()) + ", "
-                    + QString::number(book.getId()) + "),";
+        bool result2 = true;
+        if (authorList->getSize() > 0) {
+            QString txt = "";
+            for (int i = 0; i < authorList->getSize(); i++) {
+                txt += "(" + QString::number(authorList->get(i).getId()) + ", "
+                        + QString::number(book.getId()) + "),";
+            }
+            if (txt.size() > 0) {
+                txt.remove(txt.size()-1, 1);
+            }
+            this->query->prepare("INSERT INTO author_books(author_id, book_id) "
+                                 " VALUES " + txt);
+            result2 = this->query->exec();
         }
-        if (txt.size() > 0) {
-            txt.remove(txt.size()-1, 1);
-        }
-        this->query->prepare("INSERT INTO author_books(author_id, book_id) "
-                             " VALUES " + txt);
-        this->query->exec();
 
-        return true;
+        return result1&&result2;
     }
     return false;
 }
 
+// Thêm mới sách
 bool BookRepository::insertBook(Book book)
 {
     if (book.getId() == -1)
@@ -225,28 +228,35 @@ bool BookRepository::insertBook(Book book)
                         " , " + deleted_at + ")";
         qDebug() << queryTxt;
         this->query->prepare(queryTxt);
-        this->query->exec();
+        bool result1 = this->query->exec();
         this->query->next();
         int lastInsertId = this->query->value(0).toInt();
         qDebug() << "id --> " << lastInsertId;
+
         Listt<Author>* authorList = book.getAuthors();
-        QString txt = "";
-        for (int i = 0; i < authorList->getSize(); i++) {
-            txt += "(" + QString::number(authorList->get(i).getId()) + ", "
-                    + QString::number(lastInsertId) + "),";
+        bool result2 = true;
+        if (authorList->getSize() > 0)
+        {
+            QString txt = "";
+            for (int i = 0; i < authorList->getSize(); i++) {
+                txt += "(" + QString::number(authorList->get(i).getId()) + ", "
+                        + QString::number(lastInsertId) + "),";
+            }
+            if (txt.size() > 0) {
+                txt.remove(txt.size()-1, 1);
+            }
+            QString queryTxt2 = "INSERT INTO author_books(author_id, book_id) "
+                               " VALUES " + txt;
+            qDebug() << queryTxt2;
+            this->query->prepare(queryTxt2);
+            result2 = this->query->exec();
         }
-        if (txt.size() > 0) {
-            txt.remove(txt.size()-1, 1);
-        }
-        QString queryTxt2 = "INSERT INTO author_books(author_id, book_id) "
-                           " VALUES " + txt;
-        qDebug() << queryTxt2;
-        this->query->prepare(queryTxt2);
-        this->query->exec();
-        return true;
+
+        return result1&&result2;
     }
     return false;
 }
+
 
 Book BookRepository::parse(QSqlQuery *query)
 {
@@ -318,3 +328,5 @@ bool BookRepository::deleteBookById(int id)
     }
     return false;
 }
+
+

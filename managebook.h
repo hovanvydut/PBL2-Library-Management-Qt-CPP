@@ -62,6 +62,10 @@ private slots:
 
     void on_btn_delete_book_clicked();
 
+    static bool validateInput(QString title, QString coverType, float price, int total,
+                              int available, int issuing_company_id, int publisher_id,
+                              int category_id);
+
 private:
     Ui::managebook *ui;
 };
