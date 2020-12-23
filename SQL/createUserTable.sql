@@ -21,7 +21,8 @@ CREATE TABLE users (
 	password VARCHAR(32) check(LEN(password) > 10),
 	address NVARCHAR(200),
 	created_at DATETIME DEFAULT GETDATE(),
-	updated_at DATETIME ,
+	updated_at DATETIME,
+	deleted_at DATETIME
 )
 
 -- Seeding data
@@ -30,4 +31,5 @@ INSERT INTO roles(code, description, priorty) VALUES('admin', 'Quản lí nhân 
 INSERT INTO roles(code, description, priorty) VALUES('employee', 'Quản lí khách hàng', 2)
 INSERT INTO roles(code, description, priorty) VALUES('guest', 'Khách hàng', 3)
 -- change role_id to role_id of superuser
-INSERT INTO users(fullname, phone, gender, birthday, role_id, username, password) VALUES(N'Quản lí', '0123456789', 0, '01/01/2001', 1, 'superuser', 'd94354ac9cf3024f57409bd74eec6b4c')
+INSERT INTO users(fullname, phone, gender, birthday, role_id, username, password) VALUES(N'Quản lí', '0123456789', 0, '01/01/2001', 19, 'superuser', 'd94354ac9cf3024f57409bd74eec6b4c')
+

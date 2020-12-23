@@ -54,7 +54,7 @@ Listt<User>* UserRepository::findAll()
 
 
     this->query->prepare("SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description, users.created_at, users.updated_at "
-                         "FROM users INNER JOIN roles ON users.role_id = roles.role_id");
+                         "FROM users INNER JOIN roles ON users.role_id = roles.role_id WHERE users.deleted_at IS NULL");
 
 
     this->query->exec();
@@ -74,7 +74,7 @@ Listt<User>* UserRepository::findContain(QString key, QString value)
 
     QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description, users.created_at, users.updated_at "
                         "FROM users INNER JOIN roles ON users.role_id = roles.role_id "
-                        "WHERE lower(" + key + ") LIKE lower(:value)";
+                        "WHERE users.deleted_at IS NULL AND lower(" + key + ") LIKE lower(:value)";
     this->query->prepare(queryText);
     this->query->bindValue(":value", QString("%%1%").arg(value));
 
@@ -95,7 +95,7 @@ Listt<User>* UserRepository::findExact(QString key, QString value)
 
     QString queryText = "SELECT user_id, fullname, birthday, gender, phone, email, users.role_id, username, password, address, code, priorty, description, users.created_at, users.updated_at "
                         "FROM users INNER JOIN roles ON users.role_id = roles.role_id "
-                        "WHERE " + key + " = :value";
+                        "WHERE users.deleted_at IS NULL AND " + key + " = :value";
     this->query->prepare(queryText);
     this->query->bindValue(":value", value);
 
@@ -179,7 +179,7 @@ int UserRepository::deleteUsers(Listt<User>* listUser){
     QString queryText;
     for (int i = 0;i < listUser->getSize();i++){
         int id = listUser->get(i).getUserId();
-        queryText = "DELETE FROM users WHERE user_id = :id";
+        queryText = "UPDATE users SET deleted_at = GETDATE() WHERE user_id = :id";
         try{
             this->query->prepare("SELECT COUNT(borrow_book_id) AS count_borrow FROM borrow_books WHERE deleted_at IS NULL AND user_id = :id");
             this->query->bindValue(":id", QString::number(id));
@@ -258,7 +258,7 @@ void UserRepository::validateBeforeInsert(const User& user){
     // validate in database
     QString queryText;
     // check if phone exist
-    queryText = "SELECT * FROM users WHERE phone = :phone";
+    queryText = "SELECT * FROM users WHERE phone = :phone AND deleted_at IS NULL";
     this->query->prepare(queryText);
     this->query->bindValue(":phone", user.getPhone());
     this->query->exec();
@@ -268,7 +268,7 @@ void UserRepository::validateBeforeInsert(const User& user){
     // check if email exist
     if (user.getEmail() != ""){
         count = 0;
-        queryText = "SELECT * FROM users WHERE email = :email";
+        queryText = "SELECT * FROM users WHERE email = :email AND deleted_at IS NULL";
         this->query->prepare(queryText);
         this->query->bindValue(":email", user.getEmail());
         this->query->exec();
@@ -278,7 +278,7 @@ void UserRepository::validateBeforeInsert(const User& user){
     // check if username exist
     if (user.getRole().getCode() != "guest"){
         count = 0;
-        queryText = "SELECT * FROM users WHERE username = :username";
+        queryText = "SELECT * FROM users WHERE username = :username AND deleted_at IS NULL";
         this->query->prepare(queryText);
         this->query->bindValue(":username", user.getUsername());
         this->query->exec();
@@ -315,7 +315,7 @@ void UserRepository::validateBeforeUpdate(const User& user){
     // validate in database
     QString queryText;
     // check if phone exist
-    queryText = "SELECT * FROM users WHERE phone = :phone AND user_id != :user_id";
+    queryText = "SELECT * FROM users WHERE phone = :phone AND user_id != :user_id AND deleted_at IS NULL";
     this->query->prepare(queryText);
     this->query->bindValue(":phone", user.getPhone());
     this->query->bindValue(":user_id", QString::number(user.getUserId()));
@@ -326,7 +326,7 @@ void UserRepository::validateBeforeUpdate(const User& user){
     // check if email exist
     if (user.getEmail() != ""){
         count = 0;
-        queryText = "SELECT * FROM users WHERE email = :email AND user_id != :user_id";
+        queryText = "SELECT * FROM users WHERE email = :email AND user_id != :user_id AND deleted_at IS NULL";
         this->query->prepare(queryText);
         this->query->bindValue(":email", user.getEmail());
         this->query->bindValue(":user_id", QString::number(user.getUserId()));
@@ -337,7 +337,7 @@ void UserRepository::validateBeforeUpdate(const User& user){
     // check if username exist
     if (user.getRole().getCode() != "guest"){
         count = 0;
-        queryText = "SELECT * FROM users WHERE username = :username AND user_id != :user_id";
+        queryText = "SELECT * FROM users WHERE username = :username AND user_id != :user_id AND deleted_at IS NULL";
         this->query->prepare(queryText);
         this->query->bindValue(":username", user.getUsername());
         this->query->bindValue(":user_id", QString::number(user.getUserId()));
