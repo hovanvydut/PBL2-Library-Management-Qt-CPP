@@ -5,6 +5,8 @@
 #include <QStandardItemModel>
 #include "src/User/User.h"
 #include "utils/ListPackage/Listt/Listt.h"
+#include <QMap>
+#include <QMessageBox>
 
 namespace Ui {
 class ManageUser;
@@ -15,7 +17,7 @@ class ManageUser : public QDialog
     Q_OBJECT
 
 public:
-    explicit ManageUser(QWidget *parent = 0);
+    explicit ManageUser(QWidget *parent = 0, User *sessionUser = 0);
     ~ManageUser();
 
 private slots:
@@ -33,12 +35,24 @@ private slots:
 
     void on_btnAdd_clicked();
 
+    void on_btnUpdate_clicked();
+
+    void on_btnSort_clicked();
+
 private:
     Ui::ManageUser *ui;
     QStandardItemModel *userModel;
     Listt<User>* userList;
     void clearInput();
     User loadInfo();
+    void loadRole();
+    User *sessionUser;
+    Listt<Role> *listRole;
+    QMap<int, int> roleId2Index;
+    QMessageBox *msgBox;
+    void listToModel();
+    int showMessageBox(QString = "", QString = "", QString = "");
+
 };
 
 #endif // MANAGEUSER_H

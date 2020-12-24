@@ -42,6 +42,11 @@ Listt<User>* UserService::findById(int id)
     return this->_userRepository->findExact("user_id", QString::number(id));
 }
 
+Listt<User>* UserService::findByUsername(QString username)
+{
+    return this->_userRepository->findExact("username", username);
+}
+
 Listt<BorrowBook>* UserService::getBorrowBook(int id){
     return this->_userRepository->getBorrowBook(id);
 }
@@ -57,3 +62,8 @@ int UserService::deleteUsers(Listt<User>* listUser){
 void UserService::addUser(const User& user){
     this->_userRepository->addUser(user);
 }
+
+void UserService::updateUser(const User& user){
+    this->_userRepository->updateUser(user);
+}
+

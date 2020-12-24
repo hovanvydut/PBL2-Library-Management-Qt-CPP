@@ -50,7 +50,13 @@ SOURCES += main.cpp\
     ui_component/edit_book/BridgeManageBookUpdateProp.cpp \
     ui_component/edit_book/ChangeBookCategory.cpp \
     ui_component/edit_book/ChangeBookIssuingCompany.cpp \
-    ui_component/edit_book/ChangeBookAuthors.cpp
+    ui_component/edit_book/ChangeBookAuthors.cpp \
+    utils/Auth/Password.cpp \
+    src/Role/Role.cpp \
+    src/Role/RoleRepository.cpp \
+    src/Role/RoleService.cpp \
+    managerole.cpp \
+    utils/Sort/Sort.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -87,7 +93,13 @@ HEADERS  += mainwindow.h \
     ui_component/edit_book/BridgeManageBookUpdateProp.h \
     ui_component/edit_book/ChangeBookCategory.h \
     ui_component/edit_book/ChangeBookIssuingCompany.h \
-    ui_component/edit_book/ChangeBookAuthors.h
+    ui_component/edit_book/ChangeBookAuthors.h\
+    utils/Auth/Password.h \
+    src/Role/Role.h \
+    src/Role/RoleRepository.h \
+    src/Role/RoleService.h \
+    managerole.h \
+    utils/Sort/Sort.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \
@@ -96,7 +108,8 @@ FORMS    += mainwindow.ui \
     ui_component/edit_book/changebookpublisher.ui \
     ui_component/edit_book/ChangeBookCategory.ui \
     ui_component/edit_book/ChangeBookIssuingCompany.ui \
-    ui_component/edit_book/ChangeBookAuthors.ui
+    ui_component/edit_book/ChangeBookAuthors.ui \
+    managerole.ui
 
 DISTFILES += \
     config.txt

@@ -7,7 +7,6 @@
 #include "src/User/User.h"
 #include "utils/ListPackage/LinkedListt/LinkedListt.h"
 #include "utils/DatabaseConnection/DatabaseConnection.h"
-#include "src/BorrowBook/BorrowBook.h"
 
 class UserRepository : public Repository<User>
 {
@@ -28,7 +27,10 @@ public:
     Listt<BorrowBook>* getBorrowBook(int);
     int returnBook(Listt<int>*);
     int deleteUsers(Listt<User>*);
-    void addUser(const User&) const;
+    void addUser(const User&);
+    void validateBeforeInsert(const User&);
+    void updateUser(const User&);
+    void validateBeforeUpdate(const User&);
 
 
 };
