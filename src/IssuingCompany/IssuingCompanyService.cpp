@@ -31,3 +31,18 @@ Listt<IssuingCompany>* IssuingCompanyService::findByName(QString byName)
 {
     return this->_issuingCompanyRepository->findByName(byName);
 }
+
+bool IssuingCompanyService::saveIssuingCompany(IssuingCompany issuingCompany)
+{
+    return this->_issuingCompanyRepository->saveIssuingCompany(issuingCompany);
+}
+
+bool IssuingCompanyService::updateIssuingCompany(IssuingCompany issuingCompany)
+{
+    return this->_issuingCompanyRepository->updateIssuingCompany(issuingCompany);
+}
+
+bool IssuingCompanyService::deleteIssuingCompanyById(int id)
+{
+    return this->_issuingCompanyRepository->deleteIssuingCompanyById(id);
+}

@@ -17,6 +17,9 @@ public:
     ~IssuingCompanyService();
     Listt<IssuingCompany>* findAll();
     Listt<IssuingCompany>* findByName(QString byName);
+    bool saveIssuingCompany(IssuingCompany issuingCompany);
+    bool updateIssuingCompany(IssuingCompany issuingCompany);
+    bool deleteIssuingCompanyById(int id);
 };
 
 #endif // ISSUINGCOMPANYSERVICE_H

@@ -14,6 +14,24 @@ Category::Category(int categories_id, QString name, QDate created_at, QDate upda
     this->deleted_at = deleted_at;
 }
 
+Category::Category(int categories_id, QString name, QDate created_at, QDate updated_at)
+{
+    this->categories_id = categories_id;
+    this->name = name;
+    this->created_at = created_at;
+    this->updated_at = updated_at;
+    this->deleted_at = QDate::currentDate();
+}
+
+Category::Category(QString name, QDate created_at, QDate updated_at)
+{
+    this->categories_id = -1;
+    this->name = name;
+    this->created_at = created_at;
+    this->updated_at = updated_at;
+    this->deleted_at = QDate::currentDate();
+}
+
 Category::Category(const Category& category)
 {
     this->categories_id = category.getId();

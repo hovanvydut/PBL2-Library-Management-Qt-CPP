@@ -1,26 +1,21 @@
-#include "ManagePublisher.h"
-#include "ui_ManagePublisher.h"
+#include "ManageCategory.h"
+#include "ui_ManageCategory.h"
 
-ManagePublisher::ManagePublisher(QWidget *parent) :
+ManageCategory::ManageCategory(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ManagePublisher)
+    ui(new Ui::ManageCategory)
 {
     ui->setupUi(this);
-    ui->table_publisher->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    this->publisherList = new LinkedListt<Publisher>();
+    ui->table_category->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->categoryList = new LinkedListt<Category>();
 }
 
-ManagePublisher::~ManagePublisher()
-{
-    delete ui;
-}
-
-int ManagePublisher::getIndexRow()
+int ManageCategory::getIndexRow()
 {
     return this->indexRow;
 }
 
-bool ManagePublisher::setIndexRow(int idx)
+bool ManageCategory::setIndexRow(int idx)
 {
     if (idx < 0)
         return false;
@@ -28,71 +23,76 @@ bool ManagePublisher::setIndexRow(int idx)
     return true;
 }
 
-void ManagePublisher::resetIndexRow()
+void ManageCategory::resetIndexRow()
 {
     this->indexRow = -1;
 }
 
-Publisher ManagePublisher::getCurrentPublisher()
+Category ManageCategory::getCurrentCategory()
 {
-    return this->currentPublisher;
+    return this->currentCategory;
 }
 
-bool ManagePublisher::setCurrentPublisher(Publisher publisher)
+bool ManageCategory::setCurrentCategory(Category category)
 {
-    this->currentPublisher = publisher;
+    this->currentCategory = category;
     return true;
 }
 
-void ManagePublisher::on_btn_search_clicked()
+ManageCategory::~ManageCategory()
 {
-   PublisherService* publisherService = PublisherService::initPublisherService();
-
-    QString byName = ui->input_search->text();
-
-    // Tìm kiếm theo tên sách
-    this->publisherList->clear();
-
-    this->publisherList = publisherService->findByName(byName);
-
-    QStandardItemModel *model = new QStandardItemModel();
-    QStringList horizontalHeader;
-    horizontalHeader.append("Id");
-    horizontalHeader.append(QString::fromUtf8("Tên"));
-    horizontalHeader.append(QString::fromUtf8("Ngày tạo"));
-    horizontalHeader.append(QString::fromUtf8("Cập nhật lần cưới"));
-    model->setHorizontalHeaderLabels(horizontalHeader);
-    ui->table_publisher->setModel(model);
-
-    for (int i = 0; i < this->publisherList->getSize(); i++) {
-        Publisher publisher = this->publisherList->get(i);
-        QStandardItem *idCol = new QStandardItem(QString::number(publisher.getId()));
-        QStandardItem *nameCol = new QStandardItem(publisher.getName());
-        QStandardItem *createdAtCol = new QStandardItem(publisher.getCreatedAt().toString());
-        QStandardItem *updatedAtCol = new QStandardItem(publisher.getUpdatedAt().toString());
-        model->appendRow( QList<QStandardItem*>() << idCol << nameCol << createdAtCol << updatedAtCol);
-    }
+    delete ui;
 }
 
-void ManagePublisher::on_table_publisher_doubleClicked(const QModelIndex &index)
+void ManageCategory::on_btn_search_clicked()
+{
+    CategoryService* categoryService = CategoryService::initCategoryService();
+
+     QString byName = ui->input_search->text();
+
+     // Tìm kiếm theo tên sách
+     this->categoryList->clear();
+
+     this->categoryList = categoryService->findByName(byName);
+
+     QStandardItemModel *model = new QStandardItemModel();
+     QStringList horizontalHeader;
+     horizontalHeader.append("Id");
+     horizontalHeader.append(QString::fromUtf8("Tên"));
+     horizontalHeader.append(QString::fromUtf8("Ngày tạo"));
+     horizontalHeader.append(QString::fromUtf8("Cập nhật lần cưới"));
+     model->setHorizontalHeaderLabels(horizontalHeader);
+     ui->table_category->setModel(model);
+
+     for (int i = 0; i < this->categoryList->getSize(); i++) {
+         Category category = this->categoryList->get(i);
+         QStandardItem *idCol = new QStandardItem(QString::number(category.getId()));
+         QStandardItem *nameCol = new QStandardItem(category.getName());
+         QStandardItem *createdAtCol = new QStandardItem(category.getCreatedAt().toString());
+         QStandardItem *updatedAtCol = new QStandardItem(category.getUpdatedAt().toString());
+         model->appendRow( QList<QStandardItem*>() << idCol << nameCol << createdAtCol << updatedAtCol);
+     }
+}
+
+void ManageCategory::on_table_category_doubleClicked(const QModelIndex &index)
 {
     int idx = index.row();
 
     if (this->setIndexRow(idx))
     {
-        if (this->setCurrentPublisher(this->publisherList->get(idx)))
+        if (this->setCurrentCategory(this->categoryList->get(idx)))
         {
-            Publisher publisher = this->getCurrentPublisher();
-            ui->publisher_id->setText(QString::number(publisher.getId()));
-            ui->publisher_name->setText(publisher.getName());
-            ui->publisher_created_at->setDate(publisher.getCreatedAt());
-            ui->publisher_updated_at->setDate(publisher.getDeletedAt());
+            Category category = this->getCurrentCategory();
+            ui->category_id->setText(QString::number(category.getId()));
+            ui->category_name->setText(category.getName());
+            ui->category_created_at->setDate(category.getCreatedAt());
+            ui->category_updated_at->setDate(category.getDeletedAt());
         }
 
     }
 }
 
-void ManagePublisher::on_btn_add_clicked()
+void ManageCategory::on_btn_add_clicked()
 {
     QMessageBox *msgBox = new QMessageBox(0);
     msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
@@ -103,15 +103,15 @@ void ManagePublisher::on_btn_add_clicked()
     int ret = msgBox->exec();
     if (ret == QMessageBox::Ok)
     {
-        QString name = ui->publisher_name->text();
-        QDate createdAt = ui->publisher_created_at->date();
-        QDate updatedAt = ui->publisher_updated_at->date();
+        QString name = ui->category_name->text();
+        QDate createdAt = ui->category_created_at->date();
+        QDate updatedAt = ui->category_updated_at->date();
 
         if (name.size() > 0) {
-            PublisherService* publisherService = PublisherService::initPublisherService();
-            Publisher publisher(name, createdAt, updatedAt);
+            CategoryService* categoryService = CategoryService::initCategoryService();
+            Category category(name, createdAt, updatedAt);
 
-            if (publisherService->savePublisher(publisher))
+            if (categoryService->saveCategory(category))
             {
 
                 QMessageBox *successBox = new QMessageBox(0);
@@ -140,9 +140,60 @@ void ManagePublisher::on_btn_add_clicked()
     }
 }
 
-void ManagePublisher::on_btn_delete_clicked()
+void ManageCategory::on_btn_update_clicked()
 {
-    Publisher publisher = this->currentPublisher;
+    QMessageBox *msgBox = new QMessageBox(0);
+    msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+    msgBox->setText(QString::fromUtf8("Bạn có muốn cập nhật?"));
+    msgBox->setInformativeText(QString::fromUtf8("Vui lòng kiểm tra lại chính xác thông tin trước khi cập nhật!"));
+    msgBox->setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox->setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox->exec();
+    if (ret == QMessageBox::Ok)
+    {
+        if (this->currentCategory.getId() >= 0)
+        {
+            int id = this->currentCategory.getId();
+
+            QString name = ui->category_name->text();
+            QDate createdAt = ui->category_created_at->date();
+            QDate updatedAt = ui->category_updated_at->date();
+
+            Category category(id, name, createdAt, updatedAt);
+
+            CategoryService* categoryService = CategoryService::initCategoryService();
+
+            if (categoryService->updateCategory(category))
+            {
+                QMessageBox *successBox = new QMessageBox(0);
+                successBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+                successBox->setText(QString::fromUtf8("Cập nhật thành công"));
+                successBox->exec();
+                on_btn_reset_clicked();
+            }
+            else
+            {
+                QMessageBox *failBox = new QMessageBox(0);
+                failBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+                failBox->setText(QString::fromUtf8("Có lỗi xảy ra, có thể id không tồn tại"));
+                failBox->setInformativeText(QString::fromUtf8("Vui lòng thử lại!"));
+                failBox->exec();
+            }
+        }
+        else
+        {
+            QMessageBox *failBox = new QMessageBox(0);
+            failBox->setWindowTitle(QString::fromUtf8("Thông báo"));
+            failBox->setText(QString::fromUtf8("Có lỗi xảy ra, có thể id không tồn tại"));
+            failBox->setInformativeText(QString::fromUtf8("Vui lòng thử lại!"));
+            failBox->exec();
+        }
+    }
+}
+
+void ManageCategory::on_btn_delete_clicked()
+{
+    Category category = this->currentCategory;
 
     QMessageBox *msgBox = new QMessageBox(0);
     msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
@@ -153,10 +204,10 @@ void ManagePublisher::on_btn_delete_clicked()
     int ret = msgBox->exec();
     if (ret == QMessageBox::Ok)
     {
-        if (publisher.getId() >= 0)
+        if (category.getId() >= 0)
         {
-            PublisherService* publisherService = PublisherService::initPublisherService();
-            if (publisherService->deletePublisherById(publisher.getId()))
+            CategoryService* categoryService = CategoryService::initCategoryService();
+            if (categoryService->deleteCategoryById(category.getId()))
             {
                 QMessageBox *successBox = new QMessageBox(0);
                 successBox->setWindowTitle(QString::fromUtf8("Thông báo"));
@@ -185,65 +236,13 @@ void ManagePublisher::on_btn_delete_clicked()
     }
 }
 
-void ManagePublisher::on_btn_reset_clicked()
+void ManageCategory::on_btn_reset_clicked()
 {
-    this->currentPublisher = Publisher();
+    this->currentCategory = Category();
     this->resetIndexRow();
 
-    ui->publisher_id->setText("");
-    ui->publisher_name->setText("");
-    ui->publisher_created_at->setDate(QDate::currentDate());
-    ui->publisher_updated_at->setDate(QDate::currentDate());
-}
-
-void ManagePublisher::on_btn_update_clicked()
-{
-    QMessageBox *msgBox = new QMessageBox(0);
-    msgBox->setWindowTitle(QString::fromUtf8("Thông báo"));
-    msgBox->setText(QString::fromUtf8("Bạn có muốn cập nhật?"));
-    msgBox->setInformativeText(QString::fromUtf8("Vui lòng kiểm tra lại chính xác thông tin trước khi cập nhật!"));
-    msgBox->setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    msgBox->setDefaultButton(QMessageBox::Ok);
-    int ret = msgBox->exec();
-    if (ret == QMessageBox::Ok)
-    {
-        qDebug() << "hee";
-        if (this->currentPublisher.getId() >= 0)
-        {
-            int id = this->currentPublisher.getId();
-
-            QString name = ui->publisher_name->text();
-            QDate createdAt = ui->publisher_created_at->date();
-            QDate updatedAt = ui->publisher_updated_at->date();
-
-            Publisher publisher(id, name, createdAt, updatedAt);
-
-            PublisherService* publisherService = PublisherService::initPublisherService();
-
-            if (publisherService->updatePublisher(publisher))
-            {
-                QMessageBox *successBox = new QMessageBox(0);
-                successBox->setWindowTitle(QString::fromUtf8("Thông báo"));
-                successBox->setText(QString::fromUtf8("Cập nhật thành công"));
-                successBox->exec();
-                on_btn_reset_clicked();
-            }
-            else
-            {
-                QMessageBox *failBox = new QMessageBox(0);
-                failBox->setWindowTitle(QString::fromUtf8("Thông báo"));
-                failBox->setText(QString::fromUtf8("Có lỗi xảy ra, có thể id không tồn tại"));
-                failBox->setInformativeText(QString::fromUtf8("Vui lòng thử lại!"));
-                failBox->exec();
-            }
-        }
-        else
-        {
-            QMessageBox *failBox = new QMessageBox(0);
-            failBox->setWindowTitle(QString::fromUtf8("Thông báo"));
-            failBox->setText(QString::fromUtf8("Có lỗi xảy ra, có thể id không tồn tại"));
-            failBox->setInformativeText(QString::fromUtf8("Vui lòng thử lại!"));
-            failBox->exec();
-        }
-    }
+    ui->category_id->setText("");
+    ui->category_name->setText("");
+    ui->category_created_at->setDate(QDate::currentDate());
+    ui->category_updated_at->setDate(QDate::currentDate());
 }

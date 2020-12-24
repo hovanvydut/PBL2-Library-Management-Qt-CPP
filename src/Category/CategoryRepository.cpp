@@ -70,3 +70,54 @@ Listt<Category>* CategoryRepository::findByName(QString byName)
     return list;
 }
 
+bool CategoryRepository::saveCategory(Category category)
+{
+    if (category.getId() == -1)
+    {
+        QString name = category.getName();
+        QString createdAt = category.getCreatedAt().toString(Qt::ISODate);
+        QString updatedAt = category.getUpdatedAt().toString(Qt::ISODate);
+        QString deletedAt = "NULL";
+
+        QString queryTxt = "INSERT INTO categories (name, created_at, updated_at, deleted_at) "
+                "VALUES ('"
+                + name + "', '" + createdAt + "', '" + updatedAt
+                + "', " + deletedAt + ")";
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        return this->query->exec();
+    }
+    return false;
+}
+
+bool CategoryRepository::updateCategory(Category category)
+{
+    if (category.getId() >= 0)
+    {
+        QString id = QString::number(category.getId());
+        QString name = category.getName();
+        QString createdAt = category.getCreatedAt().toString(Qt::ISODate);
+        QString updatedAt = category.getUpdatedAt().toString(Qt::ISODate);
+        QString deletedAt = "NULL";
+        QString queryTxt = "UPDATE categories SET name = '" + name + "', created_at = '" + createdAt + "', updated_at = '" + updatedAt + "', deleted_at = " + deletedAt + " WHERE categories_id = " + id;
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        return this->query->exec();
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool CategoryRepository::deleteCategoryById(int id)
+{
+    if (id < 0)
+        return false;
+
+    QString queryTxt = "DELETE FROM categories WHERE categories_id = " + QString::number(id);
+    qDebug() << queryTxt;
+    this->query->prepare(queryTxt);
+    return this->query->exec();
+}
+

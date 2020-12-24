@@ -51,7 +51,9 @@ SOURCES += main.cpp\
     ui_component/edit_book/ChangeBookCategory.cpp \
     ui_component/edit_book/ChangeBookIssuingCompany.cpp \
     ui_component/edit_book/ChangeBookAuthors.cpp \
-    ui_component/manage_publisher/ManagePublisher.cpp
+    ui_component/manage_publisher/ManagePublisher.cpp \
+    ui_component/manage_category/ManageCategory.cpp \
+    ui_component/manage_issuing_company/ManageIssuingCompany.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -89,7 +91,9 @@ HEADERS  += mainwindow.h \
     ui_component/edit_book/ChangeBookCategory.h \
     ui_component/edit_book/ChangeBookIssuingCompany.h \
     ui_component/edit_book/ChangeBookAuthors.h \
-    ui_component/manage_publisher/ManagePublisher.h
+    ui_component/manage_publisher/ManagePublisher.h \
+    ui_component/manage_category/ManageCategory.h \
+    ui_component/manage_issuing_company/ManageIssuingCompany.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \
@@ -99,7 +103,9 @@ FORMS    += mainwindow.ui \
     ui_component/edit_book/ChangeBookCategory.ui \
     ui_component/edit_book/ChangeBookIssuingCompany.ui \
     ui_component/edit_book/ChangeBookAuthors.ui \
-    ui_component/manage_publisher/ManagePublisher.ui
+    ui_component/manage_publisher/ManagePublisher.ui \
+    ui_component/manage_category/ManageCategory.ui \
+    ui_component/manage_issuing_company/ManageIssuingCompany.ui
 
 DISTFILES += \
     config.txt

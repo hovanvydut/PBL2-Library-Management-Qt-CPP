@@ -101,3 +101,23 @@ bool PublisherRepository::deletePublisherById(int id)
     return this->query->exec();
 }
 
+bool PublisherRepository::updatePublisher(Publisher publisher)
+{
+    if (publisher.getId() >= 0)
+    {
+        QString id = QString::number(publisher.getId());
+        QString name = publisher.getName();
+        QString createdAt = publisher.getCreatedAt().toString(Qt::ISODate);
+        QString updatedAt = publisher.getUpdatedAt().toString(Qt::ISODate);
+        QString deletedAt = "NULL";
+        QString queryTxt = "UPDATE publishers SET name = '" + name + "', created_at = '" + createdAt + "', updated_at = '" + updatedAt + "', deleted_at = " + deletedAt + " WHERE publisher_id = " + id;
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        return this->query->exec();
+    }
+    else
+    {
+        return false;
+    }
+}
+

@@ -7,6 +7,8 @@
 #include <QStandardItemModel>
 #include "src/User/User.h"
 #include "ui_component/manage_publisher/ManagePublisher.h"
+#include "ui_component/manage_category/ManageCategory.h"
+#include "ui_component/manage_issuing_company/ManageIssuingCompany.h"
 
 namespace Ui {
 class MainWindow;
@@ -50,6 +52,10 @@ private slots:
     void on_menuAdminShowBook_triggered();
 
     void on_menu_publisher_triggered();
+
+    void on_menu_category_triggered();
+
+    void on_menu_issuing_company_triggered();
 
 private:
     Ui::MainWindow *ui;

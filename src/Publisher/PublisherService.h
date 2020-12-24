@@ -20,6 +20,7 @@ public:
     Listt<Publisher>* findByName(QString name);
     bool savePublisher(Publisher publisher);
     bool deletePublisherById(int id);
+    bool updatePublisher(Publisher publisher);
 };
 
 #endif // PUBLISHERSERVICE_H

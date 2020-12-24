@@ -32,3 +32,18 @@ Listt<Category>* CategoryService::findByName(QString byName)
     return this->_categoryRepository->findByName(byName);
 }
 
+bool CategoryService::saveCategory(Category category)
+{
+    return this->_categoryRepository->saveCategory(category);
+}
+
+bool CategoryService::updateCategory(Category category)
+{
+    return this->_categoryRepository->updateCategory(category);
+}
+
+bool CategoryService::deleteCategoryById(int id)
+{
+    return this->_categoryRepository->deleteCategoryById(id);
+}
+

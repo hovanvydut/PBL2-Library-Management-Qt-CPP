@@ -36,9 +36,11 @@ private slots:
 
     void on_btn_add_clicked();
 
-    void on_pushButton_clicked();
-
     void on_btn_delete_clicked();
+
+    void on_btn_reset_clicked();
+
+    void on_btn_update_clicked();
 
 private:
     Ui::ManagePublisher *ui;

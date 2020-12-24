@@ -18,6 +18,8 @@ private:
 public:
     IssuingCompany();
     IssuingCompany(int, QString, QDate, QDate, QDate);
+    IssuingCompany(int, QString, QDate, QDate);
+    IssuingCompany(QString, QDate, QDate);
     IssuingCompany(const IssuingCompany& issuingCompany);
     ~IssuingCompany();
 

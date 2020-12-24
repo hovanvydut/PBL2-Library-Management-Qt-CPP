@@ -22,6 +22,9 @@ public:
     Category parse(QSqlQuery *);
     Listt<Category>* findAll();
     Listt<Category>* findByName(QString byName);
+    bool saveCategory(Category category);
+    bool updateCategory(Category category);
+    bool deleteCategoryById(int id);
 };
 
 #endif // CATEGORYREPOSITORY_H

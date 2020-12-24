@@ -414,3 +414,27 @@ void MainWindow::on_menu_publisher_triggered()
        this->show();
     }
 }
+
+void MainWindow::on_menu_category_triggered()
+{
+    ManageCategory* manageCategory = new ManageCategory();
+    manageCategory->show();
+    this->hide();
+    if (manageCategory->exec() == QDialog::Rejected) {
+       manageCategory->close();
+       delete manageCategory;
+       this->show();
+    }
+}
+
+void MainWindow::on_menu_issuing_company_triggered()
+{
+    ManageIssuingCompany* manageIssuingCompany = new ManageIssuingCompany();
+    manageIssuingCompany->show();
+    this->hide();
+    if (manageIssuingCompany->exec() == QDialog::Rejected) {
+       manageIssuingCompany->close();
+       delete manageIssuingCompany;
+       this->show();
+    }
+}

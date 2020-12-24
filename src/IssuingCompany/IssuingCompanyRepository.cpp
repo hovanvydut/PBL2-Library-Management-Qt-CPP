@@ -70,3 +70,54 @@ Listt<IssuingCompany>* IssuingCompanyRepository::findByName(QString byName)
     return list;
 }
 
+bool IssuingCompanyRepository::saveIssuingCompany(IssuingCompany issuingCompany)
+{
+    if (issuingCompany.getId() == -1)
+    {
+        QString name = issuingCompany.getName();
+        QString createdAt = issuingCompany.getCreatedAt().toString(Qt::ISODate);
+        QString updatedAt = issuingCompany.getUpdatedAt().toString(Qt::ISODate);
+        QString deletedAt = "NULL";
+
+        QString queryTxt = "INSERT INTO issuing_company (name, created_at, updated_at, deleted_at) "
+                "VALUES ('"
+                + name + "', '" + createdAt + "', '" + updatedAt
+                + "', " + deletedAt + ")";
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        return this->query->exec();
+    }
+    return false;
+}
+
+bool IssuingCompanyRepository::updateIssuingCompany(IssuingCompany issuingCompany)
+{
+    if (issuingCompany.getId() >= 0)
+    {
+        QString id = QString::number(issuingCompany.getId());
+        QString name = issuingCompany.getName();
+        QString createdAt = issuingCompany.getCreatedAt().toString(Qt::ISODate);
+        QString updatedAt = issuingCompany.getUpdatedAt().toString(Qt::ISODate);
+        QString deletedAt = "NULL";
+        QString queryTxt = "UPDATE issuing_company SET name = '" + name + "', created_at = '" + createdAt + "', updated_at = '" + updatedAt + "', deleted_at = " + deletedAt + " WHERE issuing_company_id = " + id;
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        return this->query->exec();
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool IssuingCompanyRepository::deleteIssuingCompanyById(int id)
+{
+    if (id < 0)
+        return false;
+
+    QString queryTxt = "DELETE FROM issuing_company WHERE issuing_company_id = " + QString::number(id);
+    qDebug() << queryTxt;
+    this->query->prepare(queryTxt);
+    return this->query->exec();
+}
+

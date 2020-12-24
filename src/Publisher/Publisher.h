@@ -18,6 +18,7 @@ private:
 public:
     Publisher();
     Publisher(int, QString, QDate, QDate, QDate);
+    Publisher(int, QString, QDate, QDate);
     Publisher(QString, QDate, QDate);
     Publisher(const Publisher& publisher);
 

@@ -18,6 +18,8 @@ private:
 public:
     Category();
     Category(int, QString, QDate, QDate, QDate);
+    Category(int, QString, QDate, QDate);
+    Category(QString, QDate, QDate);
     Category(const Category& category);
     ~Category();
 

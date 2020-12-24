@@ -24,6 +24,7 @@ public:
     Listt<Publisher>* findByName(QString byName);
     bool savePublisher(Publisher publisher);
     bool deletePublisherById(int id);
+    bool updatePublisher(Publisher publisher);
 };
 
 #endif // PUBLISHERREPOSITORY_H

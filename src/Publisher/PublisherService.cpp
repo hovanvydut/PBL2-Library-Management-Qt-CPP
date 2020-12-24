@@ -41,3 +41,8 @@ bool PublisherService::deletePublisherById(int id)
 {
     return this->_publisherRepository->deletePublisherById(id);
 }
+
+bool PublisherService::updatePublisher(Publisher publisher)
+{
+    return this->_publisherRepository->updatePublisher(publisher);
+}
