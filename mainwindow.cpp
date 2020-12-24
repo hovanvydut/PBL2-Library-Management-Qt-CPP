@@ -64,6 +64,25 @@ void MainWindow::on_btnSearchBook_clicked()
     BookService* bookService = BookService::initBookService();
 
     AuthorService* authorService = AuthorService::initAuthorService();
+    //set up table
+    //set up table
+    QStringList horizontalHeader;
+    horizontalHeader.append("Id");
+    horizontalHeader.append(QString::fromUtf8("Tên sách"));
+    horizontalHeader.append(QString::fromUtf8("Tổng số"));
+    horizontalHeader.append(QString::fromUtf8("Hiện có"));
+    this->bookModel->clear();
+    this->bookModel->setHorizontalHeaderLabels(horizontalHeader);
+
+    QStringList horizontalHeader2;
+    horizontalHeader2.append("Id");
+    horizontalHeader2.append(QString::fromUtf8("Tên sách"));
+    horizontalHeader2.append(QString::fromUtf8("Tổng số"));
+    horizontalHeader2.append(QString::fromUtf8("Hiện có"));
+    horizontalHeader2.append(QString::fromUtf8("Số lượng mượn"));
+    horizontalHeader2.append(QString::fromUtf8("Số ngày mượn"));
+    this->selectedBookModel->clear();
+    this->selectedBookModel->setHorizontalHeaderLabels(horizontalHeader2);
 
     // Tìm kiếm theo mã sách
     if (ui->radioBookId->isChecked())
@@ -90,14 +109,6 @@ void MainWindow::on_btnSearchBook_clicked()
             if (book.getId() == 0)
                 goto POPUP_MSG;
 
-            QStringList horizontalHeader;
-            horizontalHeader.append("Id");
-            horizontalHeader.append(QString::fromUtf8("Tên sách"));
-            horizontalHeader.append(QString::fromUtf8("Tổng số"));
-            horizontalHeader.append(QString::fromUtf8("Hiện có"));
-            this->bookModel->clear();
-            this->bookModel->setHorizontalHeaderLabels(horizontalHeader);
-
             QStandardItem *idCol = new QStandardItem(QString::number(book.getId()));
             QStandardItem *nameCol = new QStandardItem(book.getTitle());
             QStandardItem *total = new QStandardItem(QString::number(book.getTotal()));
@@ -111,14 +122,6 @@ void MainWindow::on_btnSearchBook_clicked()
         QString title = ui->inputBookSearch->text();
 
         Listt<Book>* bookList = bookService->findByBookTitle(title);
-
-        QStringList horizontalHeader;
-        horizontalHeader.append("Id");
-        horizontalHeader.append(QString::fromUtf8("Tên sách"));
-        horizontalHeader.append(QString::fromUtf8("Tổng số"));
-        horizontalHeader.append(QString::fromUtf8("Hiện có"));
-        this->bookModel->clear();
-        this->bookModel->setHorizontalHeaderLabels(horizontalHeader);
 
         for (int i = 0; i < bookList->getSize(); i++) {
             Book book = bookList->get(i);
@@ -135,15 +138,6 @@ void MainWindow::on_btnSearchBook_clicked()
         QString authorName = ui->inputBookSearch->text();
 
         Listt<Author>* listAuthor = authorService->findBooksOfAuthorByAuthorName(authorName);
-
-        QStringList horizontalHeader;
-        horizontalHeader.append("Id");
-        horizontalHeader.append(QString::fromUtf8("Tên sách"));
-        horizontalHeader.append(QString::fromUtf8("Tổng số"));
-        horizontalHeader.append(QString::fromUtf8("Hiện có"));
-        horizontalHeader.append(QString::fromUtf8("Tác giả"));
-        this->bookModel->clear();
-        this->bookModel->setHorizontalHeaderLabels(horizontalHeader);
 
         for (int i = 0; i < listAuthor->getSize(); i++) {
             Author author = listAuthor->get(i);
@@ -166,13 +160,6 @@ void MainWindow::on_btnSearchBook_clicked()
         try {
 
             Listt<Book>* bookList = bookService->findAll();
-            QStringList horizontalHeader;
-            horizontalHeader.append("Id");
-            horizontalHeader.append(QString::fromUtf8("Tên sách"));
-            horizontalHeader.append(QString::fromUtf8("Tổng số"));
-            horizontalHeader.append(QString::fromUtf8("Hiện có"));
-            this->bookModel->clear();
-            this->bookModel->setHorizontalHeaderLabels(horizontalHeader);
 
             for (int i = 0; i < bookList->getSize(); i++) {
                 Book book = bookList->get(i);
