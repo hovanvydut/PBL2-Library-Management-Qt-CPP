@@ -27,7 +27,7 @@ Listt<Book>* BookRepository::findAll()
     Listt<Book>* list = new LinkedListt<Book>();
 
     // default query conditions
-    int limit = 100;
+    int limit = 50;
     int offsetId = 0;
 
     this->query->prepare(
@@ -78,7 +78,9 @@ Listt<Book>* BookRepository::findByBookTitle(QString title)
 Listt<Book>* BookRepository::findByBookTitle2(QString title)
 {
     Listt<Book>* list = new LinkedListt<Book>();
-    this->query->prepare("SELECT B.book_id, B.title, B.cover_type, B.price, B.total, B.available, B.publication_date, B.size, B.number_of_pages, "
+
+    int limit = 50;
+    this->query->prepare("SELECT TOP (:limit) B.book_id, B.title, B.cover_type, B.price, B.total, B.available, B.publication_date, B.size, B.number_of_pages, "
             "B.issuing_company_id, B.publisher_id, B.category_id, B.created_at, B.updated_at, B.deleted_at,"
             "P.publisher_id, P.name, P.created_at, P.updated_at,P.deleted_at,"
             "I.issuing_company_id, I.name, I.created_at, I.updated_at, I.deleted_at,"
@@ -90,6 +92,7 @@ Listt<Book>* BookRepository::findByBookTitle2(QString title)
         "WHERE UPPER(B.title) LIKE UPPER('%" + title + "%') and B.deleted_at IS NULL"
                          );
     this->query->bindValue(":title", title);
+    this->query->bindValue(":limit", limit);
 
     this->query->exec();
     while(this->query->next())

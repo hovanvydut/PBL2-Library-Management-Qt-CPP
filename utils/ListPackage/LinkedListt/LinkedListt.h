@@ -95,7 +95,7 @@ template <class E>
 bool LinkedListt<E>::add(const E elm)
 {
   NodeLinkedListt<E> *newNode = new NodeLinkedListt<E>(elm);
-  if (!this->data)
+  if (this->data == nullptr)
   {
     this->data = newNode;
     this->size++;

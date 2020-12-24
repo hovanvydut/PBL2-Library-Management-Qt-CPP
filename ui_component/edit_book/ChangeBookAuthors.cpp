@@ -6,8 +6,10 @@ ChangeBookAuthors::ChangeBookAuthors(QWidget *parent) :
     ui(new Ui::ChangeBookAuthors)
 {
     ui->setupUi(this);
+
     this->currentAuthorList = new LinkedListt<Author>();
     this->allAuthorList = new LinkedListt<Author>();
+
     ui->table_author->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->table_current_author->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
@@ -32,6 +34,7 @@ Listt<Author>* ChangeBookAuthors::getCurrentAuthorList()
 void ChangeBookAuthors::setCurrentAuthorList(Listt<Author>* list)
 {
 
+    this->currentAuthorList->clear();
     for (int i = 0; i < list->getSize(); i++) {
         Author author = list->get(i);
 
@@ -58,6 +61,7 @@ void ChangeBookAuthors::on_btn_search_clicked()
 {
     QString searchValue = ui->input_search_author->text();
     AuthorService *authorService = AuthorService::initAuthorService();
+    this->allAuthorList->clear();
     this->allAuthorList = authorService->findAuthorByName(searchValue);
 
     QStandardItemModel *model = new QStandardItemModel();
@@ -104,7 +108,7 @@ void ChangeBookAuthors::on_table_current_author_doubleClicked(const QModelIndex 
 {
     int idx = index.row();
 
-    if (idx >= 0) {
+    if (idx >= 0 && (idx <= (this->currentAuthorList->getSize() - 1))) {
         if (this->currentAuthorList->removeAt(idx)) {
             ui->table_current_author->model()->removeRow(idx);
         }
