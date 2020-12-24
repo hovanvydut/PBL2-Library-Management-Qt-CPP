@@ -60,6 +60,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnSearchBook_clicked()
 {
+    this->mode = 0;
     BookService* bookService = BookService::initBookService();
 
     AuthorService* authorService = AuthorService::initAuthorService();
@@ -89,20 +90,19 @@ void MainWindow::on_btnSearchBook_clicked()
             if (book.getId() == 0)
                 goto POPUP_MSG;
 
-            QStandardItemModel *model = new QStandardItemModel();
             QStringList horizontalHeader;
             horizontalHeader.append("Id");
             horizontalHeader.append(QString::fromUtf8("Tên sách"));
             horizontalHeader.append(QString::fromUtf8("Tổng số"));
             horizontalHeader.append(QString::fromUtf8("Hiện có"));
-            model->setHorizontalHeaderLabels(horizontalHeader);
-            ui->tableBooks->setModel(model);
+            this->bookModel->clear();
+            this->bookModel->setHorizontalHeaderLabels(horizontalHeader);
 
             QStandardItem *idCol = new QStandardItem(QString::number(book.getId()));
             QStandardItem *nameCol = new QStandardItem(book.getTitle());
             QStandardItem *total = new QStandardItem(QString::number(book.getTotal()));
             QStandardItem *available = new QStandardItem(QString::number(book.getAvailable()));
-            model->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available);
+            this->bookModel->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available);
         }
     }
     // Tìm kiếm theo tên sách
@@ -112,14 +112,13 @@ void MainWindow::on_btnSearchBook_clicked()
 
         Listt<Book>* bookList = bookService->findByBookTitle(title);
 
-        QStandardItemModel *model = new QStandardItemModel();
         QStringList horizontalHeader;
         horizontalHeader.append("Id");
         horizontalHeader.append(QString::fromUtf8("Tên sách"));
         horizontalHeader.append(QString::fromUtf8("Tổng số"));
         horizontalHeader.append(QString::fromUtf8("Hiện có"));
-        model->setHorizontalHeaderLabels(horizontalHeader);
-        ui->tableBooks->setModel(model);
+        this->bookModel->clear();
+        this->bookModel->setHorizontalHeaderLabels(horizontalHeader);
 
         for (int i = 0; i < bookList->getSize(); i++) {
             Book book = bookList->get(i);
@@ -127,7 +126,7 @@ void MainWindow::on_btnSearchBook_clicked()
             QStandardItem *nameCol = new QStandardItem(book.getTitle());
             QStandardItem *total = new QStandardItem(QString::number(book.getTotal()));
             QStandardItem *available = new QStandardItem(QString::number(book.getAvailable()));
-            model->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available);
+            this->bookModel->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available);
         }
     }
     // Tìm kiếm theo tên tác giả
@@ -137,15 +136,14 @@ void MainWindow::on_btnSearchBook_clicked()
 
         Listt<Author>* listAuthor = authorService->findBooksOfAuthorByAuthorName(authorName);
 
-        QStandardItemModel *model = new QStandardItemModel();
         QStringList horizontalHeader;
         horizontalHeader.append("Id");
         horizontalHeader.append(QString::fromUtf8("Tên sách"));
         horizontalHeader.append(QString::fromUtf8("Tổng số"));
         horizontalHeader.append(QString::fromUtf8("Hiện có"));
         horizontalHeader.append(QString::fromUtf8("Tác giả"));
-        model->setHorizontalHeaderLabels(horizontalHeader);
-        ui->tableBooks->setModel(model);
+        this->bookModel->clear();
+        this->bookModel->setHorizontalHeaderLabels(horizontalHeader);
 
         for (int i = 0; i < listAuthor->getSize(); i++) {
             Author author = listAuthor->get(i);
@@ -159,7 +157,7 @@ void MainWindow::on_btnSearchBook_clicked()
                 QStandardItem *total = new QStandardItem(QString::number(book.getTotal()));
                 QStandardItem *available = new QStandardItem(QString::number(book.getAvailable()));
                 QStandardItem *authorName = new QStandardItem(author.getName());
-                model->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available << authorName);
+                this->bookModel->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available << authorName);
             }
         }
     }
@@ -168,15 +166,13 @@ void MainWindow::on_btnSearchBook_clicked()
         try {
 
             Listt<Book>* bookList = bookService->findAll();
-            QStandardItemModel *model = new QStandardItemModel();
             QStringList horizontalHeader;
             horizontalHeader.append("Id");
             horizontalHeader.append(QString::fromUtf8("Tên sách"));
             horizontalHeader.append(QString::fromUtf8("Tổng số"));
             horizontalHeader.append(QString::fromUtf8("Hiện có"));
-            model->setHorizontalHeaderLabels(horizontalHeader);
-//            ui->tableView->setModel(model);
-            ui->tableBooks->setModel(model);
+            this->bookModel->clear();
+            this->bookModel->setHorizontalHeaderLabels(horizontalHeader);
 
             for (int i = 0; i < bookList->getSize(); i++) {
                 Book book = bookList->get(i);
@@ -184,7 +180,7 @@ void MainWindow::on_btnSearchBook_clicked()
                 QStandardItem *nameCol = new QStandardItem(book.getTitle());
                 QStandardItem *total = new QStandardItem(QString::number(book.getTotal()));
                 QStandardItem *available = new QStandardItem(QString::number(book.getAvailable()));
-                model->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available);
+                this->bookModel->appendRow( QList<QStandardItem*>() << idCol << nameCol << total << available);
             }
         } catch(const char* msg) {
             // show dialog instead console log
