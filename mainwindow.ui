@@ -262,6 +262,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="menu_category"/>
     <addaction name="menu_issuing_company"/>
     <addaction name="actionTh_ng_tin_quy_n"/>
+    <addaction name="actionT_c_gi"/>
    </widget>
    <widget class="QMenu" name="menuGi_i_thi_u">
     <property name="title">
@@ -332,11 +333,16 @@ p, li { white-space: pre-wrap; }
   <action name="menu_issuing_company">
    <property name="text">
     <string>Công ty phát hành</string>
-    </property>
+   </property>
   </action>
   <action name="actionTh_ng_tin_quy_n">
    <property name="text">
     <string>Thông tin quyền</string>
+   </property>
+  </action>
+  <action name="actionT_c_gi">
+   <property name="text">
+    <string>Tác giả</string>
    </property>
   </action>
  </widget>

@@ -19,6 +19,9 @@ public:
     Listt<Author>* findAll();
     Listt<Author>* findBooksOfAuthorByAuthorName(QString name);
     Listt<Author>* findAuthorByName(QString byName);
+    bool saveAuthor(Author author);
+    bool updateAuthor(Author author);
+    bool deleteAuthorById(int id);
 };
 
 #endif // AUTHORSERVICE_H

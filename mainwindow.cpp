@@ -62,7 +62,7 @@ void MainWindow::on_btnSearchBook_clicked()
 {
     this->mode = 0;
     BookService* bookService = BookService::initBookService();
-
+    this->ui->tableSeletedBooks->setEditTriggers(QAbstractItemView::NoEditTriggers);
     AuthorService* authorService = AuthorService::initAuthorService();
     //set up table
     //set up table
@@ -449,6 +449,50 @@ void MainWindow::on_menu_issuing_company_triggered()
     if (manageIssuingCompany->exec() == QDialog::Rejected) {
        manageIssuingCompany->close();
        delete manageIssuingCompany;
+       this->show();
+    }
+}
+
+void MainWindow::on_btnBorrowBook_clicked()
+{
+    qDebug() << this->selectedUser->getFullname();
+
+    if (this->mode != 0 || this->selectedBookModel->rowCount() == 0){
+        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Chưa tải danh sách sách để mượn"), QString::fromUtf8("Vui lòng chọn tài khoản và chọn sách cần mượn"));
+        return;
+    }
+
+    UserService* userService = UserService::initUserService();
+    Listt<int> *listId = new LinkedListt<int>;
+    for (int i = 0;i < this->selectedBookModel->rowCount();i++){
+        int id = this->selectedBookModel->item(i)->text().toInt();
+        listId->add(id);
+        qDebug() << QString::number(id);
+    }
+
+//    int result = userService->returnBook(listId);
+
+//    int tmp = result;
+//    if (result == -1){
+//        this->selectedBookModel->clear();
+//    } else {
+//        while (result > 0){
+//            result--;
+//            this->selectedBookModel->removeRow(0);
+//        }
+//        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Đã xảy ra lỗi"), QString::fromUtf8("Không thể trả sách với ID = ") + QString::number(listId->get(tmp)));
+//        return;
+//    }
+}
+
+void MainWindow::on_actionT_c_gi_triggered()
+{
+    Manage_Author* manageAuthor = new Manage_Author();
+    manageAuthor->show();
+    this->hide();
+    if (manageAuthor->exec() == QDialog::Rejected) {
+       manageAuthor->close();
+       delete manageAuthor;
        this->show();
     }
 }

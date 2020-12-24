@@ -59,7 +59,8 @@ SOURCES += main.cpp\
     src/Role/RoleRepository.cpp \
     src/Role/RoleService.cpp \
     managerole.cpp \
-    utils/Sort/Sort.cpp
+    utils/Sort/Sort.cpp \
+    ui_component/manage_author/Manage_Author.cpp
 
 HEADERS  += mainwindow.h \
     utils/DatabaseConnection/DatabaseConnection.h \
@@ -106,7 +107,8 @@ HEADERS  += mainwindow.h \
     src/Role/RoleRepository.h \
     src/Role/RoleService.h \
     managerole.h \
-    utils/Sort/Sort.h
+    utils/Sort/Sort.h \
+    ui_component/manage_author/Manage_Author.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \
@@ -119,7 +121,8 @@ FORMS    += mainwindow.ui \
     ui_component/manage_publisher/ManagePublisher.ui \
     ui_component/manage_category/ManageCategory.ui \
     ui_component/manage_issuing_company/ManageIssuingCompany.ui \
-    managerole.ui
+    managerole.ui \
+    ui_component/manage_author/Manage_Author.ui
 
 DISTFILES += \
     config.txt

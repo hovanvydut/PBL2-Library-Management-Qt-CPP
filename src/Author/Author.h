@@ -20,6 +20,8 @@ private:
 public:
     Author();
     Author(int, QString, QDate, QDate, QDate);
+    Author(int, QString, QDate, QDate);
+    Author(QString, QDate, QDate);
     ~Author();
 
     int getId() const;

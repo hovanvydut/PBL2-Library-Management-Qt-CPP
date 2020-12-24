@@ -9,6 +9,7 @@
 #include "ui_component/manage_publisher/ManagePublisher.h"
 #include "ui_component/manage_category/ManageCategory.h"
 #include "ui_component/manage_issuing_company/ManageIssuingCompany.h"
+#include "ui_component/manage_author/Manage_Author.h"
 
 #include <QMessageBox>
 namespace Ui {
@@ -62,6 +63,10 @@ private slots:
     void on_menu_category_triggered();
 
     void on_menu_issuing_company_triggered();
+
+    void on_btnBorrowBook_clicked();
+
+    void on_actionT_c_gi_triggered();
 
 private:
     Ui::MainWindow *ui;

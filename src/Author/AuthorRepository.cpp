@@ -54,6 +54,57 @@ Listt<Author>* AuthorRepository::findAll()
     return list;
 }
 
+bool AuthorRepository::saveAuthor(Author author)
+{
+    if (author.getId() == -1)
+    {
+        QString name = author.getName();
+        QString createdAt = author.getCreatedAt().toString(Qt::ISODate);
+        QString updatedAt = author.getUpdatedAt().toString(Qt::ISODate);
+        QString deletedAt = "NULL";
+
+        QString queryTxt = "INSERT INTO authors (name, created_at, updated_at, deleted_at) "
+                "VALUES ('"
+                + name + "', '" + createdAt + "', '" + updatedAt
+                + "', " + deletedAt + ")";
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        return this->query->exec();
+    }
+    return false;
+}
+
+bool AuthorRepository::updateAuthor(Author author)
+{
+    if (author.getId() >= 0)
+    {
+        QString id = QString::number(author.getId());
+        QString name = author.getName();
+        QString createdAt = author.getCreatedAt().toString(Qt::ISODate);
+        QString updatedAt = author.getUpdatedAt().toString(Qt::ISODate);
+        QString deletedAt = "NULL";
+        QString queryTxt = "UPDATE authors SET name = '" + name + "', created_at = '" + createdAt + "', updated_at = '" + updatedAt + "', deleted_at = " + deletedAt + " WHERE author_id = " + id;
+        qDebug() << queryTxt;
+        this->query->prepare(queryTxt);
+        return this->query->exec();
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool AuthorRepository::deleteAuthorById(int id)
+{
+    if (id < 0)
+        return false;
+
+    QString queryTxt = "DELETE FROM authors WHERE author_id = " + QString::number(id);
+    qDebug() << queryTxt;
+    this->query->prepare(queryTxt);
+    return this->query->exec();
+}
+
 Book AuthorRepository::parseBook(QSqlQuery *, int offset)
 {
     int book_id = query->value(0 + offset).toInt();

@@ -27,6 +27,9 @@ public:
     Listt<Author>* findBooksOfAuthorByAuthorName(QString name);
     Listt<Author>* findAuthorByName(QString byName);
     Book parseBook(QSqlQuery *, int offset);
+    bool saveAuthor(Author author);
+    bool updateAuthor(Author author);
+    bool deleteAuthorById(int id);
 };
 
 #endif // AUTHORREPOSITORY_H

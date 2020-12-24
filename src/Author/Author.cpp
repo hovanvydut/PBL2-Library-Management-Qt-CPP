@@ -15,6 +15,27 @@ Author::Author(int author_id, QString name, QDate created_at, QDate updated_at, 
     this->books = new LinkedListt<Book>();
 }
 
+Author::Author(int author_id, QString name, QDate created_at, QDate updated_at)
+{
+    this->author_id = author_id;
+    this->name = name;
+    this->created_at = created_at;
+    this->updated_at = updated_at;
+    this->deleted_at = QDate::currentDate();
+    this->books = new LinkedListt<Book>();
+}
+
+Author::Author(QString name, QDate created_at, QDate updated_at)
+{
+    this->author_id = -1;
+    this->name = name;
+    this->created_at = created_at;
+    this->updated_at = updated_at;
+    this->deleted_at = QDate::currentDate();
+    this->books = new LinkedListt<Book>();
+}
+
+
 Author::~Author()
 {
 

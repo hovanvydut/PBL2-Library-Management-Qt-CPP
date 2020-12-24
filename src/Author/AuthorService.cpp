@@ -37,4 +37,19 @@ Listt<Author>* AuthorService::findAuthorByName(QString byName)
     return this->_authorRepository->findAuthorByName(byName);
 }
 
+bool AuthorService::saveAuthor(Author author)
+{
+    return this->_authorRepository->saveAuthor(author);
+}
+
+bool AuthorService::updateAuthor(Author author)
+{
+    return this->_authorRepository->updateAuthor(author);
+}
+
+bool AuthorService::deleteAuthorById(int id)
+{
+    return this->_authorRepository->deleteAuthorById(id);
+}
+
 
