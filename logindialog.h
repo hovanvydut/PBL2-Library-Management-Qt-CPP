@@ -5,6 +5,8 @@
 #include <mainwindow.h>
 #include <QString>
 #include <QMessageBox>
+#include "src/User/UserService.h"
+#include "utils/Auth/Password.h"
 
 namespace Ui {
 class LoginDialog;
@@ -16,7 +18,7 @@ class LoginDialog : public QDialog
 
 public:
     explicit LoginDialog(QWidget *parent = NULL);
-    QString getUserID();
+    User getUser();
     ~LoginDialog();
 
 private slots:
@@ -24,7 +26,7 @@ private slots:
 
 private:
     Ui::LoginDialog *ui;
-    QString userID;
+    User user;
 
 };
 

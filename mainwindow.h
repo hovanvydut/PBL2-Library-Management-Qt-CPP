@@ -10,6 +10,7 @@
 #include "ui_component/manage_category/ManageCategory.h"
 #include "ui_component/manage_issuing_company/ManageIssuingCompany.h"
 
+#include <QMessageBox>
 namespace Ui {
 class MainWindow;
 }
@@ -50,6 +51,11 @@ private slots:
     void on_menuAdminShowUsers_triggered();
 
     void on_menuAdminShowBook_triggered();
+    void on_menuLogout_triggered();
+
+    void on_menuUserInfo_triggered();
+
+    void on_actionTh_ng_tin_quy_n_triggered();
 
     void on_menu_publisher_triggered();
 
@@ -60,11 +66,14 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void login();
+    User *sessionUser;
     User *selectedUser;
     QStandardItemModel *userModel;
     QStandardItemModel *bookModel;
     QStandardItemModel *selectedBookModel;
     int mode; // = 0 if borrow else = 1 if return book
+    QMessageBox *msgBox;
+    int showMessageBox(QString = "", QString = "", QString = "");
 };
 
 #endif // MAINWINDOW_H

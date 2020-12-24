@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
     //LoginDialog d;
     //d.show();
     //w.showAndLogin();
-    w.show();
-//    w.showAndLogin();
+    //w.show();
+    w.showAndLogin();
 
 
     return a.exec();

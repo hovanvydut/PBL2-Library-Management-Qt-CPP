@@ -13,21 +13,27 @@ LoginDialog::~LoginDialog()
     delete ui;
 }
 
-QString LoginDialog::getUserID(){
-    return this->userID;
+User LoginDialog::getUser(){
+    return this->user;
 }
 
 void LoginDialog::on_btnLogin_clicked()
 {
-    if (this->ui->username->text() == "admin" && this->ui->password->text() == "admin"){
-        this->userID = "admin";
-        this->accept();
-    } else {
-        QMessageBox *msgBox = new QMessageBox(0);
-        msgBox->setWindowTitle(QString::fromUtf8("Lỗi thông tin"));
-        msgBox->setText(QString::fromUtf8("Sai thông tin đăng nhập"));
-        msgBox->setInformativeText(QString::fromUtf8("Vui lòng kiểm tra thông tin đăng nhập"));
-        msgBox->exec();
+    UserService *userService = UserService::initUserService();
+    Listt<User> *result = userService->findByUsername(this->ui->username->text());
+    if (result->getSize() != 0){
+        Password pwd(this->ui->password->text());
+        if (pwd.compare(result->get(0).getPassword()) && result->get(0).getRole().getCode() != "guest"){
+            this->user = result->get(0);
+            this->accept();
+            return;
+        }
     }
+
+    QMessageBox *msgBox = new QMessageBox(0);
+    msgBox->setWindowTitle(QString::fromUtf8("Lỗi thông tin"));
+    msgBox->setText(QString::fromUtf8("Sai thông tin đăng nhập"));
+    msgBox->setInformativeText(QString::fromUtf8("Vui lòng kiểm tra thông tin đăng nhập"));
+    msgBox->exec();
 
 }

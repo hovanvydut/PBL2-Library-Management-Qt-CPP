@@ -1,11 +1,12 @@
 #include "User.h"
+#include "utils/ListPackage/LinkedListt/LinkedListt.h"
 
 User::User()
 {
     // Nothing
 }
 
-User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, int roleId, QString address, QDate created_at, QDate updated_at){
+User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, Role role, QString address, QDate created_at, QDate updated_at){
     this->user_id = userId;
     this->fullname = fullname;
     this->birthday = birthday;
@@ -14,13 +15,14 @@ User::User(int userId, QString fullname, QDate birthday, int gender, QString ema
     this->phone = phone;
     this->username = username;
     this->password = password;
-    this->role_id = roleId;
+    this->role = role;
     this->address = address;
     this->created_at = created_at;
     this->updated_at = updated_at;
+    this->borrowList = nullptr;
 }
 
-User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, int roleId, QString address){
+User::User(int userId, QString fullname, QDate birthday, int gender, QString email, QString phone, QString username, QString password, Role role, QString address){
     this->user_id = userId;
     this->fullname = fullname;
     this->birthday = birthday;
@@ -29,8 +31,9 @@ User::User(int userId, QString fullname, QDate birthday, int gender, QString ema
     this->phone = phone;
     this->username = username;
     this->password = password;
-    this->role_id = roleId;
+    this->role = role;
     this->address = address;
+    this->borrowList = nullptr;
 }
 
 User::User(int user_id, QString fullname, QDate birthday, int gender, QString phone, QString email){
@@ -40,11 +43,13 @@ User::User(int user_id, QString fullname, QDate birthday, int gender, QString ph
     this->gender = gender;
     this->email = email;
     this->phone = phone;
+    this->borrowList = nullptr;
 }
 
 User::User(int user_id, QString fullname){
     this->user_id = user_id;
     this->fullname = fullname;
+    this->borrowList = nullptr;
 }
 
 User::~User()
@@ -101,11 +106,11 @@ QString User::getPassword() const{
 void User::setPassword(QString password){
     this->password = password;
 }
-int User::getRoleId() const{
-    return this->role_id;
+Role User::getRole() const{
+    return this->role;
 }
-void User::setRoleId(int role_id){
-    this->role_id = role_id;
+void User::setRole(Role role){
+    this->role = role;
 }
 QString User::getAddress() const{
     return this->address;
@@ -139,3 +144,40 @@ Listt<BorrowBook> *User::getBorrowList(){
 bool User::operator == (const User& user) const{
     return this->user_id == user.user_id;
 }
+
+bool User::operator < (const User& user) const{
+    return this->user_id < user.user_id;
+}
+User& User::operator=(const User& user){
+    this->user_id = user.user_id;
+    this->fullname = user.fullname;
+    this->birthday = user.birthday;
+    this->gender = user.gender;
+    this->email = user.email;
+    this->phone = user.phone;
+    this->username = user.username;
+    this->password = user.password;
+    this->role = user.role;
+    this->address = user.address;
+    this->created_at = user.created_at;
+    this->updated_at = user.updated_at;
+    if (user.borrowList == nullptr) this->borrowList = nullptr;
+    else {
+        this->borrowList = new LinkedListt<BorrowBook>();
+        for (int i = 0;i < user.borrowList->getSize();i++){
+            this->borrowList->add(user.borrowList->get(i));
+        }
+    }
+    return *this;
+}
+
+bool User::compareName(User a, User b){
+    return a.getFullname() < b.getFullname();
+}
+bool User::compareRole(User a, User b){
+    return a.getRole().getPriorty() < b.getRole().getPriorty();
+}
+bool User::compareCreateDate(User a, User b){
+    return a.getCreatedAt() < b.getCreatedAt();
+}
+

@@ -2,8 +2,10 @@
 #define USER_H
 #include <QDate>
 #include <QString>
+#pragma once
 #include "utils/Comparable/Comparable.h"
 #include "src/BorrowBook/BorrowBook.h"
+#include "src/Role/Role.h"
 
 class MainWindow;
 
@@ -18,6 +20,7 @@ class User: public Comparable<User>
     QString username;
     QString password;
     int role_id;
+    Role role;
     QString address;
     QDate created_at;
     QDate updated_at;
@@ -25,8 +28,8 @@ class User: public Comparable<User>
 public:
 
     User();
-    User(int, QString, QDate, int, QString, QString, QString, QString, int, QString, QDate, QDate);
-    User(int, QString, QDate, int, QString, QString, QString, QString, int, QString);
+    User(int, QString, QDate, int, QString, QString, QString, QString, Role, QString, QDate, QDate);
+    User(int, QString, QDate, int, QString, QString, QString, QString, Role, QString);
     User(int, QString, QDate, int, QString, QString);
     User(int, QString);
     ~User();
@@ -47,8 +50,8 @@ public:
     void setUsername(QString);
     QString getPassword() const;
     void setPassword(QString);
-    int getRoleId() const;
-    void setRoleId(int);
+    Role getRole() const;
+    void setRole(Role);
     QString getAddress() const;
     void setAddress(QString);
     QDate getCreatedAt() const;
@@ -59,7 +62,13 @@ public:
     void setBorrowBook(Listt<BorrowBook> *);
     //
     bool operator == (const User&) const;
+    bool operator < (const User&) const;
+    User &operator=(const User&);
     friend class MainWindow;
+    //
+    static bool compareName(User, User);
+    static bool compareRole(User, User);
+    static bool compareCreateDate(User, User);
 
 };
 
