@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Quản lý tác giả</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../asset/asset.qrc">
+    <normaloff>:/asset/images/icon_library.png</normaloff>:/asset/images/icon_library.png</iconset>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout_3">
    <item>
     <widget class="QGroupBox" name="groupBox">
@@ -146,6 +150,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../asset/asset.qrc"/>
+ </resources>
  <connections/>
 </ui>

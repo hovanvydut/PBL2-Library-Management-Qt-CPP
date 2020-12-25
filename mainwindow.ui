@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Quản lí thư viện - TuongNH - VyHV</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="asset/asset.qrc">
+    <normaloff>:/asset/images/icon_library.png</normaloff>:/asset/images/icon_library.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -181,25 +185,6 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QComboBox" name="comboBookFilter">
-                  <item>
-                   <property name="text">
-                    <string>Tất cả sách</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Sách có sẵn</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Sách không có sẵn</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
                </layout>
               </widget>
              </item>
@@ -347,6 +332,8 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="asset/asset.qrc"/>
+ </resources>
  <connections/>
 </ui>

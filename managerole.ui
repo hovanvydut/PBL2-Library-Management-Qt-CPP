@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Chỉnh sửa quyền</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="asset/asset.qrc">
+    <normaloff>:/asset/images/icon_library.png</normaloff>:/asset/images/icon_library.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QGroupBox" name="groupDelete">
@@ -81,6 +85,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="asset/asset.qrc"/>
+ </resources>
  <connections/>
 </ui>

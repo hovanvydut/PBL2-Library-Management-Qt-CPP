@@ -126,3 +126,6 @@ FORMS    += mainwindow.ui \
 
 DISTFILES += \
     config.txt
+
+RESOURCES += \
+    asset/asset.qrc

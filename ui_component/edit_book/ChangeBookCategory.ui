@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Thay đổi chuyên mục của sách</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../asset/images/icon_library.png</normaloff>../../asset/images/icon_library.png</iconset>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout_4">
    <item>
     <widget class="QGroupBox" name="groupBox">

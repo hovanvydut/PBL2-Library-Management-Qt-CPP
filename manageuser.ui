@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Quản lí tài khoản</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="asset/asset.qrc">
+    <normaloff>:/asset/images/icon_library.png</normaloff>:/asset/images/icon_library.png</iconset>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="QGroupBox" name="groupAction">
@@ -312,6 +316,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="asset/asset.qrc"/>
+ </resources>
  <connections/>
 </ui>
