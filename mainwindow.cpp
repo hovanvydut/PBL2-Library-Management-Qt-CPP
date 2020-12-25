@@ -15,6 +15,8 @@
 #include "manageuser.h"
 #include "managebook.h"
 #include "managerole.h"
+#include <QStandardItem>
+#include <QModelIndex>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableBooks->setModel(this->bookModel);
     this->ui->tableSeletedBooks->setModel(this->selectedBookModel);
     this->mode = 0;
+    this->selectedUser = nullptr;
     this->msgBox = new QMessageBox(0);
 }
 
@@ -56,15 +59,28 @@ void MainWindow::login(){
 MainWindow::~MainWindow()
 {
     delete ui;
+//    delete sessionUser;
+//    delete selectedUser;
+//    delete userModel;
+//    delete bookModel;
+//    delete selectedBookModel;
+//    delete msgBox;
 }
 
 void MainWindow::on_btnSearchBook_clicked()
 {
-    this->mode = 0;
+    if (this->mode == 1){
+        this->mode = 0;
+        this->selectedBookModel->clear();
+        this->bookModel->clear();
+    }
+
     BookService* bookService = BookService::initBookService();
-    this->ui->tableSeletedBooks->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->ui->tableSeletedBooks->setEditTriggers(QAbstractItemView::AllEditTriggers);
     AuthorService* authorService = AuthorService::initAuthorService();
     //set up table
+    this->ui->tableSeletedBooks->setEditTriggers(QAbstractItemView::AllEditTriggers);
+
     //set up table
     QStringList horizontalHeader;
     horizontalHeader.append("Id");
@@ -77,11 +93,11 @@ void MainWindow::on_btnSearchBook_clicked()
     QStringList horizontalHeader2;
     horizontalHeader2.append("Id");
     horizontalHeader2.append(QString::fromUtf8("Tên sách"));
-    horizontalHeader2.append(QString::fromUtf8("Tổng số"));
     horizontalHeader2.append(QString::fromUtf8("Hiện có"));
     horizontalHeader2.append(QString::fromUtf8("Số lượng mượn"));
     horizontalHeader2.append(QString::fromUtf8("Số ngày mượn"));
-    this->selectedBookModel->clear();
+    horizontalHeader2.append(QString::fromUtf8("Tiền cọc"));
+    //this->selectedBookModel->clear();
     this->selectedBookModel->setHorizontalHeaderLabels(horizontalHeader2);
 
     // Tìm kiếm theo mã sách
@@ -248,7 +264,11 @@ void MainWindow::on_tableUsers_doubleClicked(const QModelIndex &index)
 
 void MainWindow::on_btnAllBorrowBook_clicked()
 {
-    this->mode = 1;
+    if (this->mode == 0){
+        this->mode = 1;
+        this->selectedBookModel->clear();
+        this->bookModel->clear();
+    }
     UserService* userService = UserService::initUserService();
     if (this->selectedUser == NULL){
         this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Chưa lựa chọn tài khoản"), QString::fromUtf8("Vui lòng tìm kiếm và chọn tài khoản"));
@@ -265,7 +285,7 @@ void MainWindow::on_btnAllBorrowBook_clicked()
     }
 
     QStringList horizontalHeader;
-    horizontalHeader.append("Id");
+    horizontalHeader.append("ID");
     horizontalHeader.append(QString::fromUtf8("Tên sách"));
     horizontalHeader.append(QString::fromUtf8("Số sách mượn"));
     horizontalHeader.append(QString::fromUtf8("Ngày mượn"));
@@ -292,6 +312,8 @@ void MainWindow::on_btnAllBorrowBook_clicked()
     }
     this->ui->tableBooks->setColumnWidth(0, this->ui->tableBooks->width()/10);
     this->ui->tableBooks->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->ui->tableSeletedBooks->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
 }
 
 void MainWindow::on_tableBooks_doubleClicked(const QModelIndex &index)
@@ -301,9 +323,32 @@ void MainWindow::on_tableBooks_doubleClicked(const QModelIndex &index)
     for (int i = 0;i < this->bookModel->columnCount();i++){
         row << this->bookModel->item(index.row(), i)->clone();
     }
+    if (this->mode == 0){
+        row.removeAt(2);
+        row[0]->setEditable(false);
+        row[1]->setEditable(false);
+        row[2]->setEditable(false);
+        QStandardItem *quantity = new QStandardItem();
+        quantity->setText(QString::number(1));
+        QStandardItem *numOfDay = new QStandardItem();
+        numOfDay->setText(QString::number(1));
+        QStandardItem *money = new QStandardItem();
+        money->setText(QString::number(1));
+        row.append(quantity);
+        row.append(numOfDay);
+        row.append(money);
+        // check if book is selected
+        for (int i = 0;i < this->selectedBookModel->rowCount();i++){
+            if (this->selectedBookModel->item(i, 0)->text() == row[0]->text()){
+                this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Sách này đã được chọn trước đó"), QString::fromUtf8(""));
+                return;
+            }
+
+        }
+    }
     this->selectedBookModel->appendRow(row);
     this->bookModel->removeRow(index.row());
-    //this->selectedBookModel->appendRow(QList<QStandardItem*>() << this->bookModel->item(index.row(), 1) << this->bookModel->item(index.row(), 2));
+
 }
 
 void MainWindow::on_tableSeletedBooks_doubleClicked(const QModelIndex &index)
@@ -313,7 +358,8 @@ void MainWindow::on_tableSeletedBooks_doubleClicked(const QModelIndex &index)
     for (int i = 0;i < this->selectedBookModel->columnCount();i++){
         row << this->selectedBookModel->item(index.row(), i)->clone();
     }
-    this->bookModel->appendRow(row);
+    if (this->mode == 1)
+        this->bookModel->appendRow(row);
     this->selectedBookModel->removeRow(index.row());
 }
 
@@ -365,6 +411,7 @@ void MainWindow::on_menuAdminShowBook_triggered()
     this->hide();
     if (manageBook->exec() == QDialog::Rejected) {
        manageBook->close();
+       this->show();
        delete manageBook;
     }
 }
@@ -455,7 +502,10 @@ void MainWindow::on_menu_issuing_company_triggered()
 
 void MainWindow::on_btnBorrowBook_clicked()
 {
-    qDebug() << this->selectedUser->getFullname();
+    if (this->selectedUser == nullptr){
+        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Chưa chọn tài khoản"), QString::fromUtf8("Vui lòng chọn tài khoản cần mượn sách"));
+        return;
+    }
 
     if (this->mode != 0 || this->selectedBookModel->rowCount() == 0){
         this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Chưa tải danh sách sách để mượn"), QString::fromUtf8("Vui lòng chọn tài khoản và chọn sách cần mượn"));
@@ -463,26 +513,15 @@ void MainWindow::on_btnBorrowBook_clicked()
     }
 
     UserService* userService = UserService::initUserService();
-    Listt<int> *listId = new LinkedListt<int>;
-    for (int i = 0;i < this->selectedBookModel->rowCount();i++){
-        int id = this->selectedBookModel->item(i)->text().toInt();
-        listId->add(id);
-        qDebug() << QString::number(id);
+    Listt<BorrowBook> *list = this->getDataBorrow();
+    try{
+        userService->borrowBook(list);
+        this->clearData();
+    } catch (QString &error){
+        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Dữ liệu mượn sách không hợp lệ"), error);
+    } catch (...){
+        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Xảy ra lỗi"), QString::fromUtf8("Lỗi không xác định") );
     }
-
-//    int result = userService->returnBook(listId);
-
-//    int tmp = result;
-//    if (result == -1){
-//        this->selectedBookModel->clear();
-//    } else {
-//        while (result > 0){
-//            result--;
-//            this->selectedBookModel->removeRow(0);
-//        }
-//        this->showMessageBox(QString::fromUtf8("Thông báo"), QString::fromUtf8("Đã xảy ra lỗi"), QString::fromUtf8("Không thể trả sách với ID = ") + QString::number(listId->get(tmp)));
-//        return;
-//    }
 }
 
 void MainWindow::on_actionT_c_gi_triggered()
@@ -495,4 +534,33 @@ void MainWindow::on_actionT_c_gi_triggered()
        delete manageAuthor;
        this->show();
     }
+}
+//
+void MainWindow::on_tableSeletedBooks_pressed(const QModelIndex &index)
+{
+    //this->selectedBookModel->removeRow(index.row());
+}
+
+Listt<BorrowBook>* MainWindow::getDataBorrow(){
+    Listt<BorrowBook> *listBorrow = new LinkedListt<BorrowBook>();
+    for (int i = 0;i < this->selectedBookModel->rowCount();i++){
+        int id = this->selectedBookModel->item(i, 0)->text().toInt();
+        int available = this->selectedBookModel->item(i, 2)->text().toInt();
+        int quantity = this->selectedBookModel->item(i, 3)->text().toInt();
+        int numOfDay = this->selectedBookModel->item(i, 4)->text().toInt();
+        int money = this->selectedBookModel->item(i, 5)->text().toInt();
+        int user_id = this->selectedUser->getUserId();
+        Book book(id, available);
+        BorrowBook item(-1, user_id, book,  quantity, numOfDay, money);
+        listBorrow->add(item);
+    }
+    return listBorrow;
+
+}
+void MainWindow::clearData(){
+    this->ui->textUserInfo->setText(QString::fromUtf8("Chưa chọn tài khoản"));
+    this->selectedBookModel->clear();
+    this->selectedUser = nullptr;
+    this->bookModel->clear();
+    this->userModel->clear();
 }

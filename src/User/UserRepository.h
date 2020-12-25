@@ -31,6 +31,8 @@ public:
     void validateBeforeInsert(const User&);
     void updateUser(const User&);
     void validateBeforeUpdate(const User&);
+    void validateBorrowList(Listt<BorrowBook>*);
+    void borrowBooks(Listt<BorrowBook>*);
 
 
 };

@@ -380,3 +380,45 @@ void UserRepository::updateUser(const User& user){
         throw this->query->lastError().text();
     }
 }
+
+void UserRepository::validateBorrowList(Listt<BorrowBook>* list){
+    for (int i = 0;i < list->getSize();i++){
+        BorrowBook borrow = list->get(i);
+        if (borrow.getNumOfDay() <= 0){
+            throw QString::fromUtf8("Số ngày mượn không hợp lệ tại hàng ") + QString::number(i);
+        }
+        if (borrow.getQuantity() <= 0){
+            throw QString::fromUtf8("Số lượng mượn không hợp lệ tại hàng ") + QString::number(i);
+        }
+        if (borrow.getDepositMoney() < 0){
+            throw QString::fromUtf8("Số tiền cọc không hợp lệ tại hàng ") + QString::number(i);
+        }
+        if (borrow.getQuantity() > borrow.getBook().getAvailable()){
+            throw QString::fromUtf8("Số sách mượn hợp lệ tại hàng ") + QString::number(i);
+        }
+    }
+}
+void UserRepository::borrowBooks(Listt<BorrowBook>* list){
+    this->validateBorrowList(list);
+    QString queryText = "INSERT INTO borrow_books(user_id, book_id, quantity, numberOfDay, deposit_money) "
+                        "VALUES ";
+    for (int i = 0;i < list->getSize();i++){
+        queryText += "(" + QString::number(list->get(i).getUserId())
+                   + ", " + QString::number(list->get(i).getBook().getId())
+                   + ", " + QString::number(list->get(i).getQuantity())
+                   + ", " + QString::number(list->get(i).getNumOfDay())
+                   + ", " + QString::number(list->get(i).getDepositMoney())
+                   + ")";
+        if (i != list->getSize() - 1){
+            queryText += ", ";
+        }
+    }
+    qDebug() << queryText;
+
+    this->query->prepare(queryText);
+    this->query->exec();
+    if (this->query->lastError().isValid()){
+        throw this->query->lastError().text();
+    }
+
+}

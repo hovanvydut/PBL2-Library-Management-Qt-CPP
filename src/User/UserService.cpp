@@ -67,3 +67,7 @@ void UserService::updateUser(const User& user){
     this->_userRepository->updateUser(user);
 }
 
+void UserService::borrowBook(Listt<BorrowBook>* list){
+    this->_userRepository->borrowBooks(list);
+}
+

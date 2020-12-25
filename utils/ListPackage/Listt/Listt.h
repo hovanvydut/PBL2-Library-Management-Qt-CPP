@@ -5,10 +5,10 @@ template <class E>
 class Listt
 {
 public:
-    Listt();
+        Listt();
         virtual ~Listt();
-    virtual int indexOf(const E) = 0;
-    virtual int lastIndexOf(const E) = 0;
+        virtual int indexOf(const E) = 0;
+        virtual int lastIndexOf(const E) = 0;
         virtual bool add(const E) = 0;
         virtual bool add(const int &, const E) = 0;
         virtual int getSize() = 0;

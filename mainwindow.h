@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMap>
 #include <logindialog.h>
 #include <QModelIndex>
 #include <QStandardItemModel>
@@ -68,9 +69,12 @@ private slots:
 
     void on_actionT_c_gi_triggered();
 
+    void on_tableSeletedBooks_pressed(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     void login();
+    Listt<BorrowBook>* getDataBorrow();
     User *sessionUser;
     User *selectedUser;
     QStandardItemModel *userModel;
@@ -79,6 +83,7 @@ private:
     int mode; // = 0 if borrow else = 1 if return book
     QMessageBox *msgBox;
     int showMessageBox(QString = "", QString = "", QString = "");
+    void clearData();
 };
 
 #endif // MAINWINDOW_H

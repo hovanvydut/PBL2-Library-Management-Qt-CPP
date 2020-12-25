@@ -5,6 +5,15 @@ BorrowBook::BorrowBook()
 
 }
 
+BorrowBook::BorrowBook(int id, int user_id, Book book, int quantity, int numOfDay, int money){
+    this->id = id;
+    this->user_id = user_id;
+    this->book = book;
+    this->quantity = quantity;
+    this->num_of_day = numOfDay;
+    this->deposit_money = money;
+}
+
 BorrowBook::BorrowBook(int id, QDate borrowed_at, int quantity, Book book, int num_of_day, int deposit_money, QDate updated_at){
     this->id = id;
     this->borrowed_at = borrowed_at;
@@ -39,6 +48,10 @@ int BorrowBook::getId(){
 
 bool BorrowBook::operator == (const BorrowBook& b) const{
     return this->id == b.id;
+}
+
+int BorrowBook::getUserId(){
+    return this->user_id;
 }
 
 BorrowBook::~BorrowBook()

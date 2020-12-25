@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Thay đổi tác giả của sách</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_4">
    <item>
